@@ -7,8 +7,11 @@ class MemRegion
 {
 public:
     MemRegion() = delete;
-    MemRegion(void* start, size_t elemSize, uint32_t elemCount);
+    MemRegion(void* start, size_t elemSize);
     ~MemRegion();
+
+    // Returns wether memory allocation was sucessful or not
+    bool IsValid();
 
     // Returns the start pointer of the allocated memory region (potentially unsafe)
     uint8_t* GetAt();
@@ -39,12 +42,14 @@ class Allocator
 public:  // Methods
     Allocator();
     Allocator(size_t size);
+    ~Allocator();
 
-    virtual MemRegion& Alloc(void* item, size_t itemSize) = 0;
-    virtual void       Free(const MemRegion& memory)      = 0;
+    [[nodiscard("Dropping MemRegion might result in memory leak.")]]
+    virtual MemRegion Alloc(size_t itemSize) = 0;
+
+    virtual void Free(MemRegion* memory) = 0;
 
 private:
-
-private:  // variables
-    MemBlock m_memory;
+protected:  // variables
+    MemBlock* m_memory;
 };

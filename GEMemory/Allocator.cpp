@@ -1,12 +1,14 @@
 #include "Allocator.h"
 
-MemRegion::MemRegion(void* start, size_t elemSize, uint32_t elemCount)
+MemRegion::MemRegion(void* start, size_t elemSize)
 {
     m_dataStart = static_cast<uint8_t*>(start);
     m_dataSize  = elemSize;
-    m_dataEnd   = m_dataStart + elemCount * elemSize;
+    m_dataEnd   = m_dataStart + elemSize;
 }
 MemRegion::~MemRegion() {}
+
+bool MemRegion::IsValid() { return !(m_dataStart == nullptr); }
 
 uint8_t* MemRegion::GetAt()
 {
@@ -45,7 +47,6 @@ void MemRegion::Write(void* data, size_t dataSize)
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
     memcpy_s(m_dataStart, m_dataSize * (m_dataEnd - m_dataStart), data, dataSize);
 }
-
 void MemRegion::Write(uint32_t index, void* data, size_t dataSize)
 {
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
@@ -56,5 +57,7 @@ void MemRegion::Write(uint32_t index, void* data, size_t dataSize)
              dataSize);
 }
 
-Allocator::Allocator() { m_memory = MemBlock(DEFAULT_MEM_SIZE); }
-Allocator::Allocator(size_t size) { m_memory = MemBlock(size); }
+Allocator::Allocator() { m_memory = new MemBlock(DEFAULT_MEM_SIZE); }
+Allocator::Allocator(size_t size) { m_memory = new MemBlock(size); }
+
+Allocator::~Allocator() { delete m_memory; }

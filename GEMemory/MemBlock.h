@@ -13,7 +13,7 @@ public:  // Methods
     ~MemBlock();
 
     // Resizes the memory block and moves all current data with it.
-    void     Resize(size_t newSize);
+    void Resize(size_t newSize);
 
     // Returns the begining of the memory block.
     uint8_t* GetStart() const;

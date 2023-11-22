@@ -3,7 +3,8 @@
 MemBlock::MemBlock()
 {
     m_start = static_cast<uint8_t*>(malloc(DEFAULT_MEM_SIZE));
-    m_end   = m_start + (DEFAULT_MEM_SIZE * sizeof(uint8_t));
+    assert(!(m_start == nullptr));
+    m_end = m_start + (DEFAULT_MEM_SIZE * sizeof(uint8_t));
 }
 MemBlock::MemBlock(size_t size)
 {
