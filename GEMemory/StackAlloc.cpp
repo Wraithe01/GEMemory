@@ -8,6 +8,7 @@ MemRegion StackAlloc::Alloc(size_t itemSize)
 {
     if ((m_stackTop + itemSize) > m_memory->GetEnd())
         return MemRegion(nullptr, 0);
+    memset(m_stackTop, 0, itemSize);
     m_stackTop += itemSize;
     return MemRegion((m_stackTop - itemSize), itemSize);
 }
