@@ -41,9 +41,10 @@ public:  // Methods
     Allocator(size_t size);
 
     virtual MemRegion& Alloc(void* item, size_t itemSize) = 0;
-    virtual void       Free(void* start)                  = 0;
+    virtual void       Free(const MemRegion& memory)      = 0;
 
 private:
-public:  // variables
+
+private:  // variables
     MemBlock m_memory;
 };
