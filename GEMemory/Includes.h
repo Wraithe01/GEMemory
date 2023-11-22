@@ -4,6 +4,8 @@
 // it twice. For simplicity.
 //
 #pragma once
+#include "Settings.h"
+
 #include <iostream>
 #include <cstdint>
 #include <cassert>

@@ -49,5 +49,8 @@
     <ClInclude Include="MemoryAlloc.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

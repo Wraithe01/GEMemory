@@ -1,8 +1,6 @@
 #pragma once
 #include "Includes.h"
 
-// In bytes
-constexpr auto DEFAULT_MEM_SIZE = 40'960;
 
 // This is what allocates the memory blocks and allows us to not use malloc and free.
 class MemBlock

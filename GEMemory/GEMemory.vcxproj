@@ -140,6 +140,7 @@
     <ClInclude Include="MemBlock.h" />
     <ClInclude Include="MemoryAlloc.h" />
     <ClInclude Include="PoolAlloc.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="StackAlloc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
