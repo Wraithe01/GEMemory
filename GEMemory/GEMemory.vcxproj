@@ -127,7 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Allocator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MemBlock.cpp" />
+    <ClCompile Include="PoolAlloc.cpp" />
+    <ClCompile Include="StackAlloc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Allocator.h" />
+    <ClInclude Include="Includes.h" />
+    <ClInclude Include="MemBlock.h" />
+    <ClInclude Include="MemoryAlloc.h" />
+    <ClInclude Include="PoolAlloc.h" />
+    <ClInclude Include="StackAlloc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
