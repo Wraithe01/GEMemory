@@ -7,6 +7,7 @@ class StackAlloc : public Allocator
 {
 public:  // Methods
     StackAlloc();
+    StackAlloc(uint32_t memSize);
     ~StackAlloc();
 
     // Returns a memory region for the user to read and write to, 

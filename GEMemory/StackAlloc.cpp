@@ -1,6 +1,10 @@
 #include "StackAlloc.h"
 
 StackAlloc::StackAlloc() { m_stackTop = m_memory->GetStart(); }
+StackAlloc::StackAlloc(uint32_t memSize): Allocator(memSize)
+{
+    m_stackTop = m_memory->GetStart();
+}
 StackAlloc::~StackAlloc() {}
 
 

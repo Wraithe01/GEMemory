@@ -10,7 +10,8 @@ class PoolAlloc : public Allocator
 {
 public:  // Methods
     PoolAlloc();
-    PoolAlloc(size_t nodeSize);
+    PoolAlloc(uint32_t nodeSize);
+    PoolAlloc(uint32_t nodeSize, size_t memSize);
     ~PoolAlloc();
 
     size_t GetBlockSize() const;
@@ -33,7 +34,7 @@ public:  // variables
     uint8_t* m_last;
 
     uint32_t m_freeNodes;
-    size_t   m_nodesize;
+    uint32_t   m_nodesize;
 
     static const uint32_t m_headerSize = sizeof(uint8_t*);
 };
