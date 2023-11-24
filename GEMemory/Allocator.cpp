@@ -45,14 +45,15 @@ const uint8_t* MemRegion::Read(int32_t index) const
 void MemRegion::Write(void* data, size_t dataSize)
 {
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
-    memcpy_s(m_dataStart, m_dataSize * (m_dataEnd - m_dataStart), data, dataSize);
+    
+    memcpy_s(m_dataStart, (m_dataEnd - m_dataStart), data, dataSize);
 }
 void MemRegion::Write(uint32_t index, void* data, size_t dataSize)
 {
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
     assert(!(index * m_dataSize >= (m_dataEnd - m_dataStart)) && "Invalid memory acess in Write()");
     memcpy_s((m_dataStart + (index * m_dataSize)),
-             m_dataSize * (m_dataEnd - m_dataStart),
+             (m_dataEnd - m_dataStart),
              data,
              dataSize);
 }
