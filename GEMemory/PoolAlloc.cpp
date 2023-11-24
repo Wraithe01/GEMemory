@@ -16,7 +16,9 @@ PoolAlloc::PoolAlloc(uint32_t nodeSize)
     m_freeNodes
         = (uint32_t) (m_memory->GetEnd() - m_memory->GetStart()) / (m_nodesize + m_headerSize);
 }
-PoolAlloc::PoolAlloc(uint32_t nodeSize, size_t memSize): Allocator(memSize)
+PoolAlloc::PoolAlloc(uint32_t nodeSize, size_t memSize)
+: Allocator(memSize)
+, m_nodesize(nodeSize)
 {
     m_start = m_memory->GetStart();
     m_last = m_start;
