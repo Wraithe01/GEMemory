@@ -55,6 +55,10 @@ MemRegion PoolAlloc::Alloc()
     // Write header data for m_last
     memcpy_s(m_last, m_headerSize, &node, m_headerSize);
     m_last = node;
+    // Write last block as occupied
+    int32_t data = POOL_OCCUPIED;
+    memcpy_s(m_last, m_headerSize, &data, m_headerSize);
+
 
     // Give data block
     --m_freeNodes;
@@ -82,7 +86,12 @@ void PoolAlloc::Free(MemRegion* memory)
     // Case where we only need to remove
     if (node == m_last)
     {
-        memset(lastNode, 0, m_headerSize);
+        // "Remove" last element
+        memset(node, 0, m_headerSize);
+
+        // Make previous the new last element
+        int32_t occupied = POOL_OCCUPIED;
+        memcpy_s(lastNode, m_headerSize, &occupied, m_headerSize);
         m_last = lastNode;
         ++m_freeNodes;
         return;
