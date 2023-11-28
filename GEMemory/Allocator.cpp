@@ -62,3 +62,9 @@ Allocator::Allocator() { m_memory = new MemBlock(DEFAULT_MEM_SIZE); }
 Allocator::Allocator(size_t size) { m_memory = new MemBlock(size); }
 
 Allocator::~Allocator() { delete m_memory; }
+
+size_t Allocator::CurrentStored()
+{
+    std::cerr << "CurrentStored function not implemented for used allocator";
+    return size_t();
+}

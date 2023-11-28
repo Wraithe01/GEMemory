@@ -27,6 +27,8 @@ public: // Methods
     // Region ID is simply the index of the region
     void Free(MemRegion* memory, uint32_t regionID);
 
+    uint32_t CurrentStored(uint32_t regionID);
+
 protected:
     Allocator** m_allocators;
     uint32_t m_regions;

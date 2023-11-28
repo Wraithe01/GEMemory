@@ -88,4 +88,9 @@ void PoolAlloc::Free(MemRegion* memory)
     ++m_freeNodes;
 }
 
+size_t PoolAlloc::CurrentStored()
+{
+    return ((uint32_t)(m_memory->GetEnd() - m_memory->GetStart()) / (m_nodesize + m_headerSize) - m_freeNodes) * m_nodesize;
+}
+
 size_t PoolAlloc::GetBlockSize() const { return m_nodesize; }

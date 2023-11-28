@@ -20,6 +20,9 @@ public:  // Methods
     // flushed as well.
     virtual void Free(MemRegion* memory) override;
 
+    // Total size of used memory
+    virtual size_t CurrentStored();
+
     // Flush all elements in the stack.
     // Any existing MemRegions will be nulled at this point, UB with continued use.
     void Flush();
