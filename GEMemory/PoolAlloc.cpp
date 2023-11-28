@@ -35,7 +35,7 @@ MemRegion PoolAlloc::Alloc()
         return MemRegion(nullptr, 0);
 
     // Find free space to give
-    uint8_t* node      = m_start;
+    uint8_t* node      = m_memory->GetStart();
     uint8_t* validator = nullptr;
     for (; node < m_memory->GetEnd(); node += (m_nodesize + m_headerSize))
     {
