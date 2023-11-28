@@ -81,6 +81,7 @@ void PoolAlloc::Free(MemRegion* memory)
         memset(node, 0, m_headerSize);
         if (next != nullptr)
             m_start = next;
+        ++m_freeNodes;
         return;
     }
 
