@@ -10,7 +10,7 @@ public:  // Methods
     StackAlloc(uint32_t memSize);
     ~StackAlloc();
 
-    // Returns a memory region for the user to read and write to, 
+    // Returns a memory region for the user to read and write to,
     // this region is always zero-initialized.
     [[nodiscard("Dropping MemRegion might result in memory leak.")]]
     virtual MemRegion Alloc(size_t itemSize) override;
