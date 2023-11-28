@@ -6,13 +6,16 @@ AllocTester::AllocTester() {}
 AllocTester::~AllocTester() {}
 
 
-void AllocTester::Validate(Allocator& subject, size_t allocSize, const char* testName) const
+void AllocTester::Validate(Allocator&  subject,
+                           size_t      allocSize,
+                           const char* testName,
+                           uint32_t    headerSize) const
 {
     std::printf("[+] Starting validation test for \"%s\"...\n", testName);
     std::cout << "========================= Start =========================\n";
     // Time
     auto tstart = high_resolution_clock::now();
-    if (_Validate(subject, allocSize, testName) != 0)
+    if (_Validate(subject, allocSize, testName, headerSize) != 0)
         return;
     // Only print if function succeds
     std::cout << "========================= End =========================\n";
@@ -20,7 +23,10 @@ void AllocTester::Validate(Allocator& subject, size_t allocSize, const char* tes
                 duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
     std::printf("[+] Done with test \"%s\".\n\n\n", testName);
 }
-int AllocTester::_Validate(Allocator& subject, size_t allocSize, const char* testName) const
+int AllocTester::_Validate(Allocator&  subject,
+                           size_t      allocSize,
+                           const char* testName,
+                           uint32_t    headerSize) const
 {
     uint16_t fails = 0;
 
@@ -40,7 +46,7 @@ int AllocTester::_Validate(Allocator& subject, size_t allocSize, const char* tes
 
     std::cout << "This should send 1 error.\n";
     fails = 0;
-    for (uint32_t i = 0; i < DEFAULT_MEM_SIZE / allocSize + 1; ++i)
+    for (uint32_t i = 0; i < DEFAULT_MEM_SIZE / (allocSize + headerSize) + 1; ++i)
     {
         if (!subject.Alloc(allocSize).IsValid())
         {
