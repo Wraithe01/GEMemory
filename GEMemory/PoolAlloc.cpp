@@ -35,14 +35,20 @@ MemRegion PoolAlloc::Alloc()
         return MemRegion(nullptr, 0);
 
     // Find free space to give
-    uint8_t* node      = m_memory->GetStart();
+    uint8_t* node      = m_start;
     uint8_t* validator = nullptr;
-    for (; node < m_memory->GetEnd(); node += (m_nodesize + m_headerSize))
+    uint32_t iters
+        = (uint32_t) (m_memory->GetEnd() - m_memory->GetStart()) / (m_nodesize + m_headerSize);
+    for (uint32_t i = 0; i < iters; ++i)
     {
         memcpy_s(&validator, m_headerSize, node, m_headerSize);
         // validator = static_cast<uint8_t*>(header);
         if (validator == nullptr)
             break;
+
+        node += (m_nodesize + m_headerSize);
+        if (node > m_memory->GetEnd())
+            node = m_memory->GetStart();
     }
 
 
@@ -60,7 +66,7 @@ void PoolAlloc::Free(MemRegion* memory)
 {
     uint8_t* tofind   = (memory->GetAtFree() - m_headerSize);
     uint8_t* node     = m_start;
-    uint8_t* lastNode = nullptr;
+    uint8_t* lastNode = node;
 
     // Find where memory is located
     while (node != nullptr && node != tofind)
@@ -73,6 +79,15 @@ void PoolAlloc::Free(MemRegion* memory)
     }
     assert(!(node == nullptr) && "Memory has been lost.");
 
+    // Case where we only need to remove
+    if (node == m_last)
+    {
+        memset(lastNode, 0, m_headerSize);
+        m_last = lastNode;
+        ++m_freeNodes;
+        return;
+    }
+
     // Move start to first node in chain
     if (node == m_start)
     {
@@ -81,15 +96,6 @@ void PoolAlloc::Free(MemRegion* memory)
         memset(node, 0, m_headerSize);
         if (next != nullptr)
             m_start = next;
-        ++m_freeNodes;
-        return;
-    }
-
-    // Case where we only need to remove
-    if (node == m_last)
-    {
-        memset(lastNode, 0, m_headerSize);
-        m_last = lastNode;
         ++m_freeNodes;
         return;
     }
