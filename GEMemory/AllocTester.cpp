@@ -11,12 +11,18 @@ void AllocTester::Validate(Allocator&  subject,
                            const char* testName,
                            uint32_t    headerSize) const
 {
+    uint32_t err = 0;
     std::printf("[+] Starting validation test for \"%s\"...\n", testName);
     std::cout << "========================= Start =========================\n";
+
     // Time
     auto tstart = high_resolution_clock::now();
-    if (_Validate(subject, allocSize, testName, headerSize) != 0)
+    if ((err = _Validate(subject, allocSize, testName, headerSize)) != 0)
+    {
+        std::cout << "[-] Validate test failed with error code " << err << std::endl;
         return;
+    }
+
     // Only print if function succeds
     std::cout << "========================= End =========================\n";
     std::printf("[+] Validate test took %8.8lld micro seconds\n",
@@ -68,12 +74,18 @@ void AllocTester::ThreadTest(ThreadsafeAllocator& subject,
                              const uint32_t       numThreadRegions,
                              const char*          testName) const
 {
+    uint32_t err = 0;
     std::printf("[+] Starting thread test for \"%s\"...\n", testName);
     std::cout << "========================= Start =========================\n";
+
     // Time
     auto tstart = high_resolution_clock::now();
-    if (_ThreadTest(subject, allocSize, numThreadRegions, testName) != 0)
+    if ((err = _ThreadTest(subject, allocSize, numThreadRegions, testName)) != 0)
+    {
+        std::cout << "[-] Thread test failed with error code " << err << std::endl;
         return;
+    }
+
     // Only print if function succeds
     std::cout << "========================= End =========================\n";
     std::printf("Thread test took %8.8lld micro seconds\n",
