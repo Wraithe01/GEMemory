@@ -7,3 +7,4 @@
 #include "Allocator.h"
 #include "StackAlloc.h"
 #include "PoolAlloc.h"
+#include "ThreadSafeAllocators.h"

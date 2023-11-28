@@ -28,6 +28,9 @@ public:  // Methods
 
     virtual void Free(MemRegion* memory) override;
 
+    // Total size of used memory
+    virtual size_t CurrentStored();
+
 private:
 public:  // variables
     uint8_t* m_start;
