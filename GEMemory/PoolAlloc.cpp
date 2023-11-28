@@ -21,9 +21,9 @@ PoolAlloc::PoolAlloc(uint32_t nodeSize, size_t memSize)
 , m_nodesize(nodeSize)
 {
     m_start = m_memory->GetStart();
-    m_last = m_start;
+    m_last  = m_start;
     m_freeNodes
-        = (uint32_t)(m_memory->GetEnd() - m_memory->GetStart()) / (m_nodesize + m_headerSize);
+        = (uint32_t) (m_memory->GetEnd() - m_memory->GetStart()) / (m_nodesize + m_headerSize);
 }
 PoolAlloc::~PoolAlloc() {}
 
@@ -63,15 +63,26 @@ void PoolAlloc::Free(MemRegion* memory)
     uint8_t* lastNode = nullptr;
 
     // Find where memory is located
-    do
+    while (node != nullptr && node != tofind)
     {
         // Save where we are
         lastNode = node;
 
         // Get next
         memmove_s(&node, m_headerSize, node, m_headerSize);
-    } while (node != nullptr && node != tofind);
+    }
     assert(!(node == nullptr) && "Memory has been lost.");
+
+    // Move start to first node in chain
+    if (node == m_start)
+    {
+        uint8_t* next = nullptr;
+        memmove_s(&next, m_headerSize, node, m_headerSize);
+        memset(node, 0, m_headerSize);
+        if (next != nullptr)
+            m_start = next;
+        return;
+    }
 
     // Case where we only need to remove
     if (node == m_last)
