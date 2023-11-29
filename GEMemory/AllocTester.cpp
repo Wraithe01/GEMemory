@@ -72,6 +72,7 @@ int AllocTester::_Validate(Allocator&  subject,
 void AllocTester::ThreadTest(ThreadsafeAllocator& subject,
                              const size_t         allocSize,
                              const uint32_t       numThreadRegions,
+                             const bool           queuedRequests,
                              const char*          testName) const
 {
     uint32_t err = 0;
@@ -80,7 +81,7 @@ void AllocTester::ThreadTest(ThreadsafeAllocator& subject,
 
     // Time
     auto tstart = high_resolution_clock::now();
-    if ((err = _ThreadTest(subject, allocSize, numThreadRegions, testName)) != 0)
+    if ((err = _ThreadTest(subject, allocSize, numThreadRegions, queuedRequests, testName)) != 0)
     {
         std::cout << "[-] Thread test failed with error code " << err << std::endl;
         return;
@@ -95,13 +96,14 @@ void AllocTester::ThreadTest(ThreadsafeAllocator& subject,
 int AllocTester::_ThreadTest(ThreadsafeAllocator& subject,
                              const size_t         allocSize,
                              const uint32_t       numThreadRegions,
+                             const bool           queuedRequests,
                              const char*          testName) const
 {
     std::cout << "Testing threadsafe allocator with " << numThreadRegions
               << " allocators and " << TEST_NUM_THREADS << " threads\n";
-    auto f = [&](uint32_t id, ThreadsafeAllocator* allocator)
+    auto f = [&](uint32_t id, ThreadsafeAllocator* allocator, bool enqueue)
     {
-        MemRegion mem = allocator->Alloc(allocSize, id);
+        MemRegion mem = enqueue ? allocator->EnqueueAlloc(allocSize, id) : allocator->Alloc(allocSize, id);
         if (!mem.IsValid())
         {
             std::cerr << "ERROR: threaded memory region recieved faulty!\n";
@@ -116,8 +118,15 @@ int AllocTester::_ThreadTest(ThreadsafeAllocator& subject,
                     std::cerr << "ERROR: threaded memory write read error!\n";
                 }
             }
+            if (enqueue)
+            {
+                allocator->EnqueueFree(&mem, id);
+            }
+            else
+            {
+                allocator->Free(&mem, id);
+            }
         }
-        allocator->Free(&mem, id);
     };
 
 
@@ -131,7 +140,7 @@ int AllocTester::_ThreadTest(ThreadsafeAllocator& subject,
 
     for (uint32_t i = 0; i < TEST_NUM_THREADS; i++)
     {
-        testThreads[i] = std::thread(f, i % numThreadRegions, &subject);
+        testThreads[i] = std::thread(f, i % numThreadRegions, &subject, queuedRequests);
     }
     for (uint32_t i = 0; i < TEST_NUM_THREADS; i++)
     {

@@ -81,23 +81,23 @@ void ThreadsafeAllocator::QueueAgent()
 	std::unique_lock<std::mutex> cndLock(m_dequeueCndLock);
 	while (true)
 	{
-		while (!m_requestQueue.empty()) m_dequeueCnd.wait(cndLock);
+		while (m_requestQueue.empty()) m_dequeueCnd.wait(cndLock);
 		
 		request = m_requestQueue.front();
 		m_requestQueue.pop();
 
 		cndLock.unlock();
-		if (m_requestQueue.front().type == 0)
+		if (request.type == 0)
 		{
 			*(request.returnMemory) = Alloc(request.itemSize, request.regionID);
 			*(request.processed) = true;
-			m_dequeueCnd.notify_all();
+			m_returnCnd.notify_all();
 		}
-		else if (m_requestQueue.front().type == 1)
+		else if (request.type == 1)
 		{
 			Free(&request.memory, request.regionID);
 		}
-		else if (m_requestQueue.front().type == 2)
+		else if (request.type == 2)
 		{
 			break;
 		}
