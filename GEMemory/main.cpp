@@ -1,37 +1,22 @@
 #include "MemoryAlloc.h"
+#include "AllocTester.h"
 
-// Probably best used for testing for now...
-auto main(void) -> int
+static void AllocTest()
 {
-    {
-        StackAlloc salloc;
-        MemRegion  mem = salloc.Alloc(DEFAULT_MEM_SIZE);
+    AllocTester tester;
+    StackAlloc  stack(DEFAULT_MEM_SIZE);
+    PoolAlloc   pool(DEFAULT_NODE_SIZE, DEFAULT_MEM_SIZE);
 
-        // Should not give any output
-        if (!mem.IsValid())
-            std::cout << "Invalid memory\n";
-        salloc.Free(&mem);
+    tester.Validate(stack, DEFAULT_NODE_SIZE, "Default Stack Test");
+    tester.Validate(pool, DEFAULT_NODE_SIZE, "Default Pool Test", sizeof(uint8_t*));
 
 
-        // Should print once
-        size_t size = 64;
-        for (uint32_t i = 0; i < DEFAULT_MEM_SIZE / size + 1; ++i)
-        {
-            if (!salloc.Alloc(size).IsValid())
-                std::cout << "Unable to allocate memory.\n";
-        }
+    ThreadsafePoolAlloc  tsPool(TEST_NUM_THREAD_REGIONS, DEFAULT_MEM_SIZE, DEFAULT_NODE_SIZE);
+    ThreadsafeStackAlloc tsStack(TEST_NUM_THREAD_REGIONS, DEFAULT_MEM_SIZE);
 
-        std::cout << "Done with Salloc.\n\n";
-    }
-
-    {
-        PoolAlloc palloc;
-        MemRegion mem = palloc.Alloc();
-
-        // Should not give any output
-        if (!mem.IsValid())
-            std::cout << "Invalid memory\n";
-        palloc.Free(&mem);
+    tester.ThreadTest(tsStack, 64, TEST_NUM_THREAD_REGIONS, "Thread Stack Test");
+    tester.ThreadTest(tsPool, 64, TEST_NUM_THREAD_REGIONS, "Thread Pool Test");
+}
 
 
         // Should print once
