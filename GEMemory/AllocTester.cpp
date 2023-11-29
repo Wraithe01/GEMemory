@@ -164,7 +164,30 @@ void AllocTester::Benchmark(Allocator& subject, size_t allocSize, const char* te
     std::printf("Benchmark test took %8.8lld micro seconds\n",
                 duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 }
+
 int AllocTester::_Benchmark(Allocator& subject, size_t allocSize, const char* testName) const
 {
     return 0;
+}
+
+void AllocTester::TestStomp(Allocator& stomp) const
+{
+    std::cout << "[+] Starting validation test for Default Stomp Test...\n";
+    std::cout << "========================= Start =========================\n";
+    MemRegion memory = stomp.Alloc(DEFAULT_NODE_SIZE);
+    int data = 1337;
+    memory.Write(&data, sizeof(int));
+
+    std::cout << "This should not give any error messages.\n";
+    stomp.Free(&memory);
+
+    memory = stomp.Alloc(DEFAULT_NODE_SIZE);
+    // Intentional underrun on sentinel
+    MemRegion underAllocate = MemRegion(memory.GetAt() - 1, sizeof(int));
+    underAllocate.Write(&data, sizeof(int));
+
+    std::cout << "This should send 1 error.\n";
+    stomp.Free(&memory);
+    std::cout << "========================= End =========================\n";
+    std::cout << "[+] Done with test STOMP SENTINEL \n\n\n";
 }

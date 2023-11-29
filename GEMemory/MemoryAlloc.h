@@ -6,5 +6,6 @@
 #include "MemBlock.h"
 #include "Allocator.h"
 #include "StackAlloc.h"
+#include "StompAlloc.h"
 #include "PoolAlloc.h"
 #include "ThreadSafeAllocators.h"

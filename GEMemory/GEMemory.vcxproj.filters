@@ -30,6 +30,9 @@
       <Filter>Memory\Allocators</Filter>
     </ClCompile>
     <ClCompile Include="ThreadSafeAllocators.cpp" />
+    <ClCompile Include="StompAlloc.cpp">
+      <Filter>Memory\Allocators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StompAlloc.h">
+      <Filter>Memory\Allocators</Filter>
     </ClInclude>
     <ClInclude Include="ThreadSafeAllocators.h" />
   </ItemGroup>

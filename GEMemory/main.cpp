@@ -6,9 +6,11 @@ static void AllocTest()
     AllocTester tester;
     StackAlloc  stack(DEFAULT_MEM_SIZE);
     PoolAlloc   pool(DEFAULT_NODE_SIZE, DEFAULT_MEM_SIZE);
+    StompAlloc stomp(DEFAULT_MEM_SIZE);
 
     tester.Validate(stack, DEFAULT_NODE_SIZE, "Default Stack Test");
     tester.Validate(pool, DEFAULT_NODE_SIZE, "Default Pool Test", sizeof(uint8_t*));
+    tester.TestStomp(stomp);
 
     // for threaded stack tests, expect the chance of reading and writing failing as freeing is not coordinated with usage of memory
     ThreadsafePoolAlloc  tsPool(TEST_NUM_THREAD_REGIONS, DEFAULT_MEM_SIZE, DEFAULT_NODE_SIZE);
