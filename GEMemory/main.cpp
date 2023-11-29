@@ -6,9 +6,11 @@ static void AllocTest()
     AllocTester tester;
     StackAlloc  stack(DEFAULT_MEM_SIZE);
     PoolAlloc   pool(DEFAULT_NODE_SIZE, DEFAULT_MEM_SIZE);
+    BuddyAlloc  buddy(512);
 
     tester.Validate(stack, DEFAULT_NODE_SIZE, "Default Stack Test");
     tester.Validate(pool, DEFAULT_NODE_SIZE, "Default Pool Test", sizeof(uint8_t*));
+    tester.Validate(buddy, 128, "Default Buddy Test");
 
     // for threaded stack tests, expect the chance of reading and writing failing as freeing is not coordinated with usage of memory
     ThreadsafePoolAlloc  tsPool(TEST_NUM_THREAD_REGIONS, DEFAULT_MEM_SIZE, DEFAULT_NODE_SIZE);
@@ -59,33 +61,33 @@ auto main(void) -> int
 
         //balloc.Free(&mem);
 
-        BuddyAlloc balloc(512);
+        //BuddyAlloc balloc(512);
 
-        MemRegion mem1 = balloc.Alloc(128);
+        //MemRegion mem1 = balloc.Alloc(128);
 
-        if (!mem1.IsValid())
-        {
-            std::cout << "Unable to allocate memory 1.\n";
-        }
+        //if (!mem1.IsValid())
+        //{
+        //    std::cout << "Unable to allocate memory 1.\n";
+        //}
 
-        MemRegion mem2 = balloc.Alloc(32);
-        if (!mem2.IsValid())
-        {
-            std::cout << "Unable to allocate memory 2.\n";
-        }
-        MemRegion mem3 = balloc.Alloc(8);
+        //MemRegion mem2 = balloc.Alloc(32);
+        //if (!mem2.IsValid())
+        //{
+        //    std::cout << "Unable to allocate memory 2.\n";
+        //}
+        //MemRegion mem3 = balloc.Alloc(8);
 
-        if (!mem3.IsValid())
-        {
-            std::cout << "Unable to allocate memory 3.\n";
-        }
-        balloc.PrintBlocks();
-        balloc.Free(&mem1);
-        balloc.PrintBlocks();
-        balloc.Free(&mem2);
-        balloc.PrintBlocks();
-        balloc.Free(&mem3);
-        balloc.PrintBlocks();
+        //if (!mem3.IsValid())
+        //{
+        //    std::cout << "Unable to allocate memory 3.\n";
+        //}
+        //balloc.PrintBlocks();
+        //balloc.Free(&mem1);
+        //balloc.PrintBlocks();
+        //balloc.Free(&mem2);
+        //balloc.PrintBlocks();
+        //balloc.Free(&mem3);
+        //balloc.PrintBlocks();
 
         std::cout << "Done with Balloc.\n\n";
     }
