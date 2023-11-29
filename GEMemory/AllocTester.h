@@ -19,6 +19,8 @@ public:
                     const char*          testName) const;
     void Benchmark(Allocator& subject, size_t allocSize, const char* testName) const;
 
+    void TestStomp(Allocator& stomp) const;
+
 private:
     int _Validate(Allocator&  subject,
                   size_t      allocSize,

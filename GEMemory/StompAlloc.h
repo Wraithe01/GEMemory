@@ -20,6 +20,7 @@ public:
     virtual void Free(MemRegion* memory) override;
 
 private:
+    // Using a set page size 
     size_t PAGE_SIZE = 4096;
     uint64_t SENTINEL_VALUE = 0xdeadbeefdeadbeef;
 };
