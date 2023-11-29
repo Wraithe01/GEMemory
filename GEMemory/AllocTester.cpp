@@ -97,7 +97,7 @@ int AllocTester::_ThreadTest(ThreadsafeAllocator& subject,
                              const uint32_t       numThreadRegions,
                              const char*          testName) const
 {
-    std::cout << "Testing threadsafe stack allocator with " << numThreadRegions
+    std::cout << "Testing threadsafe allocator with " << numThreadRegions
               << " allocators and " << TEST_NUM_THREADS << " threads\n";
     auto f = [&](uint32_t id, ThreadsafeAllocator* allocator)
     {
