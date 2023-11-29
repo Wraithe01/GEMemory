@@ -19,6 +19,8 @@ public:
     // and then deletes the memory region from further use.
     uint8_t* GetAtFree();
 
+    uint8_t GetSize();
+
     // After reading, cast to appropriate type. Returns a pointer to the memory at given location.
     const uint8_t* Read() const;
     // After reading, cast to appropriate type. Returns a pointer to the memory at given location.

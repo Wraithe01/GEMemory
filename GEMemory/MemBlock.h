@@ -1,7 +1,6 @@
 #pragma once
 #include "Includes.h"
 
-
 // This is what allocates the memory blocks and allows us to not use malloc and free.
 class MemBlock
 {
@@ -17,6 +16,8 @@ public:  // Methods
     uint8_t* GetStart() const;
     // Returns the end of the memory block.
     uint8_t* GetEnd() const;
+
+    size_t GetSize() const;
 
 private:
 private:  // variables

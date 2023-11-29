@@ -27,3 +27,8 @@ void MemBlock::Resize(size_t newSize)
 uint8_t* MemBlock::GetStart() const { return m_start; }
 
 uint8_t* MemBlock::GetEnd() const { return m_end; }
+
+size_t MemBlock::GetSize() const
+{
+    return static_cast<size_t>(m_end - m_start);
+}

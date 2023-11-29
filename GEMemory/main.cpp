@@ -45,6 +45,55 @@ auto main(void) -> int
         std::cout << "Done with Palloc.\n\n";
     }
 
+    {
+        printf("Testing Buddy!\n");
+      
+        //MemRegion mem = balloc.Alloc(16);
+
+        //if (!mem.IsValid())
+        //{
+          //  std::cout << "Invalid memory\n";
+        //}
+        //std::string wow = std::string("hello!");
+        //mem.Write((void*)wow.c_str(), wow.size());
+        //printf("Writing: %s\n", wow.c_str());
+        //const uint8_t* read = mem.Read();
+        //const char* content = (const char*) *read;
+        //printf("Data read: %s\n", read);
+
+        //balloc.Free(&mem);
+
+
+        BuddyAlloc balloc(512);
+
+        MemRegion mem1 = balloc.Alloc(64);
+
+        if (!mem1.IsValid())
+        {
+            std::cout << "Unable to allocate memory 1.\n";
+        }
+
+        MemRegion mem2 = balloc.Alloc(8);
+        if (!mem2.IsValid())
+        {
+            std::cout << "Unable to allocate memory 2.\n";
+        }
+        MemRegion mem3 = balloc.Alloc(128);
+
+        if (!mem3.IsValid())
+        {
+            std::cout << "Unable to allocate memory 3.\n";
+        }
+        balloc.PrintBlocks();
+        balloc.Free(&mem1);
+        balloc.PrintBlocks();
+        balloc.Free(&mem2);
+        balloc.PrintBlocks();
+        balloc.Free(&mem3);
+        balloc.PrintBlocks();
+
+        std::cout << "Done with Balloc.\n\n";
+    }
 
     return 0;
 }

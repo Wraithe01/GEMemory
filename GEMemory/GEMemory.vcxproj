@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Allocator.cpp" />
+    <ClCompile Include="BuddyAllocator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemBlock.cpp" />
     <ClCompile Include="PoolAlloc.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h" />
+    <ClInclude Include="BuddyAllocator.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="MemBlock.h" />
     <ClInclude Include="MemoryAlloc.h" />
