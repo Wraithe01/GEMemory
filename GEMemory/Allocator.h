@@ -49,6 +49,9 @@ public:  // Methods
 
     virtual void Free(MemRegion* memory) = 0;
 
+    // Returns the total size of stored data
+    virtual size_t CurrentStored();
+
 private:
 protected:  // variables
     MemBlock* m_memory;
