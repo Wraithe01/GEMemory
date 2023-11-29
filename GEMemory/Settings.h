@@ -6,7 +6,7 @@ constexpr auto DEFAULT_MEM_SIZE = 40'960;
 constexpr auto DEFAULT_NODE_SIZE = 64;
 
 // Threads used in testing
-constexpr auto TEST_NUM_THREADS = 2048;
+constexpr auto TEST_NUM_THREADS = 20480;
 // allocators used for thread tests
 constexpr auto TEST_NUM_THREAD_REGIONS = 1;
 // This cannot be equal to 0
