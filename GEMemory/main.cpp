@@ -18,18 +18,9 @@ static void AllocTest()
     tester.ThreadTest(tsPool, 64, TEST_NUM_THREAD_REGIONS, "Thread Pool Test");
 }
 
-
-        // Should print once
-        size_t size = DEFAULT_NODE_SIZE + sizeof(uint8_t*);
-        for (uint32_t i = 0; i < DEFAULT_MEM_SIZE / size + 1; ++i)
-        {
-            if (!palloc.Alloc(size).IsValid())
-                std::cout << "Unable to allocate memory.\n";
-        }
-
-        std::cout << "Done with Palloc.\n\n";
-    }
-
+auto main(void) -> int
+{
+    AllocTest();
     {
         printf("Testing Buddy!\n");
       
@@ -79,6 +70,5 @@ static void AllocTest()
 
         std::cout << "Done with Balloc.\n\n";
     }
-
     return 0;
 }
