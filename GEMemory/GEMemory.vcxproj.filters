@@ -29,6 +29,9 @@
     <ClCompile Include="PoolAlloc.cpp">
       <Filter>Memory\Allocators</Filter>
     </ClCompile>
+    <ClCompile Include="StompAlloc.cpp">
+      <Filter>Memory\Allocators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h">
@@ -51,6 +54,9 @@
     </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StompAlloc.h">
+      <Filter>Memory\Allocators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

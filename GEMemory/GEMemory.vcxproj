@@ -132,6 +132,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemBlock.cpp" />
     <ClCompile Include="PoolAlloc.cpp" />
+    <ClCompile Include="StompAlloc.cpp" />
     <ClCompile Include="StackAlloc.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="PoolAlloc.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="StackAlloc.h" />
+    <ClInclude Include="StompAlloc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
