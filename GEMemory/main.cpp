@@ -39,22 +39,21 @@ auto main(void) -> int
 
         //balloc.Free(&mem);
 
-
         BuddyAlloc balloc(512);
 
-        MemRegion mem1 = balloc.Alloc(64);
+        MemRegion mem1 = balloc.Alloc(128);
 
         if (!mem1.IsValid())
         {
             std::cout << "Unable to allocate memory 1.\n";
         }
 
-        MemRegion mem2 = balloc.Alloc(8);
+        MemRegion mem2 = balloc.Alloc(32);
         if (!mem2.IsValid())
         {
             std::cout << "Unable to allocate memory 2.\n";
         }
-        MemRegion mem3 = balloc.Alloc(128);
+        MemRegion mem3 = balloc.Alloc(8);
 
         if (!mem3.IsValid())
         {

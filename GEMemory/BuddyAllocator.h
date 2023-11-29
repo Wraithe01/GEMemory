@@ -2,6 +2,7 @@
 #include "Allocator.h"
 #include "Includes.h"
 #include <vector>
+#include <algorithm>
 
 constexpr bool BUDDY_DEBUG = true;
 
@@ -21,6 +22,8 @@ private:
         uint8_t* start;
         size_t size;
         bool isFree;
+        bool isSplit;
+        bool isLeft;
     };
 
     std::vector<BuddyBlock> buddyBlocks;

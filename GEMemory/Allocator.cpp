@@ -25,9 +25,9 @@ uint8_t* MemRegion::GetAtFree()
     return graveptr;
 }
 
-uint8_t MemRegion::GetSize()
+size_t MemRegion::GetSize()
 {
-    return m_dataEnd - m_dataStart;
+    return m_dataSize;
 }
 
 const uint8_t* MemRegion::Read() const
