@@ -45,6 +45,7 @@
     <ClCompile Include="AllocTester.cpp">
       <Filter>Memory\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="DefaultAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h">
@@ -81,5 +82,6 @@
     <ClInclude Include="AllocTester.h">
       <Filter>Memory\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="DefaultAllocator.h" />
   </ItemGroup>
 </Project>

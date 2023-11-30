@@ -167,3 +167,23 @@ ThreadsafePoolAlloc::~ThreadsafePoolAlloc()
 	}
 	delete[] m_allocators;
 }
+
+ThreadsafeMallocAlloc::ThreadsafeMallocAlloc(uint32_t regions, size_t totalMemory) :
+	ThreadsafeAllocator(regions, nullptr)
+{
+	size_t regionSize = (size_t)floor(totalMemory / regions);
+	m_allocators = new Allocator * [m_regions];
+	for (int32_t i = 0; i < m_regions; i++)
+	{
+		m_allocators[i] = new MallocAlloc(regionSize);
+	}
+}
+
+ThreadsafeMallocAlloc::~ThreadsafeMallocAlloc()
+{
+	for (int32_t i = 0; i < m_regions; i++)
+	{
+		delete m_allocators[i];
+	}
+	delete[] m_allocators;
+}
