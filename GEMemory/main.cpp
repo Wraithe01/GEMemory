@@ -48,12 +48,15 @@ static void AllocTest()
     StackAlloc  stackBench(DEFAULT_NODE_SIZE * 1000);
     PoolAlloc   poolBench(DEFAULT_NODE_SIZE, (DEFAULT_NODE_SIZE + 8) * 1000);
     MallocAlloc mallocator;
+    BuddyAlloc buddyBench(DEFAULT_MEM_SIZE);
     tester.BenchmarkStackAccess(*((Allocator*)&stackBench), DEFAULT_NODE_SIZE, "Stack Allocator Performance No Flush");
     tester.BenchmarkStackAccess(stackBench, DEFAULT_NODE_SIZE, "Stack Allocator Performance");
     tester.BenchmarkStackAccess(mallocator, DEFAULT_NODE_SIZE, "Malloc Performance");
+    tester.BenchmarkStackAccess(buddyBench, DEFAULT_NODE_SIZE, "Buddy Performance");
 
     tester.BenchmarkRandomAccess(poolBench, DEFAULT_NODE_SIZE, "Pool Allocator Performance");
     tester.BenchmarkRandomAccess(mallocator, DEFAULT_NODE_SIZE, "Malloc Performance");
+    tester.BenchmarkRandomAccess(buddyBench, DEFAULT_NODE_SIZE, "Buddy Performance");
 }
 
 auto main(void) -> int

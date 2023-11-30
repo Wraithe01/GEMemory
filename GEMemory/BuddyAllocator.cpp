@@ -13,12 +13,14 @@ BuddyAlloc::BuddyAlloc(size_t totalMemorySize) : Allocator(totalMemorySize)
 }
 
 MemRegion BuddyAlloc::Alloc(size_t blockSize)
-{ 
-    // Make sure the block size is power of 2
-    if (blockSize <= 0 || (blockSize & (blockSize - 1)) != 0) {
-        printf("Block size must be a power of 2!\n");
+{
+    if (blockSize <= 0) {
+        printf("Block size must be positive!\n");
         return MemRegion(nullptr, 0);
     }
+    // Calucluate the next power of 2
+    blockSize = std::pow(2, std::ceil(std::log2(blockSize)));
+
     size_t index = FindFreeBlock(blockSize);
 
     if (index == -1)
@@ -26,8 +28,10 @@ MemRegion BuddyAlloc::Alloc(size_t blockSize)
         printf("Could not find a free block for size %zu\n", blockSize);
         return MemRegion(nullptr, 0);
     }
+    const size_t doubleBlockSize = blockSize * 2;
+
     // We split the block if needed
-    while (buddyBlocks[index].size >= blockSize * 2) {
+    while (buddyBlocks[index].size >= doubleBlockSize) {
         SplitBlock(index);
     }
     // Mark the block as allocated
@@ -39,7 +43,7 @@ MemRegion BuddyAlloc::Alloc(size_t blockSize)
 void BuddyAlloc::Free(MemRegion* memory)
 {
     if (!memory || !memory->IsValid()) {
-        printf("Could not free memory because the memory is either null or already freed!");
+        printf("Could not free memory because the memory is either null or already freed!\n");
         return;
     }
 
