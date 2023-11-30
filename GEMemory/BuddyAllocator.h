@@ -2,7 +2,6 @@
 #include "Allocator.h"
 #include "Includes.h"
 #include <vector>
-#include <algorithm>
 
 class BuddyAlloc : public Allocator
 {
