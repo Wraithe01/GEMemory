@@ -1,6 +1,7 @@
 #pragma once
 #include "Allocator.h"
 #include "ThreadSafeAllocators.h"
+#include "BuddyAllocator.h"
 
 class AllocTester
 {
@@ -17,7 +18,12 @@ public:
                     const uint32_t       numThreadRegions,
                     const bool           queuedRequests,
                     const char*          testName) const;
-    void Benchmark(Allocator& subject, size_t allocSize, const char* testName) const;
+    void Benchmark(Allocator& subject,
+        size_t allocSize,
+        const char* testName) const;
+    void BuddyTest(BuddyAlloc& subject,
+        const size_t allocSize,
+        const char* testName);
 
 private:
     int _Validate(Allocator&  subject,
@@ -29,5 +35,10 @@ private:
                     const uint32_t       numThreadRegions,
                     const bool           queuedRequests,
                     const char*          testName) const;
-    int _Benchmark(Allocator& subject, size_t allocSize, const char* testName) const;
+    int _Benchmark(Allocator& subject,
+        size_t allocSize,
+        const char* testName) const;
+    int _BuddyTest(BuddyAlloc& subject,
+        size_t allocSize,
+        const char* testName) const;
 };

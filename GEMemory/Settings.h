@@ -5,6 +5,8 @@ constexpr auto DEFAULT_MEM_SIZE = 40'960;
 // Data node in bytes
 constexpr auto DEFAULT_NODE_SIZE = 64;
 
+constexpr auto DEFAULT_BUDDY_MEM_SIZE = 512;
+
 // Threads used in testing
 constexpr auto TEST_NUM_THREADS = 4096;
 // allocators used for thread tests

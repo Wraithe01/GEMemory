@@ -164,7 +164,64 @@ void AllocTester::Benchmark(Allocator& subject, size_t allocSize, const char* te
     std::printf("Benchmark test took %8.8lld micro seconds\n",
                 duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 }
+void AllocTester::BuddyTest(BuddyAlloc& subject, const size_t allocSize, const char* testName)
+{
+    uint32_t err = 0;
+    std::printf("[+] Starting validation test for \"%s\"...\n", testName);
+    std::cout << "========================= Start =========================\n";
+
+    // Time
+    auto tstart = high_resolution_clock::now();
+    if ((err = _BuddyTest(subject, allocSize, testName)) != 0)
+    {
+        std::cout << "[-] Validate test failed with error code " << err << std::endl;
+        return;
+    }
+
+    // Only print if function succeds
+    std::cout << "========================= End =========================\n";
+    std::printf("[+] Validate test took %8.8lld micro seconds\n",
+        duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+    std::printf("[+] Done with test \"%s\".\n\n\n", testName);
+}
 int AllocTester::_Benchmark(Allocator& subject, size_t allocSize, const char* testName) const
 {
+    return 0;
+}
+
+int AllocTester::_BuddyTest(BuddyAlloc& subject, size_t allocSize, const char* testName) const
+{
+    uint16_t fails = 0;
+
+    std::cout << "This should not give any error messages.\n";
+    MemRegion mem = subject.Alloc(DEFAULT_BUDDY_MEM_SIZE);
+    if (!mem.IsValid())
+    {
+        ++fails;
+        std::cout << "[-] Invalid memory\n";
+    }
+    subject.Free(&mem);
+    if (fails > 0)
+    {
+        std::printf("[-] Allocation test failed with %i error messages.\n", fails);
+        return 1;
+    }
+
+    std::cout << "This should send 1 error.\n";
+    fails = 0;
+    for (size_t i = 0; i < 2; i++)
+    {
+        if (!subject.Alloc(DEFAULT_BUDDY_MEM_SIZE).IsValid())
+        {
+            fails++;
+            std::cout << "[-] Unable to allocate memory.\n";
+        }
+    }
+
+    if (fails > 1)
+    {
+        std::printf("[-] Capacity test failed with %i errors.\n", fails);
+        return 2;
+    }
     return 0;
 }

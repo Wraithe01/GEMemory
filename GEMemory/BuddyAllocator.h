@@ -4,8 +4,6 @@
 #include <vector>
 #include <algorithm>
 
-constexpr bool BUDDY_DEBUG = true;
-
 class BuddyAlloc : public Allocator
 {
 public:

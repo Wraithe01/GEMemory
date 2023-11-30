@@ -2,10 +2,6 @@
 
 BuddyAlloc::BuddyAlloc(size_t totalMemorySize) : Allocator(totalMemorySize)
 {
-    if (BUDDY_DEBUG)
-    {
-        printf("Allocated block with %zu\n", totalMemorySize);
-    }
     BuddyBlock initialBlock{};
     initialBlock.start = m_memory->GetStart();
     initialBlock.size = m_memory->GetSize();
@@ -19,7 +15,7 @@ BuddyAlloc::BuddyAlloc(size_t totalMemorySize) : Allocator(totalMemorySize)
 MemRegion BuddyAlloc::Alloc(size_t blockSize)
 { 
     // Make sure the block size is power of 2
-    if ((blockSize & (blockSize - 1)) != 0) {
+    if (blockSize <= 0 || (blockSize & (blockSize - 1)) != 0) {
         printf("Block size must be a power of 2!\n");
         return MemRegion(nullptr, 0);
     }
@@ -37,12 +33,6 @@ MemRegion BuddyAlloc::Alloc(size_t blockSize)
     // Mark the block as allocated
     buddyBlocks[index].isFree = false;
 
-    PrintBlocks();
-
-    if (BUDDY_DEBUG)
-    {
-        printf("Allocated block with size %zu\n", buddyBlocks[index].size);
-    }
     return MemRegion(buddyBlocks[index].start, buddyBlocks[index].size);
 }
 
@@ -95,7 +85,6 @@ void BuddyAlloc::SplitBlock(size_t index)
     // We then split the block into two buddies
     uint8_t* start = buddyBlocks[index].start;
     size_t newSize = buddyBlocks[index].size / 2;
-    printf("New split block size: %zu\n", newSize);
 
     BuddyBlock newBuddy1{};
     newBuddy1.start = start;
@@ -116,12 +105,10 @@ void BuddyAlloc::SplitBlock(size_t index)
 
 void BuddyAlloc::MergeBlocks(size_t index)
 {
-    printf("Begin MERGE! Index: %zu\n", index);
-
     while (buddyBlocks.size() > 1) {
         size_t buddy = index + (buddyBlocks[index].isLeft ? +1 : -1);
 
-        // Continue merging until a non-free neighbor block is encountered
+        // We continue merging until a non-free neighbor block is encountered
         if (index < buddyBlocks.size() - 1 && buddyBlocks[index].isFree
             && buddyBlocks[buddy].isFree
             && buddyBlocks[index].size == buddyBlocks[buddy].size
@@ -136,7 +123,6 @@ void BuddyAlloc::MergeBlocks(size_t index)
 
             buddyBlocks.erase(buddyBlocks.begin() + leftIndex, buddyBlocks.begin() + rightIndex + 1);
 
-            PrintBlocks();
             // Update index after merge
             index = parentIndex - 2;
         }
@@ -145,7 +131,6 @@ void BuddyAlloc::MergeBlocks(size_t index)
             break;
         }
     }
-    printf("END MERGE!\n");
 }
 
 void BuddyAlloc::PrintBlocks()
@@ -153,6 +138,7 @@ void BuddyAlloc::PrintBlocks()
     for (size_t i = 0; i < buddyBlocks.size(); i++)
     {
         printf("Block %zu, Size: %zu, Free: %s, Split: %s, Left: %s\n",
-            i, buddyBlocks[i].size, buddyBlocks[i].isFree ? "True" : "False", buddyBlocks[i].isSplit ? "True" : "False", buddyBlocks[i].isLeft ? "True" : "False");
+            i, buddyBlocks[i].size, buddyBlocks[i].isFree ? "True" : "False",
+            buddyBlocks[i].isSplit ? "True" : "False", buddyBlocks[i].isLeft ? "True" : "False");
     }
 }
