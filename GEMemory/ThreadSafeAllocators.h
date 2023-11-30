@@ -4,6 +4,7 @@
 #include "Allocator.h"
 #include "PoolAlloc.h"
 #include "StackAlloc.h"
+#include "DefaultAllocator.h"
 
 // Struct used internally for requestQueue
 struct AllocatorRequest
@@ -100,5 +101,16 @@ public: // Methods
     ThreadsafePoolAlloc(uint32_t regions, size_t totalMemory = DEFAULT_MEM_SIZE, size_t nodeSize = DEFAULT_NODE_SIZE);
     //The allocators and memory will be freed
     ~ThreadsafePoolAlloc();
+private:
+};
+
+class ThreadsafeMallocAlloc : public ThreadsafeAllocator
+{
+public: // Methods
+    ThreadsafeMallocAlloc() = delete;
+    //Will create one buddyAlloc of size floor(totalMemory/regions) for each region requested
+    ThreadsafeMallocAlloc(uint32_t regions, size_t totalMemory = DEFAULT_MEM_SIZE);
+    //The allocators and memory will be freed
+    ~ThreadsafeMallocAlloc();
 private:
 };

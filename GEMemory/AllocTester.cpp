@@ -154,16 +154,113 @@ int AllocTester::_ThreadTest(ThreadsafeAllocator& subject,
 }
 
 
-void AllocTester::Benchmark(Allocator& subject, size_t allocSize, const char* testName) const
+void AllocTester::BenchmarkRandomAccess(Allocator& subject, size_t allocSize, const char* testName) const
 {
+    std::printf("[+] Starting random alloc pattern benchmark \"%s\"...\n", testName);
+    std::cout << "========================= Start =========================\n";
     // Time
     auto tstart = high_resolution_clock::now();
-    if (_Benchmark(subject, allocSize, testName) != 0)
+    if (_BenchmarkRandomAccess(subject, allocSize, testName) != 0)
         return;
     // Only print if function succeds
     std::printf("Benchmark test took %8.8lld micro seconds\n",
-                duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+        duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+    std::printf("[+] Done with test \"%s\".\n\n\n", testName);
 }
+void AllocTester::BenchmarkStackAccess(Allocator& subject, size_t allocSize, const char* testName) const
+{
+    std::printf("[+] Starting stack alloc pattern benchmark \"%s\"...\n", testName);
+    std::cout << "========================= Start =========================\n";
+    // Time
+    auto tstart = high_resolution_clock::now();
+    if (_BenchmarkStackAccess(subject, allocSize, testName) != 0)
+        return;
+    // Only print if function succeds
+    std::printf("Benchmark test took %8.8lld micro seconds\n",
+        duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+    std::printf("[+] Done with test \"%s\".\n\n\n", testName);
+}
+void AllocTester::BenchmarkStackAccess(StackAlloc& subject, size_t allocSize, const char* testName) const
+{
+    std::printf("[+] Starting stack benchmark \"%s\"...\n", testName);
+    std::cout << "========================= Start =========================\n";
+    // Time
+    auto tstart = high_resolution_clock::now();
+    if (_BenchmarkStackAccess(subject, allocSize, testName) != 0)
+        return;
+    // Only print if function succeds
+    std::printf("Benchmark test took %8.8lld micro seconds\n",
+        duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+    std::printf("[+] Done with test \"%s\".\n\n\n", testName);
+}
+
+int AllocTester::_BenchmarkRandomAccess(Allocator& subject, size_t allocSize, const char* testName) const
+{
+    // Begins by allocating 1000 memRegions
+    MemRegion* holder = (MemRegion*)malloc(sizeof(MemRegion) * 1000);
+    for (int i = 0; i < 1000; i++)
+    {
+        holder[i] = subject.Alloc(allocSize);
+    }
+    //performs 9000 fragmented frees and allocs
+    for (int i = 0; i < 18; i++)
+    {
+        for (int x = 0; x < 100; x += 2)
+        {
+            for (int y = 0; y < 1000; y += 100)
+            {
+                subject.Free(&holder[y + x]);
+            }
+        }
+        for (int j = 0; j < 1000; j += 2)
+        {
+            holder[j] = subject.Alloc(allocSize);
+        }
+    }
+    // frees the 1000 memRegions
+    for (int i = 0; i < 1000; i++)
+    {
+        subject.Free(&holder[i]);
+    }
+    free(holder);
+    return 0;
+}
+int AllocTester::_BenchmarkStackAccess(Allocator& subject, size_t allocSize, const char* testName) const
+{
+    MemRegion* holder = (MemRegion*)malloc(sizeof(MemRegion) * 1000);
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 1000; j++)
+        {
+            holder[j] = subject.Alloc(allocSize);
+        }
+        for (int j = 1000; j > 0; j--)
+        {
+            subject.Free(&holder[j - 1]);
+        }
+    }
+    free(holder);
+    return 0;
+}
+int AllocTester::_BenchmarkStackAccess(StackAlloc& subject, size_t allocSize, const char* testName) const
+{
+    MemRegion* holder = (MemRegion*)malloc(sizeof(MemRegion) * 1000);
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 1000; j++)
+        {
+            holder[j] = subject.Alloc(allocSize);
+        }
+        // One benefit of the stack allocator is being able to clear all the memory with flush
+        // no memregion has to free itself
+        subject.Flush();
+    }
+    free(holder);
+    return 0;
+}
+
+
+
 void AllocTester::BuddyTest(BuddyAlloc& subject, const size_t allocSize, const char* testName)
 {
     uint32_t err = 0;
@@ -183,10 +280,6 @@ void AllocTester::BuddyTest(BuddyAlloc& subject, const size_t allocSize, const c
     std::printf("[+] Validate test took %8.8lld micro seconds\n",
         duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
     std::printf("[+] Done with test \"%s\".\n\n\n", testName);
-}
-int AllocTester::_Benchmark(Allocator& subject, size_t allocSize, const char* testName) const
-{
-    return 0;
 }
 
 int AllocTester::_BuddyTest(BuddyAlloc& subject, size_t allocSize, const char* testName) const
