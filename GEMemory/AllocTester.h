@@ -25,6 +25,8 @@ public:
         const size_t allocSize,
         const char* testName);
 
+    void TestStomp(Allocator& stomp) const;
+
 private:
     int _Validate(Allocator&  subject,
                   size_t      allocSize,
