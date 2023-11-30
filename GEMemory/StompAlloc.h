@@ -2,6 +2,7 @@
 
 #include "Allocator.h"
 #include "Includes.h"
+#include "Windows.h"
 
 struct MemoryAllocationInfo {
     size_t size;

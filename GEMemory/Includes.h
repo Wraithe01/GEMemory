@@ -5,7 +5,6 @@
 //
 #pragma once
 #include "Settings.h"
-#include "Windows.h"
 
 #include <iostream>
 #include <cstdint>
