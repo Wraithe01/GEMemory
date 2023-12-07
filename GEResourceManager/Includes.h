@@ -9,3 +9,6 @@
 #include "Settings.h"
 
 #include <iostream>
+
+#include "zlib.h"
+#define ZLIB_WINAPI
