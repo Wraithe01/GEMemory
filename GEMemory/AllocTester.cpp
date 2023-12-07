@@ -319,11 +319,6 @@ int AllocTester::_BuddyTest(BuddyAlloc& subject, size_t allocSize, const char* t
     return 0;
 }
 
-int AllocTester::_BenchmarkBuddy(BuddyAlloc& subject, size_t allocSize, const char* testName) const
-{
-    return 0;
-}
-
 void AllocTester::TestStomp(Allocator& stomp) const
 {
     std::cout << "[+] Starting validation test for Default Stomp Test...\n";
