@@ -4,12 +4,14 @@
 
 typedef uint32_t FILEid;
 
-struct AsyncFileRequestHandle
+struct AsyncFileRequestStatus
 {
 	bool requestServed = false;
 	uint32_t error = 0;
 	size_t returnValue = -1;
 };
+
+typedef std::shared_ptr<AsyncFileRequestStatus> AsyncFileRequestHandle;
 
 typedef void (*FileCallbackFunction)(AsyncFileRequestHandle request);
 
@@ -29,7 +31,7 @@ struct AsyncFileRequest
 	size_t elementSize = 0;
 	size_t elementCount = 0;
 	FileCallbackFunction callback = nullptr;
-	AsyncFileRequestHandle* handle = nullptr;
+	AsyncFileRequestHandle handle = nullptr;
 };
 
 class FileSystem
@@ -48,19 +50,19 @@ public:
 	virtual size_t Write(const void* buffer, size_t elementSize, size_t elementCount, FILEid file) = 0;
 
 	
-	FILEid AsyncOpen(const char* path, const char* mode);
+	//FILEid AsyncOpen(const char* path, const char* mode);
 
-	int AsyncClose(FILEid file);
+	//int AsyncClose(FILEid file);
 
-	void AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, AsyncFileRequestHandle* requestHandle);
+	AsyncFileRequestHandle AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback);
 	
-	void AsyncWriteRequest(const void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, AsyncFileRequestHandle* requestHandle);
+	AsyncFileRequestHandle AsyncWriteRequest(const void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback);
 
-	bool AsyncRequestSucceeded(const AsyncFileRequestHandle& request);
+	bool AsyncRequestSucceeded(const AsyncFileRequestHandle request);
 	
-	void AsynchRequestWait(const AsyncFileRequestHandle& request);
+	void AsynchRequestWait(const AsyncFileRequestHandle request);
 
-	size_t AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle& request);
+	size_t AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle request);
 
 protected:
 	const char* m_rootPath;
