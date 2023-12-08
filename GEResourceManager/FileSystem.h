@@ -6,7 +6,6 @@ typedef uint32_t FILEid;
 
 struct AsyncFileRequestHandle
 {
-	uint32_t requestid = 0;
 	bool requestServed = false;
 	uint32_t error = 0;
 	size_t returnValue = -1;
