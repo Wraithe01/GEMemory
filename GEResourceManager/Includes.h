@@ -9,6 +9,11 @@
 #include "Settings.h"
 
 #include <iostream>
+#include <map>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include "zlib.h"
 #define ZLIB_WINAPI
