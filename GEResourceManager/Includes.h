@@ -15,6 +15,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+#include <stdio.h>
 
 #include "zlib.h"
 #define ZLIB_WINAPI

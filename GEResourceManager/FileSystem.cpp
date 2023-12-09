@@ -104,7 +104,7 @@ AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elemen
 
 bool FileSystem::AsyncRequestSucceeded(const AsyncFileRequestHandle request)
 {
-	return request->requestServed && !request->error;;
+	return request->requestServed && (!request->error);
 }
 
 void FileSystem::AsynchRequestWait(const AsyncFileRequestHandle request)
@@ -112,6 +112,11 @@ void FileSystem::AsynchRequestWait(const AsyncFileRequestHandle request)
 	std::unique_lock<std::mutex> cndLock(request->handleLock);
 	while (!request->requestServed) request->waitCnd.wait(cndLock);
 	cndLock.unlock();
+}
+
+bool FileSystem::AsynchRequestCheck(const AsyncFileRequestHandle request)
+{
+	return request->requestServed;
 }
 
 size_t FileSystem::AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle request)
@@ -143,7 +148,7 @@ void FileSystem::RequestThread()
 		if (request.type == AsyncFileRequestType::AsyncOpen)
 		{
 			request.handle->file = Open(request.path, request.mode);
-			if (request.handle->file > -1)
+			if (request.handle->file < 0)
 			{
 				request.handle->error = true;
 			}
@@ -235,7 +240,12 @@ FILEid CFileSystem::Open(const char* path, const char* mode)
 	{
 		m_lastID++;
 	}
-	FILE* ptr = fopen(path, mode);
+	FILE* ptr;
+	errno_t err;
+	if ((err = fopen_s(&ptr, path, mode)) != 0)
+	{
+		std::cerr << "Error " << err << " when opening file " << path << std::endl;
+	}
 	if (ptr != nullptr)
 	{
 		m_fileptrs[m_lastID] = ptr;

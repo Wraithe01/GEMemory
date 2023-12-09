@@ -71,6 +71,8 @@ public:
 	
 	void AsynchRequestWait(const AsyncFileRequestHandle request);
 
+	bool AsynchRequestCheck(const AsyncFileRequestHandle request);
+
 	size_t AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle request);
 
 	FILEid AsyncGetRequestFileID(const AsyncFileRequestHandle request);
