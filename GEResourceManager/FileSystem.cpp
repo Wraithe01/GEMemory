@@ -210,13 +210,7 @@ void FileSystem::PostRequest(AsyncFileRequest* request)
 }
 
 CFileSystem::CFileSystem() :
-	FileSystem(1),
-	m_lastID(0)
-{
-}
-
-CFileSystem::CFileSystem(uint32_t asyncAgentThreads) :
-	FileSystem(asyncAgentThreads),
+	FileSystem(FILESYSTEM_ASYNCTHREADS),
 	m_lastID(0)
 {
 }
@@ -228,6 +222,20 @@ CFileSystem::~CFileSystem()
 		fclose(pair.second);
 	}
 }
+
+CFileSystem* CFileSystem::Instance()
+{
+	if (instancePtr == NULL)
+	{
+		instancePtr = new CFileSystem();
+		return instancePtr;
+	}
+	else
+	{
+		return instancePtr;
+	}
+}
+CFileSystem* CFileSystem::instancePtr = NULL;
 
 FILEid CFileSystem::Open(const char* path, const char* mode)
 {

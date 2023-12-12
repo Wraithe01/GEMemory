@@ -95,10 +95,20 @@ private:
 
 class CFileSystem : public FileSystem
 {
-public:
+private:
+	static CFileSystem* instancePtr;
 	CFileSystem();
-	CFileSystem(uint32_t asyncAgentThreads);
+
+	std::map<FILEid, FILE*> m_fileptrs;
+	FILEid m_lastID;
+
+	std::mutex m_mapLock;
+
+public:
+	CFileSystem(const CFileSystem& obj) = delete;
 	~CFileSystem();
+
+	static CFileSystem* Instance();
 
 	virtual FILEid Open(const char* path, const char* mode) override;
 
@@ -107,10 +117,4 @@ public:
 	virtual size_t Read(void* buffer, size_t elementSize, size_t elementCount, FILEid file) override;
 
 	virtual size_t Write(const void* buffer, size_t elementSize, size_t elementCount, FILEid file) override;
-
-private:
-	std::map<FILEid, FILE*> m_fileptrs;
-	FILEid m_lastID;
-
-	std::mutex m_mapLock;
 };
