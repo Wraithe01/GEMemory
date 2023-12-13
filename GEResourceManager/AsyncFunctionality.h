@@ -15,7 +15,7 @@ template <class asyncOUT>
 using AsyncRequestHandle = std::shared_ptr<AsyncRequestStatus<asyncOUT>>;
 
 template <class asyncOUT>
-using AsyncCallback = void(*)(asyncOUT);
+using AsyncCallback = void(*)(AsyncRequestHandle<asyncOUT>);
 
 template <class asyncIN, class asyncOUT>
 struct AsyncRequest
@@ -34,10 +34,16 @@ public:
 	AsyncFunctionality(uint32_t asyncRequestThreads);
 	~AsyncFunctionality();
 
-	virtual void HandleRequest(asyncIN request, asyncOUT* o_result) = 0;
+	void AsynchRequestWait(const AsyncRequestHandle<asyncOUT> request);
+	bool AsynchRequestCompleted(const AsyncRequestHandle<asyncOUT> request);
 
 protected:
-	AsyncRequestHandle<asyncOUT> EnqueueRequest(asyncIN inData, AsyncCallback<asyncOUT> callback);
+	AsyncRequestHandle<asyncOUT> EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback);
+
+	asyncOUT* ReturnDataFromHandle(AsyncRequestHandle<asyncOUT> request);
+
+	virtual void HandleRequest(const asyncIN& requestIN, asyncOUT* o_requestOUT) = 0;
+
 private:
 	void RequestThread();
 
@@ -55,7 +61,7 @@ inline AsyncFunctionality<asyncIN, asyncOUT>::AsyncFunctionality(uint32_t asyncR
 	m_threadCount = asyncRequestThreads;
 	m_agentThreads = new std::thread[m_threadCount];
 
-	for (int i = 0; i < m_threadCount; i++)
+	for (uint32_t i = 0; i < m_threadCount; i++)
 	{
 		m_agentThreads[i] = std::thread(&AsyncFunctionality::RequestThread, this);
 	}
@@ -67,11 +73,16 @@ inline AsyncFunctionality<asyncIN, asyncOUT>::~AsyncFunctionality()
 	AsyncRequest<asyncIN, asyncOUT> terminationRequest;
 	terminationRequest.terminateThread = true;
 
-	for (int i = 0; i < m_threadCount; i++)
+	for (uint32_t i = 0; i < m_threadCount; i++)
 	{
-		EnqueueRequest(&terminationRequest);
+		// enqueues request
+		m_queueLock.lock();
+		m_requestQueue.push(terminationRequest);
+		m_queueLock.unlock();
+		// wakes queue agent if waiting
+		m_dequeueCnd.notify_one();
 	}
-	for (int i = 0; i < m_threadCount; i++)
+	for (uint32_t i = 0; i < m_threadCount; i++)
 	{
 		m_agentThreads[i].join();
 	}
@@ -79,7 +90,21 @@ inline AsyncFunctionality<asyncIN, asyncOUT>::~AsyncFunctionality()
 }
 
 template<class asyncIN, class asyncOUT>
-inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::EnqueueRequest(asyncIN inData, AsyncCallback<asyncOUT> callback)
+inline void AsyncFunctionality<asyncIN, asyncOUT>::AsynchRequestWait(const AsyncRequestHandle<asyncOUT> request)
+{
+	std::unique_lock<std::mutex> cndLock(request->handleLock);
+	while (!request->requestServed) request->waitCnd.wait(cndLock);
+	cndLock.unlock();
+}
+
+template<class asyncIN, class asyncOUT>
+inline bool AsyncFunctionality<asyncIN, asyncOUT>::AsynchRequestCompleted(const AsyncRequestHandle<asyncOUT> request)
+{
+	return request->requestServed;
+}
+
+template<class asyncIN, class asyncOUT>
+inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback)
 {
 	AsyncRequest<asyncIN, asyncOUT> request =
 	{
@@ -97,6 +122,12 @@ inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::Enque
 	m_dequeueCnd.notify_one();
 	
 	return request.handle;
+}
+
+template<class asyncIN, class asyncOUT>
+inline asyncOUT* AsyncFunctionality<asyncIN, asyncOUT>::ReturnDataFromHandle(AsyncRequestHandle<asyncOUT> request)
+{
+	return &(request->returnData);
 }
 
 template<class asyncIN, class asyncOUT>
@@ -125,7 +156,7 @@ inline void AsyncFunctionality<asyncIN, asyncOUT>::RequestThread()
 		// Calls callback function
 		if (request.callback != nullptr)
 		{
-			request.callback(request->handle->returnData);
+			request.callback(request.handle);
 		}
 		cndLock.lock();
 	}

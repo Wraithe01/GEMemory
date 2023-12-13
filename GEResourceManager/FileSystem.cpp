@@ -1,54 +1,28 @@
 #include "FileSystem.h"
 
-FileSystem::FileSystem(uint32_t asyncAgentThreads)
+FileSystem::FileSystem(uint32_t asyncAgentThreads) :
+	AsyncFunctionality(asyncAgentThreads)
 {
-	m_agentThreads = new std::thread[asyncAgentThreads];
-
-	for (int i = 0; i < asyncAgentThreads; i++)
-	{
-		m_agentThreads[i] = std::thread(&FileSystem::RequestThread, this);
-	}
-}
-
-FileSystem::~FileSystem()
-{
-	AsyncFileRequest terminationRequest;
-	terminationRequest.type = AsyncFileRequestType::AgentTermination;
-	
-	for (int i = 0; i < m_requestAgents; i++)
-	{
-		EnqueueRequest(&terminationRequest);
-	}
-	for (int i = 0; i < m_requestAgents; i++)
-	{
-		m_agentThreads[i].join();
-	}
-	delete[] m_agentThreads;
 }
 
 AsyncFileRequestHandle FileSystem::AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback)
 {
-	AsyncFileRequestHandle requestHandle(new AsyncFileRequestStatus);
-	AsyncFileRequest request =
+	AsyncFileRequestIN request = 
 	{
 		AsyncFileRequestType::AsyncOpen,
-		0,
+		-1,
 		nullptr,
 		path,
 		mode,
 		0,
-		0,
-		callback,
-		AsyncFileRequestHandle(requestHandle)
+		0
 	};
-	EnqueueRequest(&request);
-	return requestHandle;
+	return EnqueueRequest(request, callback);
 }
 
 AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFunction callback)
 {
-	AsyncFileRequestHandle requestHandle(new AsyncFileRequestStatus);
-	AsyncFileRequest request =
+	AsyncFileRequestIN request =
 	{
 		AsyncFileRequestType::AsyncClose,
 		file,
@@ -56,18 +30,14 @@ AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFu
 		"",
 		"",
 		0,
-		0,
-		callback,
-		AsyncFileRequestHandle(requestHandle)
+		0
 	};
-	EnqueueRequest(&request);
-	return requestHandle;
+	return EnqueueRequest(request, callback);
 }
 
 AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback)
 {
-	AsyncFileRequestHandle requestHandle(new AsyncFileRequestStatus);
-	AsyncFileRequest request =
+	AsyncFileRequestIN request =
 	{
 		AsyncFileRequestType::AsyncRead,
 		file,
@@ -75,137 +45,72 @@ AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t element
 		"",
 		"",
 		elementSize,
-		elementCount,
-		callback,
-		AsyncFileRequestHandle(requestHandle)
+		elementCount
 	};
-	EnqueueRequest(&request);
-	return requestHandle;
+	return EnqueueRequest(request, callback);
 }
 
 AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback)
 {
-	AsyncFileRequestHandle requestHandle(new AsyncFileRequestStatus);
-	AsyncFileRequest request =
+	AsyncFileRequestIN request =
 	{
 		AsyncFileRequestType::AsyncWrite,
 		file,
-		buffer,
+		nullptr,
 		"",
 		"",
-		elementSize,
-		elementCount,
-		callback,
-		AsyncFileRequestHandle(requestHandle)
+		0,
+		0
 	};
-	EnqueueRequest(&request);
-	return requestHandle;
+	return EnqueueRequest(request, callback);
 }
 
 bool FileSystem::AsyncRequestSucceeded(const AsyncFileRequestHandle request)
 {
-	return request->requestServed && (!request->error);
-}
-
-void FileSystem::AsynchRequestWait(const AsyncFileRequestHandle request)
-{
-	std::unique_lock<std::mutex> cndLock(request->handleLock);
-	while (!request->requestServed) request->waitCnd.wait(cndLock);
-	cndLock.unlock();
-}
-
-bool FileSystem::AsynchRequestCheck(const AsyncFileRequestHandle request)
-{
-	return request->requestServed;
+	return !(ReturnDataFromHandle(request)->error);
 }
 
 size_t FileSystem::AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle request)
 {
-	return request->returnValue;
+	return ReturnDataFromHandle(request)->returnValue;
 }
 
 FILEid FileSystem::AsyncGetRequestFileID(const AsyncFileRequestHandle request)
 {
-	return request->file;
+	return ReturnDataFromHandle(request)->file;
 }
 
-void FileSystem::RequestThread()
+void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileRequestOUT* o_requestOUT)
 {
-	m_agentsTallyLock.lock();
-	m_requestAgents++;
-	m_agentsTallyLock.unlock();
-
-	AsyncFileRequest request;
-	std::unique_lock<std::mutex> cndLock(m_queueLock);
-	while (true)
+	switch (requestIN.type)
 	{
-		while (m_requestQueue.empty()) m_dequeueCnd.wait(cndLock);
-
-		request = m_requestQueue.front();
-		m_requestQueue.pop();
-
-		cndLock.unlock();
-		if (request.type == AsyncFileRequestType::AsyncOpen)
+	case AsyncFileRequestType::AsyncOpen:
+		o_requestOUT->file = Open(requestIN.path, requestIN.mode);
+		if (o_requestOUT->file < 0)
 		{
-			request.handle->file = Open(request.path, request.mode);
-			if (request.handle->file < 0)
-			{
-				request.handle->error = true;
-			}
-			PostRequest(&request);
+			o_requestOUT->error = true;
 		}
-		else if (request.type == AsyncFileRequestType::AsyncClose)
+		break;
+	case AsyncFileRequestType::AsyncClose:
+		if (Close(requestIN.file) != 0)
 		{
-			if (Close(request.file) != 0)
-			{
-				request.handle->error = true;
-			}
-			PostRequest(&request);
+			o_requestOUT->error = true;
 		}
-		else if (request.type == AsyncFileRequestType::AsyncRead)
+		break;
+	case AsyncFileRequestType::AsyncRead:
+		o_requestOUT->returnValue = Read(requestIN.buffer, requestIN.elementSize, requestIN.elementCount, requestIN.file);
+		if (o_requestOUT->returnValue < requestIN.elementCount)
 		{
-			request.handle->returnValue = Read(request.buffer, request.elementSize, request.elementCount, request.file);
-			PostRequest(&request);
+			o_requestOUT->error = true;
 		}
-		else if (request.type == AsyncFileRequestType::AsyncWrite)
+		break;
+	case AsyncFileRequestType::AsyncWrite:
+		o_requestOUT->returnValue = Write(requestIN.buffer, requestIN.elementSize, requestIN.elementCount, requestIN.file);
+		if (o_requestOUT->returnValue < requestIN.elementCount)
 		{
-			request.handle->returnValue = Write(request.buffer, request.elementSize, request.elementCount, request.file);
-			if (request.handle->returnValue < request.elementCount)
-			{
-				request.handle->error = true;
-			}
-			PostRequest(&request);
+			o_requestOUT->error = true;
 		}
-		else if (request.type == AsyncFileRequestType::AgentTermination)
-		{
-			break;
-		}
-		cndLock.lock();
-	}
-}
-
-void FileSystem::EnqueueRequest(AsyncFileRequest* request)
-{
-	// enqueues request
-	m_queueLock.lock();
-	m_requestQueue.push(*request);
-	m_queueLock.unlock();
-	// wakes queue agent if waiting
-	m_dequeueCnd.notify_one();
-}
-
-void FileSystem::PostRequest(AsyncFileRequest* request)
-{
-	// notify and post original thread
-	request->handle->handleLock.lock();
-	request->handle->requestServed = true;
-	request->handle->handleLock.unlock();
-	request->handle->waitCnd.notify_all();
-
-	// Calls callback function
-	if (request->callback != nullptr)
-	{
-		request->callback(request->handle);
+		break;
 	}
 }
 
