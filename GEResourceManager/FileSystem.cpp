@@ -15,7 +15,9 @@ AsyncFileRequestHandle FileSystem::AsyncOpenRequest(const char* path, const char
 		path,
 		mode,
 		0,
-		0
+		0,
+		0,
+		SeekOrigin::OriginNone
 	};
 	return EnqueueRequest(request, callback);
 }
@@ -30,7 +32,9 @@ AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFu
 		"",
 		"",
 		0,
-		0
+		0,
+		0,
+		SeekOrigin::OriginNone
 	};
 	return EnqueueRequest(request, callback);
 }
@@ -45,7 +49,9 @@ AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t element
 		"",
 		"",
 		elementSize,
-		elementCount
+		elementCount,
+		0,
+		SeekOrigin::OriginNone
 	};
 	return EnqueueRequest(request, callback);
 }
@@ -56,11 +62,30 @@ AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elemen
 	{
 		AsyncFileRequestType::AsyncWrite,
 		file,
+		buffer,
+		"",
+		"",
+		elementSize,
+		elementCount,
+		0,
+		SeekOrigin::OriginNone
+	};
+	return EnqueueRequest(request, callback);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncSeekRequest(FILEid file, long offset, SeekOrigin origin, FileCallbackFunction callback)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncSeek,
+		file,
 		nullptr,
 		"",
 		"",
 		0,
-		0
+		0,
+		offset,
+		origin
 	};
 	return EnqueueRequest(request, callback);
 }
@@ -99,14 +124,12 @@ void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileReq
 		break;
 	case AsyncFileRequestType::AsyncRead:
 		o_requestOUT->returnValue = Read(requestIN.buffer, requestIN.elementSize, requestIN.elementCount, requestIN.file);
-		if (o_requestOUT->returnValue < requestIN.elementCount)
-		{
-			o_requestOUT->error = true;
-		}
 		break;
 	case AsyncFileRequestType::AsyncWrite:
 		o_requestOUT->returnValue = Write(requestIN.buffer, requestIN.elementSize, requestIN.elementCount, requestIN.file);
-		if (o_requestOUT->returnValue < requestIN.elementCount)
+		break;
+	case AsyncFileRequestType::AsyncSeek:
+		if (Seek(requestIN.file, requestIN.offset, requestIN.origin) != 0)
 		{
 			o_requestOUT->error = true;
 		}
@@ -199,4 +222,25 @@ size_t CFileSystem::Write(const void* buffer, size_t elementSize, size_t element
 		return 0;
 	}
 	return fwrite(buffer, elementSize, elementCount, m_fileptrs[file]);
+}
+
+int CFileSystem::Seek(FILEid file, long offset, SeekOrigin origin)
+{
+	if (m_fileptrs.count(file) == 0)
+	{
+		return -1;
+	}
+	switch (origin)
+	{
+	case SeekOrigin::Start:
+		return fseek(m_fileptrs[file], offset, SEEK_SET);
+		break;
+	case SeekOrigin::Current:
+		return fseek(m_fileptrs[file], offset, SEEK_CUR);
+		break;
+	case SeekOrigin::End:
+		return fseek(m_fileptrs[file], offset, SEEK_END);
+		break;
+	}
+	return -1;
 }

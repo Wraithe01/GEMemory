@@ -5,6 +5,7 @@ template <class asyncOUT>
 struct AsyncRequestStatus
 {
 	bool requestServed = false;
+	bool callbackFinished = false;
 	std::mutex handleLock;
 	std::condition_variable waitCnd;
 
@@ -36,6 +37,9 @@ public:
 
 	void AsynchRequestWait(const AsyncRequestHandle<asyncOUT> request);
 	bool AsynchRequestCompleted(const AsyncRequestHandle<asyncOUT> request);
+	
+	void AsynchCallbackWait(const AsyncRequestHandle<asyncOUT> request);
+	bool AsynchCallbackCompleted(const AsyncRequestHandle<asyncOUT> request);
 
 protected:
 	AsyncRequestHandle<asyncOUT> EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback);
@@ -104,6 +108,20 @@ inline bool AsyncFunctionality<asyncIN, asyncOUT>::AsynchRequestCompleted(const 
 }
 
 template<class asyncIN, class asyncOUT>
+inline void AsyncFunctionality<asyncIN, asyncOUT>::AsynchCallbackWait(const AsyncRequestHandle<asyncOUT> request)
+{
+	std::unique_lock<std::mutex> cndLock(request->handleLock);
+	while (!request->callbackFinished) request->waitCnd.wait(cndLock);
+	cndLock.unlock();
+}
+
+template<class asyncIN, class asyncOUT>
+inline bool AsyncFunctionality<asyncIN, asyncOUT>::AsynchCallbackCompleted(const AsyncRequestHandle<asyncOUT> request)
+{
+	return request->callbackFinished;
+}
+
+template<class asyncIN, class asyncOUT>
 inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback)
 {
 	AsyncRequest<asyncIN, asyncOUT> request =
@@ -146,8 +164,10 @@ inline void AsyncFunctionality<asyncIN, asyncOUT>::RequestThread()
 		{
 			break;
 		}
+		
 		HandleRequest(request.inData, &request.handle->returnData);
-		// notify and post original thread
+		
+		// notify and post original thread of request result available
 		request.handle->handleLock.lock();
 		request.handle->requestServed = true;
 		request.handle->handleLock.unlock();
@@ -158,6 +178,13 @@ inline void AsyncFunctionality<asyncIN, asyncOUT>::RequestThread()
 		{
 			request.callback(request.handle);
 		}
+
+		// notify and post original thread of callback function completed execution
+		request.handle->handleLock.lock();
+		request.handle->callbackFinished = true;
+		request.handle->handleLock.unlock();
+		request.handle->waitCnd.notify_all();
+
 		cndLock.lock();
 	}
 }
