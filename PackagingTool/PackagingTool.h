@@ -16,5 +16,5 @@ public:
 
     static void generateGUID(GUID& guid);
 
-    static void createMappingFile(const std::vector<std::string>& assets, const std::string& mappingFilePath);
+    static void createHeaderFile(const std::vector<std::string>& assets, const std::string& headerFilePath);
 };

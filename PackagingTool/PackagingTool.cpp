@@ -4,8 +4,8 @@ void PackagingTool::generateGUID(GUID& guid) {
     CoCreateGuid(&guid); // Generates a guid
 }
 
-void PackagingTool::createMappingFile(const std::vector<std::string>& assets, const std::string& mappingFilePath) {
-    std::ofstream mappingFile(mappingFilePath);
+void PackagingTool::createHeaderFile(const std::vector<std::string>& assets, const std::string& headerFilePath) {
+    std::ofstream mappingFile(headerFilePath);
     if (mappingFile.is_open()) {
         for (const auto& asset : assets) {
             GUID guid;

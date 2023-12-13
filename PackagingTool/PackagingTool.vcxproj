@@ -24,6 +24,7 @@
     <ProjectGuid>{d63de9d1-c3dc-4c63-ae04-7f6813d6449f}</ProjectGuid>
     <RootNamespace>PackagingTool</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>GEPackagingTool</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

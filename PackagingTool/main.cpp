@@ -15,8 +15,14 @@ int main() {
 
     // Get paths
     std::filesystem::path folderName = std::filesystem::path(folderPath).filename();
-    std::string outputPath = "../Packages/" + folderName.string() + "_package.zip";
-    std::string headerPath = "../Packages/" + folderName.string() + "_header.txt";
+    std::string packageDirectory = "../Packages/";
+    std::string outputPath = packageDirectory + folderName.string() + "_package.zip";
+    std::string headerPath = packageDirectory + folderName.string() + "_header.txt";
+
+    // Create packages folder if it does not exist
+    if (!std::filesystem::exists(packageDirectory)) {
+        std::filesystem::create_directory(packageDirectory);
+    }
 
     // Add files to vector from the folder
     std::vector<std::string> assets;
@@ -29,14 +35,14 @@ int main() {
     // Create the ZIP package
     ZipPackagingTool zipPackager;
     zipPackager.createPackage(assets, outputPath);
-    zipPackager.createMappingFile(assets, headerPath);
+    zipPackager.createHeaderFile(assets, headerPath);
 
     // TODO
     // 
     // Create the TAR package
     // TarPackagingTool tarPackager;
     // tarPackager.createPackage(assets, outputPath);
-    // tarPackager.createMappingFile(assets, headerPath);
+    // tarPackager.createHeaderFile(assets, headerPath);
 
     return 0;
 }
