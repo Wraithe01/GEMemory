@@ -3,8 +3,8 @@
 
 void Callback(AsyncFileRequestHandle request)
 {
-    std::cout << "Request succeded: " << CFileSystem::Instance()->AsyncRequestSucceeded(request) << std::endl;
-    std::cout << "Bytes handled: " << CFileSystem::Instance()->AsyncGetBytesReadOrWritten(request) << std::endl;
+    std::cout << "Request succeded: " << FileRequestSucceded(request) << std::endl;
+    std::cout << "Bytes handled: " << FileRequestBytesReadOrWritten(request) << std::endl;
 }
 
 auto main(void) -> int
@@ -12,7 +12,7 @@ auto main(void) -> int
     char hello[] = "Hello World!";
     size_t total = 0;
     
-    FILEid file = CFileSystem::Instance()->Open("test.txt", "w");
+    FILEid file = FileOpen("test.txt", "w");
     if (file < 0)
     {
         std::cerr << "Error opening file for append\n";
@@ -21,7 +21,7 @@ auto main(void) -> int
 
     for (int i = 0; i < TESTWRITES; i++)
     {
-        total += CFileSystem::Instance()->Write(hello, 1, strlen(hello), file);
+        total += FileWrite(hello, 1, strlen(hello), file);
     }
     if (total < (strlen(hello) * TESTWRITES))
     {
@@ -29,7 +29,7 @@ auto main(void) -> int
         return 1;
     }
 
-    if (CFileSystem::Instance()->Close(file) != 0)
+    if (FileClose(file) != 0)
     {
         std::cerr << "Error closing file\n";
         return 1;
@@ -38,26 +38,26 @@ auto main(void) -> int
 
     char* readBuf = new char[strlen(hello) * TESTWRITES];
     
-    AsyncFileRequestHandle request = CFileSystem::Instance()->AsyncOpenRequest("test.txt", "r", Callback);
+    auto request = FileOpenAsync("test.txt", "r", Callback);
 
-    CFileSystem::Instance()->AsynchRequestWait(request);
-    if (!CFileSystem::Instance()->AsyncRequestSucceeded(request))
+    FileRequestWait(request);
+    if (!FileRequestSucceded(request))
     {
         std::cerr << "Error async open request failed\n";
         return 1;
     }
 
-    FILEid asyncFile = CFileSystem::Instance()->AsyncGetRequestFileID(request);
+    FILEid asyncFile = FileRequestGetFileID(request);
 
     std::cout << "Starting reading async\n";
-    request = CFileSystem::Instance()->AsyncReadRequest(readBuf, 1, strlen(hello) * TESTWRITES, asyncFile, Callback);
-    CFileSystem::Instance()->AsynchRequestWait(request);
-    if (!CFileSystem::Instance()->AsyncRequestSucceeded(request))
+    request = FileReadAsync(readBuf, 1, strlen(hello) * TESTWRITES, asyncFile, Callback);
+    FileRequestWait(request);
+    if (!FileRequestSucceded(request))
     {
         std::cerr << "Error async read request failed\n";
     }
 
-    total = CFileSystem::Instance()->AsyncGetBytesReadOrWritten(request);
+    total = FileRequestBytesReadOrWritten(request);
     if (total < (strlen(hello) * TESTWRITES))
     {
         std::cerr << "Error writing to file\n";
@@ -67,6 +67,15 @@ auto main(void) -> int
     std::cout << "everything works! Guaranteed 100%\n" << "Read: " << total << " bytes\n";
 
     printf("%.*s\n", 100, readBuf);
+
+    request = FileCloseAsync(asyncFile, Callback);
+
+    FileRequestCallbackWait(request);
+    if (!FileRequestSucceded(request))
+    {
+        std::cerr << "Error async close request failed\n";
+        return 1;
+    }
 
     delete[] readBuf;
 
