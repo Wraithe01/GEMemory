@@ -20,3 +20,5 @@
 
 #include "zlib.h"
 #define ZLIB_WINAPI
+#include "zip.h"
+#include "unzip.h"
