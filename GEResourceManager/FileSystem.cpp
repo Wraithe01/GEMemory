@@ -5,7 +5,7 @@ FileSystem::FileSystem(uint32_t asyncAgentThreads) :
 {
 }
 
-AsyncFileRequestHandle FileSystem::AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback)
+AsyncFileRequestHandle FileSystem::AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request = 
 	{
@@ -19,10 +19,10 @@ AsyncFileRequestHandle FileSystem::AsyncOpenRequest(const char* path, const char
 		0,
 		SeekOrigin::OriginNone
 	};
-	return EnqueueRequest(request, callback);
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFunction callback)
+AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -36,10 +36,10 @@ AsyncFileRequestHandle FileSystem::AsyncCloseRequest(FILEid file, FileCallbackFu
 		0,
 		SeekOrigin::OriginNone
 	};
-	return EnqueueRequest(request, callback);
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback)
+AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -53,10 +53,10 @@ AsyncFileRequestHandle FileSystem::AsyncReadRequest(void* buffer, size_t element
 		0,
 		SeekOrigin::OriginNone
 	};
-	return EnqueueRequest(request, callback);
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback)
+AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -70,10 +70,10 @@ AsyncFileRequestHandle FileSystem::AsyncWriteRequest(void* buffer, size_t elemen
 		0,
 		SeekOrigin::OriginNone
 	};
-	return EnqueueRequest(request, callback);
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncSeekRequest(FILEid file, long offset, SeekOrigin origin, FileCallbackFunction callback)
+AsyncFileRequestHandle FileSystem::AsyncSeekRequest(FILEid file, long offset, SeekOrigin origin, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -87,7 +87,7 @@ AsyncFileRequestHandle FileSystem::AsyncSeekRequest(FILEid file, long offset, Se
 		offset,
 		origin
 	};
-	return EnqueueRequest(request, callback);
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
 bool FileSystem::AsyncRequestSucceeded(const AsyncFileRequestHandle request)

@@ -17,23 +17,23 @@
 // Async file open. Call with same input as fopen.
 // Pass optional callback function or nullptr.
 // A handle for the request is returned that can be waited for.
-#define FileOpenAsync(path, mode, callback) CFileSystem::Instance()->AsyncOpenRequest(path, mode, callback)
+#define FileOpenAsync(path, mode, callback, callbackInput) CFileSystem::Instance()->AsyncOpenRequest(path, mode, callback, callbackInput)
 // Async file close. Call with same input as fclose.
 // Pass optional callback function or nullptr.
 // A handle for the request is returned that can be waited for.
-#define FileCloseAsync(FILEid, callback) CFileSystem::Instance()->AsyncCloseRequest(FILEid, callback)
+#define FileCloseAsync(FILEid, callback, callbackInput) CFileSystem::Instance()->AsyncCloseRequest(FILEid, callback, callbackInput)
 // Async file reading. Call with same input as fread.
 // Pass optional callback function or nullptr.
 // A handle for the request is returned that can be waited for.
-#define FileReadAsync(buffer, elementSize, elementCount, file, callback) CFileSystem::Instance()->AsyncReadRequest(buffer, elementSize, elementCount, file, callback)
+#define FileReadAsync(buffer, elementSize, elementCount, file, callback, callbackInput) CFileSystem::Instance()->AsyncReadRequest(buffer, elementSize, elementCount, file, callback, callbackInput)
 // Async file writing. Call with same input as fwrite.
 // Pass optional callback function or nullptr.
 // A handle for the request is returned that can be waited for.
-#define FileWriteAsync(buffer, elementSize, elementCount, file, callback) CFileSystem::Instance()->AsyncWriteRequest(buffer, elementSize, elementCount, file, callback)
+#define FileWriteAsync(buffer, elementSize, elementCount, file, callback, callbackInput) CFileSystem::Instance()->AsyncWriteRequest(buffer, elementSize, elementCount, file, callback, callbackInput)
 // Async file seek. Call with same input as fseek.
 // Pass optional callback function or nullptr.
 // A handle for the request is returned that can be waited for.
-#define FileSeekAsync(file, offset, origin) CFileSystem::Instance()->AsyncSeekRequest(file, offset, origin)
+#define FileSeekAsync(file, offset, origin, callback, callbackInput) CFileSystem::Instance()->AsyncSeekRequest(file, offset, origin, callback, callbackInput)
 
 // Blocks until request has been completed
 #define FileRequestWait(request) CFileSystem::Instance()->AsynchRequestWait(request)
@@ -61,7 +61,7 @@ struct AsyncFileRequestOUT
 
 typedef AsyncRequestHandle<AsyncFileRequestOUT> AsyncFileRequestHandle;
 
-typedef void (*FileCallbackFunction)(AsyncFileRequestHandle request);
+typedef void (*FileCallbackFunction)(AsyncFileRequestHandle request, void* callbackInput);
 
 enum AsyncFileRequestType
 {
@@ -110,15 +110,15 @@ public:
 
 	virtual int Seek(FILEid file, long offset, SeekOrigin origin) = 0;
 	
-	AsyncFileRequestHandle AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback);
+	AsyncFileRequestHandle AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncCloseRequest(FILEid file, FileCallbackFunction callback);
+	AsyncFileRequestHandle AsyncCloseRequest(FILEid file, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback);
+	AsyncFileRequestHandle AsyncReadRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, void* callbackInput);
 	
-	AsyncFileRequestHandle AsyncWriteRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback);
+	AsyncFileRequestHandle AsyncWriteRequest(void* buffer, size_t elementSize, size_t elementCount, FILEid file, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncSeekRequest(FILEid file, long offset, SeekOrigin origin, FileCallbackFunction callback);
+	AsyncFileRequestHandle AsyncSeekRequest(FILEid file, long offset, SeekOrigin origin, FileCallbackFunction callback, void* callbackInput);
 
 	bool AsyncRequestSucceeded(const AsyncFileRequestHandle request);
 
