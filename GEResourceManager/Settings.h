@@ -1,4 +1,2 @@
 #pragma once
 #define FILESYSTEM_ASYNCTHREADS 4
-
-#define TESTWRITES 100000000

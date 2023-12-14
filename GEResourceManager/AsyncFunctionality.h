@@ -16,13 +16,14 @@ template <class asyncOUT>
 using AsyncRequestHandle = std::shared_ptr<AsyncRequestStatus<asyncOUT>>;
 
 template <class asyncOUT>
-using AsyncCallback = void(*)(AsyncRequestHandle<asyncOUT>);
+using AsyncCallback = void(*)(AsyncRequestHandle<asyncOUT>, void*);
 
 template <class asyncIN, class asyncOUT>
 struct AsyncRequest
 {
 	bool terminateThread = false;
 	AsyncCallback<asyncOUT> callback = nullptr;
+	void* callbackInput = nullptr;
 	asyncIN inData;
 	AsyncRequestHandle<asyncOUT> handle = nullptr;
 };
@@ -42,7 +43,7 @@ public:
 	bool AsynchCallbackCompleted(const AsyncRequestHandle<asyncOUT> request);
 
 protected:
-	AsyncRequestHandle<asyncOUT> EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback);
+	AsyncRequestHandle<asyncOUT> EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback, void* callbackInput);
 
 	asyncOUT* ReturnDataFromHandle(AsyncRequestHandle<asyncOUT> request);
 
@@ -122,12 +123,13 @@ inline bool AsyncFunctionality<asyncIN, asyncOUT>::AsynchCallbackCompleted(const
 }
 
 template<class asyncIN, class asyncOUT>
-inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback)
+inline AsyncRequestHandle<asyncOUT> AsyncFunctionality<asyncIN, asyncOUT>::EnqueueRequest(const asyncIN& inData, AsyncCallback<asyncOUT> callback, void* callbackInput)
 {
 	AsyncRequest<asyncIN, asyncOUT> request =
 	{
 		false,
 		callback,
+		callbackInput,
 		inData,
 		AsyncRequestHandle<asyncOUT>(new AsyncRequestStatus<asyncOUT>)
 	};
@@ -176,7 +178,7 @@ inline void AsyncFunctionality<asyncIN, asyncOUT>::RequestThread()
 		// Calls callback function
 		if (request.callback != nullptr)
 		{
-			request.callback(request.handle);
+			request.callback(request.handle, request.callbackInput);
 		}
 
 		// notify and post original thread of callback function completed execution
