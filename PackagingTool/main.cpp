@@ -17,7 +17,7 @@ int main() {
     std::filesystem::path folderName = std::filesystem::path(folderPath).filename();
     std::string packageDirectory = "../Packages/";
     std::string outputPath = packageDirectory + folderName.string() + "_package.zip";
-    std::string headerPath = packageDirectory + folderName.string() + "_header.txt";
+    std::string headerPath = packageDirectory + "header.json";
 
     // Create packages folder if it does not exist
     if (!std::filesystem::exists(packageDirectory)) {
@@ -35,7 +35,7 @@ int main() {
     // Create the ZIP package
     ZipPackagingTool zipPackager;
     zipPackager.createPackage(assets, outputPath);
-    zipPackager.createHeaderFile(assets, headerPath);
+    zipPackager.createHeaderFile(assets, headerPath, outputPath);
 
     // TODO
     // 

@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <filesystem>
 
 #include "guiddef.h"
@@ -16,5 +17,6 @@ public:
 
     static void generateGUID(GUID& guid);
 
-    static void createHeaderFile(const std::vector<std::string>& assets, const std::string& headerFilePath);
+    static void createHeaderFile(const std::vector<std::string>& assets, const std::string& headerFilePath,
+        const std::string& packageName);
 };

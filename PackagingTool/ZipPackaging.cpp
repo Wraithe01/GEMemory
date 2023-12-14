@@ -29,7 +29,7 @@ void ZipPackagingTool::createPackage(const std::vector<std::string>& assets, con
         if (inputFile.read(buffer.data(), size)) {
             // Extract filename
             size_t lastPathSeparator = asset.find_last_of("/\\");
-            std::string filename = (lastPathSeparator != std::string::npos) ? asset.substr(lastPathSeparator + 1) : asset;
+            std::string filename = asset.substr(lastPathSeparator + 1);
 
             // Add the asset to the zip
             zip_fileinfo fileInfo{};
