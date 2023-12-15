@@ -69,10 +69,13 @@ void ResourceManager::LoadHeader()
     {
         const std::string& guid     = entry.key();
         const std::string& filename = entry.value()["filename"];
-        const std::string& package  = entry.value()["package"];
+        const std::string& package = entry.value()["package"];
+        const uLong offset = entry.value()["filepos"];
+        const uLong fileNumber = entry.value()["filenumber"];
+        const unz_file_pos_s filePos{ offset, fileNumber };
 
-        HeaderEntry entryData{ filename, package };
-        m_headerMap[guid] = entryData;
+        HeaderEntry entryData{ filename, package, filePos };
+        headerMap[guid] = entryData;
     }
 }
 std::string ResourceManager::GetPackage(const std::string& guid)
