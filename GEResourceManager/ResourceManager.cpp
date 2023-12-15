@@ -47,6 +47,7 @@ void ResourceManager::LoadScene(const Scene& scene)
         packages[GetPackage(guid)].insert(guid);
     }
 
+    // TODO: Make async
     packageHandle phandle = {};
     for (const auto& [key, value] : packages)
     {
