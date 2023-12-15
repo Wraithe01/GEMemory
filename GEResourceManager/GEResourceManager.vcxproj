@@ -135,13 +135,11 @@
   <ItemGroup>
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsyncFunctionality.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="Includes.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
