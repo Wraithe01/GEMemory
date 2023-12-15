@@ -208,7 +208,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(void* buffer, 
 		bytes,
 		0,
 		SeekOrigin::OriginNone,
-		package,
+		package
 	};
 	return EnqueueRequest(request, callback, callbackInput);
 }
@@ -216,6 +216,15 @@ AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(void* buffer, 
 PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request, FileCallbackFunction callback, void* callbackInput)
 {
 	return ReturnDataFromHandle(request)->package;
+}
+
+AsyncFileRequestHandle FileSystem::AsyncCustomFileRequest(FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncGeneralWork
+	};
+	return EnqueueRequest(request, callback, callbackInput);
 }
 
 void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileRequestOUT* o_requestOUT)
@@ -290,6 +299,8 @@ void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileReq
 			o_requestOUT->returnValue = temp;
 		}
 		break;
+	case AsyncFileRequestType::AsyncGeneralWork:
+		break;
 	}
 }
 
@@ -348,6 +359,11 @@ FILEid CFileSystem::Open(const char* path, const char* mode)
 	return -1;
 }
 
+bool CFileSystem::WasOpened(FILEid file)
+{
+	return file >= 0;
+}
+
 int CFileSystem::Close(FILEid file)
 {
 	m_mapLock.lock();
@@ -404,6 +420,11 @@ int CFileSystem::Seek(FILEid file, long offset, SeekOrigin origin)
 PAKid FileSystem::PakOpen(const char* path)
 {
 	return {0, unzOpen(path)};
+}
+
+bool FileSystem::WasOpened(PAKid package)
+{
+	return package.handle != nullptr;
 }
 
 int FileSystem::PakClose(PAKid package)
