@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <vector>
 #include <ctype.h>
+#include <unordered_map>
+#include <string>
 
 #include "zlib.h"
 #define ZLIB_WINAPI
