@@ -49,11 +49,27 @@ void PackagingTool::createHeaderFile(const std::vector<std::string>& assets, con
                 << static_cast<short>(guid.Data4[6])
                 << static_cast<short>(guid.Data4[7]);
 
-                // Add items to json
-                nlohmann::json item;
-                item["package"] = packageName;
-                item["filename"] = filename;
-                json[guidStream.str()] = item;
+            // Add items to json
+            nlohmann::json item;
+            item["package"] = packageName;
+            item["filename"] = filename;
+
+            // Get filePos struct and add to json
+            unzFile zipFile = unzOpen(packageName.c_str());
+            if (zipFile != nullptr) {
+                if (unzLocateFile(zipFile, filename.c_str(), 1) != UNZ_OK) {
+                    unzClose(zipFile);
+                }
+                
+                unz_file_pos filePos;
+                if (unzGetFilePos(zipFile, &filePos) == UNZ_OK) {
+                    item["offset"] = filePos.pos_in_zip_directory;
+                    item["filenumber"] = filePos.num_of_file;
+                }
+            
+                unzClose(zipFile);
+            }
+            json[guidStream.str()] = item;
         }
     }
 
