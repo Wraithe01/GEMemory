@@ -20,6 +20,19 @@ ResourceManager* ResourceManager::GetInstance()
     return m_instance;
 }
 
+
+void ResourceManager::UnloadScene(const Scene& scene)
+{
+    for (auto& guid : scene.GetChunk())
+    {
+        if (m_loadedData.find(guid) != m_loadedData.end())
+        {
+            int32_t counter = --(*m_loadedData[guid].get());
+            if (counter <= 0)
+                m_loadedData.erase(guid);
+        }
+    }
+}
 void ResourceManager::LoadScene(const Scene& scene)
 {
     std::map<std::string, std::set<std::string>> packages;
@@ -28,47 +41,79 @@ void ResourceManager::LoadScene(const Scene& scene)
         const auto& it = m_loadedData.find(guid);
         if (it != m_loadedData.end())
         {
-            ++m_loadedData[guid];
+            ++(*m_loadedData[guid].get());
             continue;
         }
         packages[GetPackage(guid)].insert(guid);
     }
 
+    packageHandle phandle = {};
     for (const auto& [key, value] : packages)
     {
+        if (value.empty())
+            continue;
+
+        phandle = PackageOpen(key.c_str());
+        // TODO: Check if package is open
         for (auto& guid : value)
         {
-            ParseResource(guid, key);
+            ParseResource(guid, phandle);
         }
+        PackageClose(phandle);
     }
 }
-void ResourceManager::ParseResource(const std::string& guid, const std::string& package)
+void ResourceManager::ParseResource(const std::string& guid, const packageHandle& packid)
 {
     // Get the type of file
 
     // TODO: ADD TO OFFLINE TOOL
-    // std::string fext;
-    // std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
+    std::string fext = m_headerMap[guid].filename;
+    fext             = fext.substr(fext.find_last_of(".") + 1);
+    std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
 
     // Read to buffer
+    int32_t  fsize  = 0;
+    uint8_t* buffer = nullptr;
+    do
+    {
+        if (PackageSeekFile(packid, m_headerMap[guid].filePos) != UNZ_OK)
+            break;
+        fsize  = PackageCurrentFileInfo(packid).fileSize;
+        buffer = static_cast<uint8_t*>(std::malloc(fsize * sizeof(uint8_t)));
+        if (PackageCurrentFileOpen(packid) != UNZ_OK)
+            break;
 
+        if (PackageCurrentFileRead(buffer, fsize, packid) != fsize)
+            break;
+        PackageCurrentFileClose(packid);
 
-    // Resource* res = nullptr;
-    // switch (g_acceptedTypes[fext])
-    //{
-    //     case ResourceFBX:
-    //         dynamic_cast<Mesh*>(res)->LoadResource();
-    //         m_loadedData[guid] = res;
-    //         break;
+        std::shared_ptr<Resource> res;
+        switch (g_acceptedTypes[fext])
+        {
+            case ResourceFBX:
+                res = std::make_shared<Mesh>();
+                res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+                m_loadedData[guid] = res;
+                break;
 
-    //    case ResourceJPG:
-    //    case ResourcePNG:
-    //        dynamic_cast<Mesh*>(res)->LoadResource();
-    //        m_loadedData[guid] = res;
-    //        break;
-    //}
-    // m_loadedData[guid]->InitRefcount();
+            case ResourceJPG:
+                [[fallthrough]];
+            case ResourcePNG:
+                res = std::make_shared<Texture>();
+                res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+                m_loadedData[guid] = res;
+                break;
+
+            default:
+                std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
+                break;
+        }
+        m_loadedData[guid]->InitRefcount();
+    } while (0);
+    if (buffer != nullptr)
+        std::free(buffer);
 }
+
 
 void ResourceManager::LoadHeader()
 {

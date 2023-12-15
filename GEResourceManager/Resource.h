@@ -22,14 +22,14 @@ void InitResourceMap() {
 class Resource
 {
 public: // Methods
-    Resource() = default;
+    Resource();
     ~Resource() = default;
 
     virtual bool LoadResource(const void* buffer, int32_t buffSize) = 0;
     virtual void UnloadResource()                 = 0;
 
     // Reference counter functionality
-
+    virtual void SetGUID(const std::string& guid);
     virtual void InitRefcount();
 
     virtual uint32_t Decrement();
@@ -41,11 +41,12 @@ public: // Methods
     virtual uint32_t  operator++(int); // Post
 
     virtual uint32_t GetRefcount() const;
+    virtual const std::string& GetGUID() const;
 
 private:
 
 protected: // Variables
-    uint32_t m_GUID;
+    std::string m_GUID;
     uint32_t m_refc;
 };
 
@@ -53,7 +54,7 @@ protected: // Variables
 class Mesh sealed : public Resource
 {
 public: // Methods
-    Mesh() = default;
+    Mesh();
     ~Mesh() = default;
 
     virtual bool LoadResource(const void* buffer, int32_t buffSize) override;
@@ -67,7 +68,7 @@ private: // Variables
 class Texture sealed : public Resource
 {
 public:  // Methods
-    Texture() = default;
+    Texture();
     ~Texture() = default;
 
     virtual bool LoadResource(const void* buffer, int32_t buffSize) override;

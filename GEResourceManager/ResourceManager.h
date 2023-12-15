@@ -11,8 +11,8 @@
 
 struct HeaderEntry
 {
-    std::string filename;
-    std::string package;
+    std::string    filename;
+    std::string    package;
     unz_file_pos_s filePos;
 };
 
@@ -24,7 +24,7 @@ private:
     void LoadHeader();
 
     std::string GetPackage(const std::string& guid);
-    void        ParseResource(const std::string& guid, const std::string& package);
+    void        ParseResource(const std::string& guid, const packageHandle& packid);
 
 
 public:
@@ -39,6 +39,6 @@ public:
 private:
     static ResourceManager* m_instance;
 
-    std::unordered_map<std::string, HeaderEntry> m_headerMap;
-    std::unordered_map<std::string, Resource*>   m_loadedData;
+    std::unordered_map<std::string, HeaderEntry>               m_headerMap;
+    std::unordered_map<std::string, std::shared_ptr<Resource>> m_loadedData;
 };

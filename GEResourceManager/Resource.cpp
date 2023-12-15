@@ -2,6 +2,12 @@
 #include "Resource.h"
 #include "stb_image.h"
 
+Resource::Resource()
+: m_refc(0)
+{
+}
+
+void Resource::SetGUID(const std::string& guid) { m_GUID = guid; }
 void Resource::InitRefcount() { m_refc = 1; }
 
 uint32_t  Resource::Decrement() { return --m_refc; }
@@ -14,6 +20,13 @@ uint32_t  Resource::operator++(int) { return m_refc++; }
 
 uint32_t Resource::GetRefcount() const { return m_refc; }
 
+const std::string& Resource::GetGUID() const { return m_GUID; }
+
+
+Mesh::Mesh()
+: m_data(nullptr)
+{
+}
 
 bool Mesh::LoadResource(const void* buffer, int32_t buffSize)
 {
@@ -32,6 +45,12 @@ void Mesh::UnloadResource()
     m_data = nullptr;
 }
 
+
+Texture::Texture()
+: m_img(nullptr)
+{
+    m_dim = {};
+}
 
 bool Texture::LoadResource(const void* buffer, int32_t buffSize)
 {
