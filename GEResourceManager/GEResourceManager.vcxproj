@@ -140,14 +140,18 @@
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="FileSystemExample.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ufbx.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsyncFunctionality.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemExample.h" />
     <ClInclude Include="Includes.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="ufbx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

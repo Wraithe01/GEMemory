@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="External Tools">
+      <UniqueIdentifier>{01282ea9-1f60-4160-be04-53089a55d766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Tools\ufbx">
+      <UniqueIdentifier>{f2a47896-c906-4b9e-ac66-7d38fee69ca0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="FileSystemExample.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ufbx.c">
+      <Filter>External Tools\ufbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="FileSystemExample.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ufbx.h">
+      <Filter>External Tools\ufbx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
