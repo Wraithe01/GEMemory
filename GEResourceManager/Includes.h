@@ -1,6 +1,6 @@
 #pragma once
 // Resource manager includes
-// 
+//
 // This is a file which includes all of the essentials.
 // If you find youself needing a include in more than one file, include it here instead of including
 // it twice. For simplicity.
@@ -17,6 +17,7 @@
 #include <memory>
 #include <stdio.h>
 #include <vector>
+#include <ctype.h>
 
 #include "zlib.h"
 #define ZLIB_WINAPI
