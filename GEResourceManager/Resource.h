@@ -29,7 +29,7 @@ protected: // Variables
 };
 
 
-class Mesh : public Resource
+class Mesh sealed : public Resource
 {
 public: // Methods
     Mesh() = default;
@@ -43,7 +43,7 @@ private: // Variables
     ufbx_scene* m_data;
 };
 
-class Texture : public Resource
+class Texture sealed : public Resource
 {
 public:  // Methods
     Texture() = default;
