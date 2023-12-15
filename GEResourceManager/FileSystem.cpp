@@ -105,7 +105,7 @@ FILEid FileSystem::AsyncGetRequestFileID(const AsyncFileRequestHandle request)
 	return ReturnDataFromHandle(request)->file;
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakOpen(const char* path, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakOpenRequest(const char* path, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -122,7 +122,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakOpen(const char* path, FileCallbackFu
 	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakClose(PAKid package, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakCloseRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -140,7 +140,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakClose(PAKid package, FileCallbackFunc
 	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakSeekFile(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakSeekFileRequest(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -159,7 +159,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakSeekFile(PAKid package, FilePos posit
 	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakOpenCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakOpenCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -177,7 +177,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakOpenCurrentFile(PAKid package, FileCa
 	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakCloseCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakCloseCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{
@@ -195,7 +195,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakCloseCurrentFile(PAKid package, FileC
 	return EnqueueRequest(request, callback, callbackInput);
 }
 
-AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput)
+AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput)
 {
 	AsyncFileRequestIN request =
 	{

@@ -50,6 +50,55 @@
 // Returns fileID from FileOpen request
 #define FileRequestGetFileID(request) CFileSystem::Instance()->AsyncGetRequestFileID(request)
 
+// Opens package file from path
+// Always close package
+#define PackageOpen(path) CFileSystem::Instance()->PakOpen(path)
+// Closes package file
+// Always close package
+#define PackageClose(package) CFileSystem::Instance()->PakClose(package)
+// Sets the package current file to that of filepos
+#define PackageSeekFile(package, filePos) CFileSystem::Instance()->PakSeekFile(package, filePos)
+// Retrieves struct with information about the current file:
+// -fileSize : the uncompressed size of the file
+#define PackageCurrentFileInfo(package) CFileSystem::Instance()->PakGetCurrentFileInfo(package)
+// Readies package to read current file
+// always close file before moving to next
+#define PackageCurrentFileOpen(package) CFileSystem::Instance()->PakOpenCurrentFile(package)
+// Closes package current file
+// always close file before moving to next
+#define PackageCurrentFileClose(package) CFileSystem::Instance()->PakCloseCurrentFile(package)
+// Reads bytes into buffer from current package file
+// returns 0 when it has reached end of file, < 0 if had error or number of bytes read
+#define PackageCurrentFileRead(buffer, bytes, package) CFileSystem::Instance()->PakCurrentFileRead(buffer, bytes, package)
+
+// Async package open
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageOpenAsync(path, callback, callbackInput) CFileSystem::Instance()->AsyncPakOpenRequest(path, callback, callbackInput)
+// Async package close
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageCloseAsync(package, callback, callbackInput) CFileSystem::Instance()->AsyncPakCloseRequest(package, callback, callbackInput)
+// Async package file seek
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageSeekFileAsync(package, filePos, callback, callbackInput) CFileSystem::Instance()->AsyncPakSeekFileRequest(package, filePos, callback, callbackInput)
+// Async package file open
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageCurrentFileOpenAsync(package, callback, callbackInput) CFileSystem::Instance()->AsyncPakOpenCurrentFileRequest(package, callback, callbackInput)
+// Async package file close
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageCurrentFileCloseAsync(package, callback, callbackInput) CFileSystem::Instance()->AsyncPakCloseCurrentFileRequest(package, callback, callbackInput)
+// Async package file read
+// Pass optional callback function or nullptr
+// A handle for the request is returned that can be waited for
+#define PackageCurrentFileReadAsync(buffer, bytes, package, callback, callbackInput) CFileSystem::Instance()->AsyncPakCurrentFileReadRequest(buffer, bytes, package, callback, callbackInput)
+
+// Returns package handle from PackageOpen request
+#define PackageRequestGetPackageID(request) CFileSystem::Instance()->AsyncGetRequestPakID(request)
+
 typedef int FILEid;
 
 struct packageHandle
@@ -165,17 +214,17 @@ public:
 
 	FILEid AsyncGetRequestFileID(const AsyncFileRequestHandle request);
 
-	AsyncFileRequestHandle AsyncPakOpen(const char* path, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakOpenRequest(const char* path, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncPakClose(PAKid package, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakCloseRequest(PAKid package, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncPakSeekFile(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakSeekFileRequest(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncPakOpenCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakOpenCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncPakCloseCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakCloseCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput);
 
-	AsyncFileRequestHandle AsyncPakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput);
+	AsyncFileRequestHandle AsyncPakCurrentFileReadRequest(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput);
 
 	PAKid AsyncGetRequestPakID(const AsyncFileRequestHandle request, FileCallbackFunction callback, void* callbackInput);
 
