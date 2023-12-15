@@ -1,5 +1,22 @@
 #pragma once
 #include "Includes.h"
+#include "ufbx.h"
+
+enum AcceptedResourceTypes : uint32_t
+{
+    ResourceFBX = 0,
+    ResourceJPG,
+    ResourcePNG,
+
+    // Keep last
+    ResourceCount
+};
+std::unordered_map<std::string, AcceptedResourceTypes> g_acceptedTypes;
+void InitResourceMap() {
+    g_acceptedTypes["JPG"] = ResourceJPG;
+    g_acceptedTypes["PNG"] = ResourcePNG;
+    g_acceptedTypes["FBX"] = ResourceFBX;
+}
 
 
 class Resource
@@ -8,8 +25,8 @@ public: // Methods
     Resource() = default;
     ~Resource() = default;
 
-    virtual bool LoadResource(const std::string& filepath) = 0;
-    virtual void UnloadResource()                   = 0;
+    virtual bool LoadResource(const void* buffer, int32_t buffSize) = 0;
+    virtual void UnloadResource()                 = 0;
 
     // Reference counter functionality
 
@@ -39,7 +56,7 @@ public: // Methods
     Mesh() = default;
     ~Mesh() = default;
 
-    virtual bool LoadResource(const std::string& filepath) override;
+    virtual bool LoadResource(const void* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;
 
 private:
@@ -53,7 +70,7 @@ public:  // Methods
     Texture() = default;
     ~Texture() = default;
 
-    virtual bool LoadResource(const std::string& filepath) override;
+    virtual bool LoadResource(const void* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;
 
 private:
