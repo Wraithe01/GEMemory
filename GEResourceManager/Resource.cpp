@@ -3,6 +3,8 @@
 #include "ufbx.h"
 #include "stb_image.h"
 
+void Resource::InitRefcount() { m_refc = 1; }
+
 uint32_t  Resource::Decrement() { return --m_refc; }
 uint32_t& Resource::operator--() { return --m_refc; }
 uint32_t  Resource::operator--(int) { return m_refc--; }
@@ -10,6 +12,8 @@ uint32_t  Resource::operator--(int) { return m_refc--; }
 uint32_t  Resource::Increment() { return ++m_refc; }
 uint32_t& Resource::operator++() { return ++m_refc; }
 uint32_t  Resource::operator++(int) { return m_refc++; }
+
+uint32_t Resource::GetRefcount() const { return m_refc; }
 
 
 bool Mesh::LoadResource(const std::string& filepath)
@@ -24,7 +28,11 @@ bool Mesh::LoadResource(const std::string& filepath)
     }
     return true;
 }
-void Mesh::UnloadResource() { ufbx_free_scene(m_data); }
+void Mesh::UnloadResource()
+{
+    ufbx_free_scene(m_data);
+    m_data = nullptr;
+}
 
 
 bool Texture::LoadResource(const std::string& filepath)
@@ -38,4 +46,8 @@ bool Texture::LoadResource(const std::string& filepath)
     }
     return true;
 }
-void Texture::UnloadResource() { delete m_img; }
+void Texture::UnloadResource()
+{
+    delete m_img;
+    m_img = nullptr;
+}

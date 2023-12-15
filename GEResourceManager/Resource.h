@@ -13,6 +13,8 @@ public: // Methods
 
     // Reference counter functionality
 
+    virtual void InitRefcount();
+
     virtual uint32_t Decrement();
     virtual uint32_t& operator--(); // Pre
     virtual uint32_t  operator--(int); // Post
@@ -20,6 +22,8 @@ public: // Methods
     virtual uint32_t Increment();
     virtual uint32_t& operator++(); // Pre
     virtual uint32_t  operator++(int); // Post
+
+    virtual uint32_t GetRefcount() const;
 
 private:
 
