@@ -52,11 +52,27 @@
 
 typedef int FILEid;
 
+struct packageHandle
+{
+	uint8_t format = -1; // 0 for zip
+	void* handle = nullptr;
+};
+
+typedef packageHandle PAKid;
+
+typedef unz_file_pos FilePos;
+
+struct PakFileInfo
+{
+	size_t fileSize;
+};
+
 struct AsyncFileRequestOUT
 {
 	bool error = false;
 	size_t returnValue = -1;
 	FILEid file = 0;
+	PAKid package;
 };
 
 typedef AsyncRequestHandle<AsyncFileRequestOUT> AsyncFileRequestHandle;
@@ -70,7 +86,13 @@ enum AsyncFileRequestType
 	AsyncClose,
 	AsyncRead,
 	AsyncWrite,
-	AsyncSeek
+	AsyncSeek,
+	AsyncPakOpen,
+	AsyncPakClose,
+	AsyncPakSeek,
+	AsyncPakFileOpen,
+	AsyncPakFileClose,
+	AsyncPakFileRead
 };
 
 enum SeekOrigin
@@ -84,7 +106,7 @@ enum SeekOrigin
 struct AsyncFileRequestIN
 {
 	AsyncFileRequestType type = AsyncFileRequestType::None;
-	FILEid file;
+	FILEid file = 0;
 	void* buffer = nullptr;
 	const char* path = "";
 	const char* mode = "";
@@ -92,6 +114,8 @@ struct AsyncFileRequestIN
 	size_t elementCount = 0;
 	long offset = 0;
 	SeekOrigin origin = SeekOrigin::OriginNone;
+	PAKid package;
+	FilePos filePos;
 };
 
 class FileSystem : public AsyncFunctionality<AsyncFileRequestIN, AsyncFileRequestOUT>
@@ -109,6 +133,21 @@ public:
 	virtual size_t Write(const void* buffer, size_t elementSize, size_t elementCount, FILEid file) = 0;
 
 	virtual int Seek(FILEid file, long offset, SeekOrigin origin) = 0;
+
+	PAKid PakOpen(const char* path);
+
+	int PakClose(PAKid package);
+
+	int PakSeekFile(PAKid package, FilePos position);
+
+	PakFileInfo PakGetCurrentFileInfo(PAKid package);
+
+	int PakOpenCurrentFile(PAKid package);
+
+	int PakCloseCurrentFile(PAKid package);
+
+	int PakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package);
+	
 	
 	AsyncFileRequestHandle AsyncOpenRequest(const char* path, const char* mode, FileCallbackFunction callback, void* callbackInput);
 
@@ -125,6 +164,20 @@ public:
 	size_t AsyncGetBytesReadOrWritten(const AsyncFileRequestHandle request);
 
 	FILEid AsyncGetRequestFileID(const AsyncFileRequestHandle request);
+
+	AsyncFileRequestHandle AsyncPakOpen(const char* path, FileCallbackFunction callback, void* callbackInput);
+
+	AsyncFileRequestHandle AsyncPakClose(PAKid package, FileCallbackFunction callback, void* callbackInput);
+
+	AsyncFileRequestHandle AsyncPakSeekFile(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput);
+
+	AsyncFileRequestHandle AsyncPakOpenCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput);
+
+	AsyncFileRequestHandle AsyncPakCloseCurrentFile(PAKid package, FileCallbackFunction callback, void* callbackInput);
+
+	AsyncFileRequestHandle AsyncPakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput);
+
+	PAKid AsyncGetRequestPakID(const AsyncFileRequestHandle request, FileCallbackFunction callback, void* callbackInput);
 
 protected:
 	virtual void HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileRequestOUT* o_requestOUT) override;
