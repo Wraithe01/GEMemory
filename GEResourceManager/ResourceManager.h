@@ -8,18 +8,28 @@
 #include "FileSystem.h"
 #include "guiddef.h"
 
-struct HeaderEntry {
+struct HeaderEntry
+{
     std::string filename;
     std::string package;
 };
 
-class ResourceManager
+class ResourceManager sealed
 {
 private:
-	std::unordered_map<std::string, HeaderEntry> headerMap;
+    ResourceManager();
 
-public:
     void LoadHeader();
 
     std::string GetPackage(const std::string& guid);
+
+public:
+    ~ResourceManager();
+    ResourceManager(const ResourceManager& obj) = delete;
+    static ResourceManager* GetInstance();
+
+private:
+    static ResourceManager* m_instance;
+
+    std::unordered_map<std::string, HeaderEntry> m_headerMap;
 };
