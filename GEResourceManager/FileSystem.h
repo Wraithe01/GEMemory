@@ -218,7 +218,7 @@ public:
 	AsyncFileRequestHandle AsyncPakCloseCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput);
 	AsyncFileRequestHandle AsyncPakCurrentFileReadRequest(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput);
 
-	PAKid AsyncGetRequestPakID(const AsyncFileRequestHandle request, FileCallbackFunction callback, void* callbackInput);
+	PAKid AsyncGetRequestPakID(const AsyncFileRequestHandle request);
 
 	AsyncFileRequestHandle AsyncCustomFileRequest(FileCallbackFunction callback, void* callbackInput);
 

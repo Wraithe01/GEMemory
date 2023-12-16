@@ -181,9 +181,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(
     return EnqueueRequest(request, callback, callbackInput);
 }
 
-PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request,
-                                       FileCallbackFunction         callback,
-                                       void*                        callbackInput)
+PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request)
 {
     return ReturnDataFromHandle(request)->package;
 }

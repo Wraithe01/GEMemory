@@ -37,58 +37,6 @@ int ResourceManager::GetRequestError(ResourceManagerRequestHandle request)
     return ReturnDataFromHandle(request)->error;
 }
 
-void ResourceManager::ParseResource(const std::string& guid, const packageHandle& packid)
-{
-    // Get the type of file
-
-    // TODO: ADD TO OFFLINE TOOL
-    std::string fext = m_headerMap[guid].filename;
-    fext             = fext.substr(fext.find_last_of(".") + 1);
-    std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
-
-    // Read to buffer
-    int32_t  fsize  = 0;
-    uint8_t* buffer = nullptr;
-    do
-    {
-        if (PackageSeekFile(packid, m_headerMap[guid].filePos) != UNZ_OK)
-            break;
-        fsize  = PackageCurrentFileInfo(packid).fileSize;
-        buffer = static_cast<uint8_t*>(std::malloc(fsize * sizeof(uint8_t)));
-        if (PackageCurrentFileOpen(packid) != UNZ_OK)
-            break;
-
-        if (PackageCurrentFileRead(buffer, fsize, packid) != fsize)
-            break;
-        PackageCurrentFileClose(packid);
-
-        std::shared_ptr<IResource> res;
-        switch (g_acceptedTypes[fext])
-        {
-            case ResourceFBX:
-                res = std::make_shared<Mesh>();
-                res.get()->LoadResource(static_cast<void*>(buffer), fsize);
-                m_loadedData[guid] = res;
-                break;
-
-            case ResourceJPG:
-                [[fallthrough]];
-            case ResourcePNG:
-                res = std::make_shared<Texture>();
-                res.get()->LoadResource(static_cast<void*>(buffer), fsize);
-                m_loadedData[guid] = res;
-                break;
-
-            default:
-                std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
-                break;
-        }
-        m_loadedData[guid]->InitRefcount();
-    } while (0);
-    if (buffer != nullptr)
-        std::free(buffer);
-}
-
 int ResourceManager::RequestLoadScene(const Scene& scene)
 {
     std::map<std::string, std::set<std::string>> packages;
@@ -110,14 +58,135 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             continue;
 
         phandle = PackageOpen(key.c_str());
-        // TODO: Check if package is open
-        for (auto& guid : value)
+        if (!PackageWasOpened(phandle))
+            continue;
+
+        AsyncFileRequestHandle fileRequest = nullptr;
+        uint8_t* currentBuf = nullptr;
+        int32_t currentBufSize = 0;
+        uint8_t* nextBuf = nullptr;
+        int32_t nextBufSize = 0;
+
+        int i = 0;
+        for(auto it = value.begin(); it != value.end(); it++)
         {
-            ParseResource(guid, phandle);
+            i++;
+            if (it == value.begin())
+            {
+                fileRequest = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
+            }
+            FileRequestCallbackWait(fileRequest);
+            currentBuf = nextBuf;
+            currentBufSize = nextBufSize;
+            if (i < value.size())
+            {
+                it++;
+                fileRequest = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
+                it--;
+            }
+            if (currentBufSize < 0)
+            {
+                std::cerr << "ERROR: reading file content. GUID: " << *it << std::endl;
+            }
+            else
+            {
+                ParseResource(*it, currentBuf, currentBufSize);
+            }
         }
         PackageClose(phandle);
     }
     return 0;
+}
+
+struct FileBufCallback
+{
+    PAKid packid;
+    uint8_t* buffer;
+    int32_t* bufSize;
+};
+
+void CallbackPakFile(AsyncFileRequestHandle request, void* input)
+{
+    if (!FileRequestSucceded(request))
+    {
+        std::cerr << "ERROR: package current file could not be opened\n";
+        return;
+    }
+    FileBufCallback* buffer = (FileBufCallback*)input;
+
+    int32_t requested = *(buffer->bufSize);
+
+    *(buffer->bufSize) = PackageCurrentFileRead(buffer->buffer, *(buffer->bufSize), buffer->packid);
+
+    if (*(buffer->bufSize) != requested)
+    {
+        std::cerr << "ERROR: could not read whole file\n";
+        delete buffer->buffer;
+        *(buffer->bufSize) = -1;
+    }
+
+    PackageCurrentFileClose(buffer->packid);
+
+    delete input;
+}
+
+AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos filePos, uint8_t* o_buffer, int32_t* o_fileSize)
+{
+    // Read to buffer
+    *o_fileSize = 0;
+    o_buffer = nullptr;
+
+    AsyncFileRequestHandle fileRequest = nullptr;
+
+    if (PackageSeekFile(package, filePos) != UNZ_OK)
+    {
+        std::cerr << "ERROR: Seek file failed\n";
+        return nullptr;
+    }
+
+    *o_fileSize = PackageCurrentFileInfo(package).fileSize;
+    o_buffer = static_cast<uint8_t*>(std::malloc((*o_fileSize) * sizeof(uint8_t)));
+    
+    //opens async request for opening current file. File content will be read in callback
+    fileRequest = PackageCurrentFileOpenAsync(package, CallbackPakFile, new FileBufCallback({ package, o_buffer, o_fileSize }));
+
+    return fileRequest;
+}
+
+void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize)
+{
+    // Get the type of file
+
+    // TODO: ADD TO OFFLINE TOOL
+    std::string fext = m_headerMap[guid].filename;
+    fext             = fext.substr(fext.find_last_of(".") + 1);
+    std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
+
+    std::shared_ptr<IResource> res;
+    switch (g_acceptedTypes[fext])
+    {
+        case ResourceFBX:
+            res = std::make_shared<Mesh>();
+            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
+            m_loadedData[guid] = res;
+            break;
+
+        case ResourceJPG:
+            [[fallthrough]];
+        case ResourcePNG:
+            res = std::make_shared<Texture>();
+            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
+            m_loadedData[guid] = res;
+            break;
+
+        default:
+            std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
+            break;
+    }
+    m_loadedData[guid]->InitRefcount();
+
+    if (buffer != nullptr)
+        delete buffer;
 }
 
 int ResourceManager::RequestUnloadScene(const Scene& scene)
