@@ -1,5 +1,6 @@
 #include "Settings.h"
 #include "Resource.h"
+#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 IResource::IResource()
@@ -62,7 +63,7 @@ bool Texture::LoadResource(const void* buffer, int32_t buffSize)
                                   img_max_channels);
     if (!m_img)
     {
-        std::cerr << "Failed to load texture (png)." << std::endl;
+        std::cerr << "Failed to load texture (png/jpg)." << std::endl;
         return false;
     }
     return true;

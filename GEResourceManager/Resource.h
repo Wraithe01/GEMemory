@@ -11,8 +11,8 @@ enum AcceptedResourceTypes : uint32_t
     // Keep last
     ResourceCount
 };
-std::unordered_map<std::string, AcceptedResourceTypes> g_acceptedTypes;
-void InitResourceMap() {
+static std::unordered_map<std::string, AcceptedResourceTypes> g_acceptedTypes;
+static void InitResourceMap() {
     g_acceptedTypes["JPG"] = ResourceJPG;
     g_acceptedTypes["PNG"] = ResourcePNG;
     g_acceptedTypes["FBX"] = ResourceFBX;
