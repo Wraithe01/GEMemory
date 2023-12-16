@@ -172,6 +172,14 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
     std::string fext = m_headerMap[guid].filetype;
     std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
 
+    // Memory limit check
+    m_memoryUsage += filesize;
+    if (CheckMemoryLimit()) {
+        m_memoryUsage -= filesize;
+        
+        return;
+    };
+
     std::shared_ptr<IResource> res;
     switch (g_acceptedTypes[fext])
     {
