@@ -50,7 +50,7 @@ private:
     void LoadHeader();
 
     std::string            GetPackage(const std::string& guid);
-    AsyncFileRequestHandle AsyncGetResource(PAKid package, FilePos filePos, uint8_t* o_buffer, int32_t* o_fileSize);
+    AsyncFileRequestHandle AsyncGetResource(PAKid package, FilePos filePos, uint8_t*& o_buffer, int32_t* o_fileSize);
     void                   ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize);
 
     int RequestLoadScene(const Scene& scene);

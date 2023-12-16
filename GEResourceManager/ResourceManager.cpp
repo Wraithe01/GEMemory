@@ -68,7 +68,7 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             continue;
 
         phandle = PackageOpen(key.c_str());
-        if (!PackageWasOpened(phandle)
+        if (!PackageWasOpened(phandle))
         {
             std::cerr << "Could not open package " << key << std::endl;
             continue;
@@ -143,7 +143,7 @@ void CallbackPakFile(AsyncFileRequestHandle request, void* input)
     delete input;
 }
 
-AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos filePos, uint8_t* o_buffer, int32_t* o_fileSize)
+AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos filePos, uint8_t*& o_buffer, int32_t* o_fileSize)
 {
     // Read to buffer
     *o_fileSize = 0;
@@ -186,7 +186,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
-            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
             m_loadedData[guid] = res;
             printf("Loaded PNG/JPG!\n");
             break;
