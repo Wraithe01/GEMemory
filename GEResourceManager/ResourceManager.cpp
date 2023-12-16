@@ -22,8 +22,11 @@ void ResourceManager::UnloadScene(const Scene& scene)
         if (m_loadedData.find(guid) != m_loadedData.end())
         {
             int32_t counter = --(*m_loadedData[guid].get());
-            if (counter <= 0)
+            if (counter <= 0) 
+            {
+                // TODO : decrease memorysize!
                 m_loadedData.erase(guid);
+            }
         }
     }
 }
@@ -74,6 +77,14 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
         if (PackageSeekFile(packid, m_headerMap[guid].filePos) != UNZ_OK)
             break;
         fsize  = PackageCurrentFileInfo(packid).fileSize;
+
+        // Memory limit check
+        m_memoryUsage += fsize;
+        if (CheckMemoryLimit()) {
+            m_memoryUsage -= fsize;
+            return;
+        };
+
         buffer = static_cast<uint8_t*>(std::malloc(fsize * sizeof(uint8_t)));
         if (PackageCurrentFileOpen(packid) != UNZ_OK)
             break;
@@ -153,4 +164,21 @@ std::string ResourceManager::GetPackage(const std::string& guid)
         return it->second.package;
     }
     return "";
+}
+
+void ResourceManager::SetMemoryLimit(size_t limit) {
+    m_memoryLimit = limit;
+}
+
+bool ResourceManager::CheckMemoryLimit() const {
+    if (m_memoryLimit > 0 && m_memoryUsage > m_memoryLimit) {
+        std::cerr << "Warning: Memory limit exceeded! Total memory usage: "
+            << m_memoryUsage << " bytes\n";
+        return true;
+    }
+    return false;
+}
+
+size_t ResourceManager::GetMemoryUsage() {
+    return m_memoryUsage;
 }
