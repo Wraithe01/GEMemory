@@ -7,6 +7,8 @@ ResourceManager::ResourceManager()
     m_instance = nullptr;
     // Init from Resource.h
     InitResourceMap();
+    // Load json header into memory
+    LoadHeader();
 }
 ResourceManager::~ResourceManager()
 {
@@ -66,11 +68,8 @@ void ResourceManager::LoadScene(const Scene& scene)
 void ResourceManager::ParseResource(const std::string& guid, const packageHandle& packid)
 {
     // Get the type of file
-
-    // TODO: ADD TO OFFLINE TOOL
-    std::string fext = m_headerMap[guid].filename;
-    fext             = fext.substr(fext.find_last_of(".") + 1);
-    std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
+    std::string filetype = m_headerMap[guid].filetype;
+    std::transform(filetype.begin(), filetype.end(), filetype.begin(), ::toupper);
 
     // Read to buffer
     int32_t  fsize  = 0;
@@ -89,7 +88,7 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
         PackageCurrentFileClose(packid);
 
         std::shared_ptr<Resource> res;
-        switch (g_acceptedTypes[fext])
+        switch (g_acceptedTypes[filetype])
         {
             case ResourceFBX:
                 res = std::make_shared<Mesh>();
@@ -106,7 +105,7 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
                 break;
 
             default:
-                std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
+                std::cerr << "Filetype " << filetype << " is not recognized." << std::endl;
                 break;
         }
         m_loadedData[guid]->InitRefcount();
@@ -141,12 +140,13 @@ void ResourceManager::LoadHeader()
     {
         const std::string&   guid       = entry.key();
         const std::string&   filename   = entry.value()["filename"];
+        const std::string&   filetype   = entry.value()["filetype"];
         const std::string&   package    = entry.value()["package"];
         const uLong          offset     = entry.value()["filepos"];
         const uLong          fileNumber = entry.value()["filenumber"];
         const unz_file_pos_s filePos{ offset, fileNumber };
 
-        HeaderEntry entryData{ filename, package, filePos };
+        HeaderEntry entryData{ filename, filetype, package, filePos };
         m_headerMap[guid] = entryData;
     }
 }
