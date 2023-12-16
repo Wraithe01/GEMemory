@@ -21,8 +21,9 @@ void PackagingTool::createHeaderFile(const std::vector<std::string>& assets, con
         generateGUID(guid);
 
         // Extract the file name
-        size_t lastPathSeparator = asset.find_last_of("/\\");
-        std::string filename = asset.substr(lastPathSeparator + 1);
+        std::filesystem::path assetPath(asset);
+        std::string filename = assetPath.stem().string();
+        std::string filetype = assetPath.extension().string();
 
         // Check if name and package combination exists
         bool assetExists = false;
@@ -53,11 +54,12 @@ void PackagingTool::createHeaderFile(const std::vector<std::string>& assets, con
             nlohmann::json item;
             item["package"] = packageName;
             item["filename"] = filename;
+            item["filetype"] = filetype.substr(1);
 
             // Get filePos struct and add to json
             unzFile zipFile = unzOpen(packageName.c_str());
             if (zipFile != nullptr) {
-                if (unzLocateFile(zipFile, filename.c_str(), 1) != UNZ_OK) {
+                if (unzLocateFile(zipFile, assetPath.filename().string().c_str(), 1) != UNZ_OK) {
                     unzClose(zipFile);
                 }
                 
