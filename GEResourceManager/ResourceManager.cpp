@@ -2,7 +2,8 @@
 #include <set>
 
 // Singleton stuff
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager() :
+    AsyncFunctionality(RESOURCEMANAGER_ASYNCHTHREADS)
 {
     m_instance = nullptr;
     // Init from Resource.h
@@ -20,49 +21,28 @@ ResourceManager* ResourceManager::GetInstance()
     return m_instance;
 }
 
-
-void ResourceManager::UnloadScene(const Scene& scene)
+ResourceManagerRequestHandle ResourceManager::LoadScene(Scene& scene)
 {
-    for (auto& guid : scene.GetChunk())
-    {
-        if (m_loadedData.find(guid) != m_loadedData.end())
-        {
-            int32_t counter = --(*m_loadedData[guid].get());
-            if (counter <= 0)
-                m_loadedData.erase(guid);
-        }
-    }
+    return EnqueueRequest({ RMAsyncType::RMLoadChunk , &scene }, nullptr, nullptr);
 }
-void ResourceManager::LoadScene(const Scene& scene)
+ResourceManagerRequestHandle ResourceManager::UnloadScene(Scene& scene)
 {
-    std::map<std::string, std::set<std::string>> packages;
-    for (auto& guid : scene.GetChunk())
-    {
-        const auto& it = m_loadedData.find(guid);
-        if (it != m_loadedData.end())
-        {
-            ++(*m_loadedData[guid].get());
-            continue;
-        }
-        packages[GetPackage(guid)].insert(guid);
-    }
-
-    // TODO: Make async
-    packageHandle phandle = {};
-    for (const auto& [key, value] : packages)
-    {
-        if (value.empty())
-            continue;
-
-        phandle = PackageOpen(key.c_str());
-        // TODO: Check if package is open
-        for (auto& guid : value)
-        {
-            ParseResource(guid, phandle);
-        }
-        PackageClose(phandle);
-    }
+    return EnqueueRequest({ RMAsyncType::RMUnloadChunk , &scene }, nullptr, nullptr);
 }
+ResourceManagerRequestHandle ResourceManager::LoadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput)
+{
+    return EnqueueRequest({ RMAsyncType::RMLoadChunk , &scene }, callback, callbackInput);
+}
+ResourceManagerRequestHandle ResourceManager::UnloadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput)
+{
+    return EnqueueRequest({ RMAsyncType::RMUnloadChunk , &scene }, callback, callbackInput);
+}
+
+int ResourceManager::GetRequestError(ResourceManagerRequestHandle request)
+{
+    return ReturnDataFromHandle(request)->error;
+}
+
 void ResourceManager::ParseResource(const std::string& guid, const packageHandle& packid)
 {
     // Get the type of file
@@ -113,6 +93,64 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
     } while (0);
     if (buffer != nullptr)
         std::free(buffer);
+}
+
+int ResourceManager::RequestLoadScene(const Scene& scene)
+{
+    std::map<std::string, std::set<std::string>> packages;
+    for (auto& guid : scene.GetChunk())
+    {
+        const auto& it = m_loadedData.find(guid);
+        if (it != m_loadedData.end())
+        {
+            ++(*m_loadedData[guid].get());
+            continue;
+        }
+        packages[GetPackage(guid)].insert(guid);
+    }
+
+    packageHandle phandle = {};
+    for (const auto& [key, value] : packages)
+    {
+        if (value.empty())
+            continue;
+
+        phandle = PackageOpen(key.c_str());
+        // TODO: Check if package is open
+        for (auto& guid : value)
+        {
+            ParseResource(guid, phandle);
+        }
+        PackageClose(phandle);
+    }
+    return 0;
+}
+
+int ResourceManager::RequestUnloadScene(const Scene& scene)
+{
+    for (auto& guid : scene.GetChunk())
+    {
+        if (m_loadedData.find(guid) != m_loadedData.end())
+        {
+            int32_t counter = --(*m_loadedData[guid].get());
+            if (counter <= 0)
+                m_loadedData.erase(guid);
+        }
+    }
+    return 0;
+}
+
+void ResourceManager::HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT)
+{
+    switch (requestIN.type)
+    {
+    case RMAsyncType::RMLoadChunk:
+        o_requestOUT->error = RequestLoadScene(*requestIN.scene);
+        break;
+    case RMAsyncType::RMUnloadChunk:
+        o_requestOUT->error = RequestUnloadScene(*requestIN.scene);
+        break;
+    }
 }
 
 

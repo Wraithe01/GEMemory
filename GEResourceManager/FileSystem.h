@@ -3,11 +3,10 @@
 #include "Includes.h"
 #include "AsyncFunctionality.h"
 
-// Checks if file or package was opened correctly
-#define PackageOrFileWasOpened(handle) CFileSystem::Instance()->WasOpened(handle)
-
 // fopen based function call
 #define FileOpen(path, mode) CFileSystem::Instance()->Open(path, mode)
+// Checks if file was opened correctly
+#define FileWasOpened(file) CFileSystem::Instance()->WasOpened(file)
 // fclose based function call
 #define FileClose(FILEid) CFileSystem::Instance()->Close(FILEid)
 // fread based function call. reads elementCount number of elements of size elementSize to buffer
@@ -56,6 +55,8 @@
 // Opens package file from path
 // Always close package
 #define PackageOpen(path) CFileSystem::Instance()->PakOpen(path)
+// Checks if package was opened correctly
+#define PackageWasOpened(package) CFileSystem::Instance()->PakWasOpened(package)
 // Closes package file
 // Always close package
 #define PackageClose(package) CFileSystem::Instance()->PakClose(package)
@@ -190,7 +191,7 @@ public:
 
 
 	PAKid PakOpen(const char* path);
-	bool WasOpened(PAKid package);
+	bool PakWasOpened(PAKid package);
 	int PakClose(PAKid package);
 	int PakSeekFile(PAKid package, FilePos position);
 	PakFileInfo PakGetCurrentFileInfo(PAKid package);

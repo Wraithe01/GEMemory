@@ -229,6 +229,7 @@ AsyncFileRequestHandle FileSystem::AsyncCustomFileRequest(FileCallbackFunction c
 
 void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileRequestOUT* o_requestOUT)
 {
+	int temp = 0;
 	switch (requestIN.type)
 	{
 	case AsyncFileRequestType::AsyncOpen:
@@ -289,7 +290,7 @@ void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileReq
 		}
 		break;
 	case AsyncFileRequestType::AsyncPakFileRead:
-		int temp = PakCurrentFileRead(requestIN.buffer, requestIN.elementCount, requestIN.package);
+		temp = PakCurrentFileRead(requestIN.buffer, requestIN.elementCount, requestIN.package);
 		if (temp < 0)
 		{
 			o_requestOUT->error = true;
@@ -422,7 +423,7 @@ PAKid FileSystem::PakOpen(const char* path)
 	return {0, unzOpen(path)};
 }
 
-bool FileSystem::WasOpened(PAKid package)
+bool FileSystem::PakWasOpened(PAKid package)
 {
 	return package.handle != nullptr;
 }
