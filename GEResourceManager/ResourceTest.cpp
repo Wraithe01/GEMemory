@@ -104,4 +104,5 @@ void ResourceTest::PerformanceBenchmark() {
 
 		scene.AppendGUID(guid);
 	}
+	// TODO 
 }

@@ -42,9 +42,6 @@
     <ClCompile Include="ThreadSafeAllocators.cpp">
       <Filter>Memory\Base</Filter>
     </ClCompile>
-    <ClCompile Include="AllocTester.cpp">
-      <Filter>Memory\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="DefaultAllocator.cpp">
       <Filter>Memory\Allocators</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="ThreadSafeAllocators.h">
       <Filter>Memory\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="AllocTester.h">
-      <Filter>Memory\Misc</Filter>
     </ClInclude>
     <ClInclude Include="DefaultAllocator.h">
       <Filter>Memory\Allocators</Filter>

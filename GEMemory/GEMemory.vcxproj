@@ -130,7 +130,6 @@
   <ItemGroup>
     <ClCompile Include="Allocator.cpp" />
     <ClCompile Include="BuddyAllocator.cpp" />
-    <ClCompile Include="AllocTester.cpp" />
     <ClCompile Include="DefaultAllocator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemBlock.cpp" />
@@ -142,7 +141,6 @@
   <ItemGroup>
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="BuddyAllocator.h" />
-    <ClInclude Include="AllocTester.h" />
     <ClInclude Include="DefaultAllocator.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="MemBlock.h" />

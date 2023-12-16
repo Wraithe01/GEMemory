@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\GEMemory\AllocTester.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="FileSystemExample.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\GEMemory\AllocTester.h" />
     <ClInclude Include="AsyncFunctionality.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemExample.h" />
