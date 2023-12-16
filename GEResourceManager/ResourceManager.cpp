@@ -88,7 +88,7 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
             break;
         PackageCurrentFileClose(packid);
 
-        std::shared_ptr<Resource> res;
+        std::shared_ptr<IResource> res;
         switch (g_acceptedTypes[fext])
         {
             case ResourceFBX:

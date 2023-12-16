@@ -40,5 +40,5 @@ private:
     static ResourceManager* m_instance;
 
     std::unordered_map<std::string, HeaderEntry>               m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<Resource>> m_loadedData;
+    std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
 };
