@@ -10,9 +10,12 @@
 #include "Resource.h"
 #include "AsyncFunctionality.h"
 
+constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000;
+
 struct HeaderEntry
 {
     std::string    filename;
+    std::string    filetype;
     std::string    package;
     unz_file_pos_s filePos;
 };
@@ -60,7 +63,7 @@ protected:
 public:
     ~ResourceManager();
     ResourceManager(const ResourceManager& other) = delete;
-    void operator=(const ResourceManager& other)  = delete;
+    void operator=(const ResourceManager& other) = delete;
 
     static ResourceManager& GetInstance();
 
@@ -72,8 +75,16 @@ public:
     // will return 0 if successful
     int GetRequestError(ResourceManagerRequestHandle request);
 
+    void SetMemoryLimit(size_t limit);
+    bool CheckMemoryLimit() const;
+
+    size_t GetMemoryUsage();
+
+    size_t GetNumOfLoadedRes();
 
 private:
     std::unordered_map<std::string, HeaderEntry>                m_headerMap;
     std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
+    size_t m_memoryUsage;
+    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };

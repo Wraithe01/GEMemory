@@ -18,7 +18,7 @@ int main() {
 
     // Get paths
     std::filesystem::path folderName = std::filesystem::path(folderPath).filename();
-    std::string packageDirectory = "../Packages/";
+    std::string packageDirectory = "../PackageFolder/";
     std::string outputPath = packageDirectory + folderName.string() + "_package.zip";
     std::string headerPath = packageDirectory + "header.json";
 

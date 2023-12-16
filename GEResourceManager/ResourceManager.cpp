@@ -7,6 +7,9 @@ ResourceManager::ResourceManager() :
 {
     // Init from Resource.h
     InitResourceMap();
+
+    // Load json header into memory
+    LoadHeader();
 }
 ResourceManager::~ResourceManager() {}
 ResourceManager& ResourceManager::GetInstance()
@@ -48,7 +51,14 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             ++(*m_loadedData[guid].get());
             continue;
         }
-        packages[GetPackage(guid)].insert(guid);
+        std::string package = GetPackage(guid);
+
+        if (strcmp(package.c_str(), "") == 0)
+        {
+            std::cerr << "Could not find package for guid " << guid << std::endl;
+            continue;
+        }
+        packages[package].insert(guid);
     }
 
     packageHandle phandle = {};
@@ -58,8 +68,11 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             continue;
 
         phandle = PackageOpen(key.c_str());
-        if (!PackageWasOpened(phandle))
+        if (!PackageWasOpened(phandle)
+        {
+            std::cerr << "Could not open package " << key << std::endl;
             continue;
+        }
 
         AsyncFileRequestHandle fileRequest = nullptr;
         uint8_t* currentBuf = nullptr;
@@ -156,10 +169,7 @@ AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos 
 void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize)
 {
     // Get the type of file
-
-    // TODO: ADD TO OFFLINE TOOL
-    std::string fext = m_headerMap[guid].filename;
-    fext             = fext.substr(fext.find_last_of(".") + 1);
+    std::string fext = m_headerMap[guid].filetype;
     std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
 
     std::shared_ptr<IResource> res;
@@ -169,14 +179,16 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res = std::make_shared<Mesh>();
             res.get()->LoadResource(static_cast<void*>(buffer), filesize);
             m_loadedData[guid] = res;
+            printf("Loaded FBX!\n");
             break;
 
         case ResourceJPG:
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
-            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
+            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
             m_loadedData[guid] = res;
+            printf("Loaded PNG/JPG!\n");
             break;
 
         default:
@@ -220,7 +232,7 @@ void ResourceManager::HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_re
 void ResourceManager::LoadHeader()
 {
     // Read the JSON file
-    std::ifstream file("../Packages/header.json");
+    std::ifstream file("../PackageFolder/header.json");
     if (!file.is_open())
     {
         std::cerr << "Failed to open JSON file\n";
@@ -240,14 +252,15 @@ void ResourceManager::LoadHeader()
 
     for (const auto& entry : jsonData.items())
     {
-        const std::string&   guid       = entry.key();
-        const std::string&   filename   = entry.value()["filename"];
-        const std::string&   package    = entry.value()["package"];
-        const uLong          offset     = entry.value()["filepos"];
+        const std::string& guid = entry.key();
+        const std::string& filename = entry.value()["filename"];
+        const std::string& filetype = entry.value()["filetype"];
+        const std::string& package = entry.value()["package"];
+        const uLong          offset = entry.value()["offset"];
         const uLong          fileNumber = entry.value()["filenumber"];
         const unz_file_pos_s filePos{ offset, fileNumber };
 
-        HeaderEntry entryData{ filename, package, filePos };
+        HeaderEntry entryData{ filename, filetype, package, filePos };
         m_headerMap[guid] = entryData;
     }
 }
@@ -260,4 +273,26 @@ std::string ResourceManager::GetPackage(const std::string& guid)
         return it->second.package;
     }
     return "";
+}
+
+void ResourceManager::SetMemoryLimit(size_t limit) {
+    m_memoryLimit = limit;
+}
+
+bool ResourceManager::CheckMemoryLimit() const {
+    if (m_memoryLimit > 0 && m_memoryUsage > m_memoryLimit) {
+        std::cerr << "Warning: Memory limit exceeded! Total memory usage: "
+            << m_memoryUsage << " bytes! Skipping to add resource\n";
+        return true;
+    }
+    return false;
+}
+
+size_t ResourceManager::GetMemoryUsage() {
+    return m_memoryUsage;
+}
+
+size_t ResourceManager::GetNumOfLoadedRes()
+{
+    return m_loadedData.size();
 }
