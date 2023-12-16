@@ -181,9 +181,7 @@ AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(
     return EnqueueRequest(request, callback, callbackInput);
 }
 
-PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request,
-                                       FileCallbackFunction         callback,
-                                       void*                        callbackInput)
+PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request)
 {
     return ReturnDataFromHandle(request)->package;
 }
@@ -388,7 +386,11 @@ int CFileSystem::Seek(FILEid file, long offset, SeekOrigin origin)
 
 PAKid FileSystem::PakOpen(const char* path) { return { 0, unzOpen(path) }; }
 
-bool FileSystem::WasOpened(PAKid package) { return package.handle != nullptr; }
+bool FileSystem::PakWasOpened(PAKid package)
+{
+    return package.handle != nullptr;
+}
+
 
 int FileSystem::PakClose(PAKid package)
 {
