@@ -143,6 +143,7 @@
     <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetTest.h" />
     <ClInclude Include="AsyncFunctionality.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemExample.h" />
