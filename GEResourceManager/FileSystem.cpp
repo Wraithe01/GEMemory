@@ -105,6 +105,128 @@ FILEid FileSystem::AsyncGetRequestFileID(const AsyncFileRequestHandle request)
 	return ReturnDataFromHandle(request)->file;
 }
 
+AsyncFileRequestHandle FileSystem::AsyncPakOpenRequest(const char* path, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakOpen,
+		-1,
+		nullptr,
+		path,
+		"",
+		0,
+		0,
+		0,
+		SeekOrigin::OriginNone
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncPakCloseRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakClose,
+		-1,
+		nullptr,
+		"",
+		"",
+		0,
+		0,
+		0,
+		SeekOrigin::OriginNone,
+		package
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncPakSeekFileRequest(PAKid package, FilePos position, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakSeek,
+		-1,
+		nullptr,
+		"",
+		"",
+		0,
+		0,
+		0,
+		SeekOrigin::OriginNone,
+		package,
+		position
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncPakOpenCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakFileOpen,
+		-1,
+		nullptr,
+		"",
+		"",
+		0,
+		0,
+		0,
+		SeekOrigin::OriginNone,
+		package,
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncPakCloseCurrentFileRequest(PAKid package, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakFileClose,
+		-1,
+		nullptr,
+		"",
+		"",
+		0,
+		0,
+		0,
+		SeekOrigin::OriginNone,
+		package,
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+AsyncFileRequestHandle FileSystem::AsyncPakCurrentFileReadRequest(void* buffer, uint32_t bytes, PAKid package, FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncPakFileRead,
+		-1,
+		buffer,
+		"",
+		"",
+		0,
+		bytes,
+		0,
+		SeekOrigin::OriginNone,
+		package
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
+PAKid FileSystem::AsyncGetRequestPakID(const AsyncFileRequestHandle request, FileCallbackFunction callback, void* callbackInput)
+{
+	return ReturnDataFromHandle(request)->package;
+}
+
+AsyncFileRequestHandle FileSystem::AsyncCustomFileRequest(FileCallbackFunction callback, void* callbackInput)
+{
+	AsyncFileRequestIN request =
+	{
+		AsyncFileRequestType::AsyncGeneralWork
+	};
+	return EnqueueRequest(request, callback, callbackInput);
+}
+
 void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileRequestOUT* o_requestOUT)
 {
 	switch (requestIN.type)
@@ -133,6 +255,51 @@ void FileSystem::HandleRequest(const AsyncFileRequestIN& requestIN, AsyncFileReq
 		{
 			o_requestOUT->error = true;
 		}
+		break;
+
+	case AsyncFileRequestType::AsyncPakOpen:
+		o_requestOUT->package = PakOpen(requestIN.path);
+		if (o_requestOUT->package.handle == nullptr)
+		{
+			o_requestOUT->error = true;
+		}
+		break;
+	case AsyncFileRequestType::AsyncPakClose:
+		if (PakClose(requestIN.package) != 0)
+		{
+			o_requestOUT->error = true;
+		}
+		break;
+	case AsyncFileRequestType::AsyncPakSeek:
+		if (PakSeekFile(requestIN.package, requestIN.filePos) != 0)
+		{
+			o_requestOUT->error = true;
+		}
+		break;
+	case AsyncFileRequestType::AsyncPakFileOpen:
+		if (PakOpenCurrentFile(requestIN.package) != 0)
+		{
+			o_requestOUT->error = true;
+		}
+		break;
+	case AsyncFileRequestType::AsyncPakFileClose:
+		if (PakCloseCurrentFile(requestIN.package) != 0)
+		{
+			o_requestOUT->error = true;
+		}
+		break;
+	case AsyncFileRequestType::AsyncPakFileRead:
+		int temp = PakCurrentFileRead(requestIN.buffer, requestIN.elementCount, requestIN.package);
+		if (temp < 0)
+		{
+			o_requestOUT->error = true;
+		}
+		else
+		{
+			o_requestOUT->returnValue = temp;
+		}
+		break;
+	case AsyncFileRequestType::AsyncGeneralWork:
 		break;
 	}
 }
@@ -192,6 +359,11 @@ FILEid CFileSystem::Open(const char* path, const char* mode)
 	return -1;
 }
 
+bool CFileSystem::WasOpened(FILEid file)
+{
+	return file >= 0;
+}
+
 int CFileSystem::Close(FILEid file)
 {
 	m_mapLock.lock();
@@ -242,5 +414,61 @@ int CFileSystem::Seek(FILEid file, long offset, SeekOrigin origin)
 		return fseek(m_fileptrs[file], offset, SEEK_END);
 		break;
 	}
+	return -1;
+}
+
+PAKid FileSystem::PakOpen(const char* path)
+{
+	return {0, unzOpen(path)};
+}
+
+bool FileSystem::WasOpened(PAKid package)
+{
+	return package.handle != nullptr;
+}
+
+int FileSystem::PakClose(PAKid package)
+{
+	if (package.format == 0)
+		return unzClose(package.handle);
+	return -1;
+}
+
+int FileSystem::PakSeekFile(PAKid package, FilePos position)
+{
+	if (package.format == 0)
+		return unzGoToFilePos(package.handle, &position);
+	return -1;
+}
+
+PakFileInfo FileSystem::PakGetCurrentFileInfo(PAKid package)
+{
+	if (package.format == 0)
+	{
+		unz_file_info info;
+		unzGetCurrentFileInfo(package.handle, &info, nullptr, 0, nullptr, 0, nullptr, 0);
+		return { info.uncompressed_size };
+	}
+	return PakFileInfo();
+}
+
+int FileSystem::PakOpenCurrentFile(PAKid package)
+{
+	if (package.format == 0)
+		return unzOpenCurrentFile(package.handle);
+	return -1;
+}
+
+int FileSystem::PakCloseCurrentFile(PAKid package)
+{
+	if (package.format == 0)
+		return unzCloseCurrentFile(package.handle);
+	return -1;
+}
+
+int FileSystem::PakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package)
+{
+	if (package.format == 0)
+		return unzReadCurrentFile(package.handle, buffer, bytes);
 	return -1;
 }
