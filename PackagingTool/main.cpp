@@ -1,4 +1,5 @@
 #include "ZipPackaging.h"
+#include "TarGzPackaging.h"
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -12,6 +13,8 @@ int main() {
         std::cerr << "Error: Not a valid directory path." << std::endl;
         return 1;
     }
+
+    // Create zip or tar? option... :D
 
     // Get paths
     std::filesystem::path folderName = std::filesystem::path(folderPath).filename();
@@ -30,19 +33,20 @@ int main() {
         assets.push_back(entry.path().string());
     }
 
-    // Create zip or tar? option... :D
-
-    // Create the ZIP package
+    // Create the zip package
     ZipPackagingTool zipPackager;
     zipPackager.createPackage(assets, outputPath);
     zipPackager.createHeaderFile(assets, headerPath, outputPath);
 
-    // TODO
-    // 
-    // Create the TAR package
-    // TarPackagingTool tarPackager;
-    // tarPackager.createPackage(assets, outputPath);
-    // tarPackager.createHeaderFile(assets, headerPath);
+    std::string outputPathtest = packageDirectory + folderName.string() + "_package.tar.gz";
+
+    // Create the tar package
+    //TarGzPackagingTool tarPackager;
+    //tarPackager.createPackage(assets, outputPathtest);
+    // FIX createHeader... :D
+    //tarPackager.createHeaderFile(assets, headerPath, outputPathtest);
+
+    // libarchive !!!!!!
 
     return 0;
 }

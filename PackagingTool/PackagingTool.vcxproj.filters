@@ -24,12 +24,18 @@
     <ClCompile Include="ZipPackaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TarGzPackaging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PackagingTool.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="ZipPackaging.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TarGzPackaging.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
