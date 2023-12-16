@@ -1,26 +1,27 @@
 #include "Settings.h"
 #include "Resource.h"
+#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Resource::Resource()
+IResource::IResource()
 : m_refc(0)
 {
 }
 
-void Resource::SetGUID(const std::string& guid) { m_GUID = guid; }
-void Resource::InitRefcount() { m_refc = 1; }
+void IResource::SetGUID(const std::string& guid) { m_GUID = guid; }
+void IResource::InitRefcount() { m_refc = 1; }
 
-uint32_t  Resource::Decrement() { return --m_refc; }
-uint32_t& Resource::operator--() { return --m_refc; }
-uint32_t  Resource::operator--(int) { return m_refc--; }
+uint32_t  IResource::Decrement() { return --m_refc; }
+uint32_t& IResource::operator--() { return --m_refc; }
+uint32_t  IResource::operator--(int) { return m_refc--; }
 
-uint32_t  Resource::Increment() { return ++m_refc; }
-uint32_t& Resource::operator++() { return ++m_refc; }
-uint32_t  Resource::operator++(int) { return m_refc++; }
+uint32_t  IResource::Increment() { return ++m_refc; }
+uint32_t& IResource::operator++() { return ++m_refc; }
+uint32_t  IResource::operator++(int) { return m_refc++; }
 
-uint32_t Resource::GetRefcount() const { return m_refc; }
+uint32_t IResource::GetRefcount() const { return m_refc; }
 
-const std::string& Resource::GetGUID() const { return m_GUID; }
+const std::string& IResource::GetGUID() const { return m_GUID; }
 
 
 Mesh::Mesh()
@@ -62,13 +63,13 @@ bool Texture::LoadResource(const void* buffer, int32_t buffSize)
                                   img_max_channels);
     if (!m_img)
     {
-        std::cerr << "Failed to load texture (png)." << std::endl;
+        std::cerr << "Failed to load texture (png/jpg)." << std::endl;
         return false;
     }
     return true;
 }
 void Texture::UnloadResource()
 {
-    delete m_img;
+    stbi_image_free(m_img);
     m_img = nullptr;
 }

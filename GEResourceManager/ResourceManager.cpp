@@ -5,20 +5,14 @@
 ResourceManager::ResourceManager() :
     AsyncFunctionality(RESOURCEMANAGER_ASYNCHTHREADS)
 {
-    m_instance = nullptr;
     // Init from Resource.h
     InitResourceMap();
 }
-ResourceManager::~ResourceManager()
+ResourceManager::~ResourceManager() {}
+ResourceManager& ResourceManager::GetInstance()
 {
-    if (m_instance)
-        delete m_instance;
-}
-ResourceManager* ResourceManager::GetInstance()
-{
-    if (!m_instance)
-        m_instance = new ResourceManager();
-    return m_instance;
+    static ResourceManager instance;
+    return instance;
 }
 
 ResourceManagerRequestHandle ResourceManager::LoadScene(Scene& scene)
@@ -68,7 +62,7 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
             break;
         PackageCurrentFileClose(packid);
 
-        std::shared_ptr<Resource> res;
+        std::shared_ptr<IResource> res;
         switch (g_acceptedTypes[fext])
         {
             case ResourceFBX:

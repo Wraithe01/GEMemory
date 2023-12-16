@@ -58,8 +58,10 @@ protected:
 
 public:
     ~ResourceManager();
-    ResourceManager(const ResourceManager& obj) = delete;
-    static ResourceManager* GetInstance();
+    ResourceManager(const ResourceManager& other) = delete;
+    void operator=(const ResourceManager& other)  = delete;
+
+    static ResourceManager& GetInstance();
 
     ResourceManagerRequestHandle LoadScene(Scene& scene);
     ResourceManagerRequestHandle UnloadScene(Scene& scene);
@@ -71,8 +73,6 @@ public:
 
 
 private:
-    static ResourceManager* m_instance;
-
-    std::unordered_map<std::string, HeaderEntry>               m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<Resource>> m_loadedData;
+    std::unordered_map<std::string, HeaderEntry>                m_headerMap;
+    std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
 };
