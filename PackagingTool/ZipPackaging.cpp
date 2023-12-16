@@ -18,7 +18,7 @@ void ZipPackagingTool::createPackage(const std::vector<std::string>& assets, con
             std::cerr << "Failed to open asset file: " << asset << std::endl;
             continue;
         }
-
+        //heeeej
         // Get the size of the asset file
         inputFile.seekg(0, std::ios::end);
         std::streamsize size = inputFile.tellg();
