@@ -11,19 +11,19 @@ enum AcceptedResourceTypes : uint32_t
     // Keep last
     ResourceCount
 };
-std::unordered_map<std::string, AcceptedResourceTypes> g_acceptedTypes;
-void InitResourceMap() {
+static std::unordered_map<std::string, AcceptedResourceTypes> g_acceptedTypes;
+static void InitResourceMap() {
     g_acceptedTypes["JPG"] = ResourceJPG;
     g_acceptedTypes["PNG"] = ResourcePNG;
     g_acceptedTypes["FBX"] = ResourceFBX;
 }
 
 
-class Resource
+class IResource
 {
 public: // Methods
-    Resource();
-    ~Resource() = default;
+    IResource();
+    ~IResource() = default;
 
     virtual bool LoadResource(const void* buffer, int32_t buffSize) = 0;
     virtual void UnloadResource()                 = 0;
@@ -51,7 +51,7 @@ protected: // Variables
 };
 
 
-class Mesh sealed : public Resource
+class Mesh sealed : public IResource
 {
 public: // Methods
     Mesh();
@@ -65,7 +65,7 @@ private: // Variables
     ufbx_scene* m_data;
 };
 
-class Texture sealed : public Resource
+class Texture sealed : public IResource
 {
 public:  // Methods
     Texture();
