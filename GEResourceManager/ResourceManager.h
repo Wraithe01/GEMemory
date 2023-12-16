@@ -9,11 +9,12 @@
 #include "Scene.h"
 #include "Resource.h"
 
-constexpr size_t DEFAULT_MEMORY_LIMIT = 4096;
+constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000;
 
 struct HeaderEntry
 {
     std::string    filename;
+    std::string    filetype;
     std::string    package;
     unz_file_pos_s filePos;
 };
@@ -32,7 +33,7 @@ private:
 public:
     ~ResourceManager();
     ResourceManager(const ResourceManager& other) = delete;
-    void operator=(const ResourceManager& other)  = delete;
+    void operator=(const ResourceManager& other) = delete;
 
     static ResourceManager& GetInstance();
 
@@ -43,6 +44,8 @@ public:
     bool CheckMemoryLimit() const;
 
     size_t GetMemoryUsage();
+
+    size_t GetNumOfLoadedRes();
 
 private:
     std::unordered_map<std::string, HeaderEntry>                m_headerMap;

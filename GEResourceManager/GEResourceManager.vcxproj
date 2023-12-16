@@ -142,6 +142,7 @@
     <ClCompile Include="FileSystemExample.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceTest.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ufbx.c" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ResourceTest.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="stb_image.h" />
