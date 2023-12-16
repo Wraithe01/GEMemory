@@ -29,16 +29,16 @@ private:
 
 public:
     ~ResourceManager();
-    ResourceManager(const ResourceManager& obj) = delete;
-    static ResourceManager* GetInstance();
+    ResourceManager(const ResourceManager& other) = delete;
+    void operator=(const ResourceManager& other)  = delete;
+
+    static ResourceManager& GetInstance();
 
     void LoadScene(const Scene& scene);
     void UnloadScene(const Scene& scene);
 
 
 private:
-    static ResourceManager* m_instance;
-
-    std::unordered_map<std::string, HeaderEntry>               m_headerMap;
+    std::unordered_map<std::string, HeaderEntry>                m_headerMap;
     std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
 };

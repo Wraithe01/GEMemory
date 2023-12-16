@@ -4,20 +4,14 @@
 // Singleton stuff
 ResourceManager::ResourceManager()
 {
-    m_instance = nullptr;
     // Init from Resource.h
     InitResourceMap();
 }
-ResourceManager::~ResourceManager()
+ResourceManager::~ResourceManager() {}
+ResourceManager& ResourceManager::GetInstance()
 {
-    if (m_instance)
-        delete m_instance;
-}
-ResourceManager* ResourceManager::GetInstance()
-{
-    if (!m_instance)
-        m_instance = new ResourceManager();
-    return m_instance;
+    static ResourceManager instance;
+    return instance;
 }
 
 
