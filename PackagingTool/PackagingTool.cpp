@@ -81,7 +81,7 @@ void PackagingTool::createHeaderFile(std::vector<std::string>& assets, const std
                 std::string guidFileName = guidStream.str() + filetype;
                 item["filename"] = guidFileName;
                 item["offset"] = 0;
-                item["filenumber"] = guidStream.str();
+                item["filenumber"] = 0;
 
                 // File renaming quickfix (should be able to do it better but no time rn)
                 std::string oldFilePath = assetPath.string();
