@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

@@ -18,7 +18,7 @@ void ZipPackagingTool::createPackage(const std::vector<std::string>& assets, con
             std::cerr << "Failed to open asset file: " << asset << std::endl;
             continue;
         }
-        //heeeej
+
         // Get the size of the asset file
         inputFile.seekg(0, std::ios::end);
         std::streamsize size = inputFile.tellg();
@@ -28,8 +28,8 @@ void ZipPackagingTool::createPackage(const std::vector<std::string>& assets, con
         std::vector<char> buffer(static_cast<size_t>(size));
         if (inputFile.read(buffer.data(), size)) {
             // Extract filename
-            size_t lastPathSeparator = asset.find_last_of("/\\");
-            std::string filename = asset.substr(lastPathSeparator + 1);
+            std::filesystem::path assetPath(asset);
+            std::string filename = assetPath.filename().string();
 
             // Add the asset to the zip
             zip_fileinfo fileInfo{};
