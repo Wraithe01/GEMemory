@@ -399,10 +399,9 @@ PAKid FileSystem::PakOpen(const char* path)
     
     if (strcmp(saveptr, "tar") == 0)
     {
-        packageHandle handle = { 1, new std::ifstream(path, std::ios::in | std::ios::binary) };
-        handle.tarReader = new tar::tar_reader(*((std::ifstream*)handle.handle));
-        return handle;
+        return { 1, nullptr, new tar::tar_reader(path) };
     }
+    return PAKid();
 }
 
 bool FileSystem::PakWasOpened(PAKid package)
@@ -410,22 +409,23 @@ bool FileSystem::PakWasOpened(PAKid package)
     if (package.format == 0)
         return package.handle != nullptr;
     if (package.format == 1)
-        return (package.handle != nullptr) && (package.tarReader != nullptr);
+        return package.tarReader != nullptr;
 }
 
 
 int FileSystem::PakClose(PAKid package)
 {
     if (package.format == 0)
-        return unzClose(package.handle);
+    {
+        int err = unzClose(package.handle);
+        package.handle = nullptr;
+        return err;
+    }
     if (package.format == 1)
     {
         if (package.tarReader != nullptr)
             delete package.tarReader;
-        if (package.handle != nullptr)
-            delete package.handle;
         package.tarReader = nullptr;
-        package.handle = nullptr;
         return 0;
     }
     return -1;

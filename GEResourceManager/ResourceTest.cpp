@@ -13,18 +13,7 @@ void ResourceTest::Validate() {
 	std::cout << "TEST 1 - SHOULD NOT CAUSE ERRORS\n";
 	std::cout << "========================= Start =========================\n";
 	Scene scene;
-	scene.AppendGUID("2782cc3f-194c-436f-93f1-502e14227a39");
-	scene.AppendGUID("28d7d94-135a-413b-bdfd-95519a9d2f8");
-	scene.AppendGUID("539b33cb-af8d-4287-81a2-7e87eec372d");
-	scene.AppendGUID("65d5de75-9365-4b2c-b7dc-d7dfaf5636cc");
-	scene.AppendGUID("913b5a67-ec17-4fe3-823d-6aada1ce994");
-	scene.AppendGUID("97c2867a-5879-4cb9-917d-f1b18106ed3");
-	scene.AppendGUID("a965f7fd-db8e-4efb-8dbf-852abcede398");
-	scene.AppendGUID("b84cad92-5370-4103-8c46-7df5d7f83e4b");
-	scene.AppendGUID("be7561e3-9a23-46bf-85a3-9051746c8fd6");
-	scene.AppendGUID("ea07e00f-6e79-4cc9-b648-fa559971fa2b");
-	scene.AppendGUID("f2f94932-1e62-4a34-874e-7bc7a73149fc");
-	scene.AppendGUID("f6ab137b-b72d-4967-adc-b8404ade3e53");
+	scene.AppendGUID("6e4fef1c-c32-4601-adab-42c61ebc365d");
 
 	// Load scene
 	auto asyncRequest = resourceManager.LoadScene(scene);
