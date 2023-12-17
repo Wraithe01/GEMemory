@@ -1,43 +1,43 @@
 {
-    "31ccecde-7b60-41fa-9852-eddcd1d14d9": {
-        "filename": "anotherimage",
+    "2a558d7-8028-43e4-91b3-ccaf3076530": {
+        "filename": "bc6d5cdc-6b7d-47d2-ac37-629be8c0bea7",
         "filenumber": 0,
         "filetype": "jpg",
-        "offset": 550674,
+        "offset": 550755,
         "package": "../PackageFolder/testfolder_package.zip"
     },
-    "497290e3-f6c0-4b11-95b3-2452fe7fc15": {
-        "filename": "image",
+    "53b077f6-ccae-4220-a7ca-27b9b2da255a": {
+        "filename": "e7995b1c-c2ee-4e9a-a096-22e612c3af6a",
         "filenumber": 2,
-        "filetype": "png",
-        "offset": 550795,
+        "filetype": "fbx",
+        "offset": 550926,
         "package": "../PackageFolder/testfolder_package.zip"
     },
-    "5c59eb96-bd15-4b88-bf5e-39dc1f8c52b": {
-        "filename": "Body mesh",
+    "5450ae97-f2d7-4ade-9e11-7158db91a0de": {
+        "filename": "5450ae97-f2d7-4ade-9e11-7158db91a0de.fbx",
+        "filenumber": 0,
+        "filetype": "fbx",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "6e4fef1c-c32-4601-adab-42c61ebc365d": {
+        "filename": "6e4fef1c-c32-4601-adab-42c61ebc365d.png",
+        "filenumber": 0,
+        "filetype": "png",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "8ef789fd-2290-47bd-bd5d-291617b4dd69": {
+        "filename": "bd215168-3060-4f9c-abb9-37e73aabf24",
         "filenumber": 1,
-        "filetype": "fbx",
-        "offset": 550736,
+        "filetype": "png",
+        "offset": 550841,
         "package": "../PackageFolder/testfolder_package.zip"
     },
-    "9708ca2-c930-4d33-b088-bf27453468e3": {
-        "filename": "9708ca2-c930-4d33-b088-bf27453468e3.jpg",
-        "filenumber": "9708ca2-c930-4d33-b088-bf27453468e3",
+    "ebf3db0c-36f6-49c2-aba1-367cd1ff73e": {
+        "filename": "ebf3db0c-36f6-49c2-aba1-367cd1ff73e.jpg",
+        "filenumber": 0,
         "filetype": "jpg",
-        "offset": 0,
-        "package": "../PackageFolder/testfolder_package.tar"
-    },
-    "9b393efd-2794-41dc-9c8f-4f9165608fa0": {
-        "filename": "9b393efd-2794-41dc-9c8f-4f9165608fa0.fbx",
-        "filenumber": "9b393efd-2794-41dc-9c8f-4f9165608fa0",
-        "filetype": "fbx",
-        "offset": 0,
-        "package": "../PackageFolder/testfolder_package.tar"
-    },
-    "db54b1c1-f43c-43cb-ac83-6badc7c61a90": {
-        "filename": "db54b1c1-f43c-43cb-ac83-6badc7c61a90.png",
-        "filenumber": "db54b1c1-f43c-43cb-ac83-6badc7c61a90",
-        "filetype": "png",
         "offset": 0,
         "package": "../PackageFolder/testfolder_package.tar"
     }
