@@ -72,6 +72,26 @@ void ResourceTest::Validate() {
 	resourceManager.UnloadScene(scene);
 	resourceManager.UnloadScene(scene2);
 	std::cout << "========================= End =========================\n\n";
+
+
+	std::cout << "TEST 4 - Testing Async (Not locking main thread)\n";
+	std::cout << "========================= Start =========================\n";
+	asyncRequest = resourceManager.LoadScene(scene);
+
+	while (true)
+	{
+		if (!resourceManager.AsynchRequestCompleted(asyncRequest))
+		{
+			printf("Main thread not locked! We sleep 100 ms to wait for the request to complete...\n");
+			Sleep(100);
+		}
+		else {
+			printf("Work complete!\n");
+			break;
+		}
+	}
+	resourceManager.UnloadScene(scene);
+	std::cout << "========================= End =========================\n\n";
 }
 
 void ResourceTest::PerformanceBenchmark() {
@@ -104,7 +124,7 @@ void ResourceTest::PerformanceBenchmark() {
 	std::printf("Benchmark test took %8.8lld micro seconds\n",
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 
-	std::cout << "SUBTEST 2. Load all resources and unload 10 000 times\n";
+	std::cout << "SUBTEST 2. Load all resources and unload 10 times\n";
 	tstart = high_resolution_clock::now();
 
 	for (size_t i = 0; i < 10; i++)

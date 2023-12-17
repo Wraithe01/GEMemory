@@ -173,10 +173,9 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
     std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
 
     // Memory limit check
-    m_memoryUsage += filesize;
+    //m_memoryUsage += filesize;
     if (CheckMemoryLimit()) {
         m_memoryUsage -= filesize;
-        
         return;
     };
 
@@ -184,8 +183,14 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
     switch (g_acceptedTypes[fext])
     {
         case ResourceFBX:
-            res = std::make_shared<Mesh>();
-            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+            res = std::make_shared<FBXMesh>();
+            res.get()->LoadResource(buffer, filesize);
+            m_loadedData[guid] = res;
+            //printf("Loaded FBX!\n");
+            break;
+        case ResourceSTL:
+            res = std::make_shared<STLMesh>();
+            res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
             printf("Loaded STL!\n");
             break;
@@ -193,7 +198,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
-            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+            res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
             //printf("Loaded PNG/JPG!\n");
             break;
