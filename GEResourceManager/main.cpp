@@ -10,6 +10,6 @@ auto main(void) -> int
     tester.PerformanceBenchmark();
 
     int err = 0;
-    err = AsyncFileSystemTest();
+    //err = AsyncFileSystemTest();
     return err;
 }

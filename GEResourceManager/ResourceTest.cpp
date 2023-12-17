@@ -27,7 +27,8 @@ void ResourceTest::Validate() {
 	scene.AppendGUID("f6ab137b-b72d-4967-adc-b8404ade3e53");
 
 	// Load scene
-	resourceManager.LoadScene(scene);
+	auto asyncRequest = resourceManager.LoadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
 	printf("Scene loaded! Current resources: %zu\n", resourceManager.GetNumOfLoadedRes());
 
 	// Unload scene
@@ -40,7 +41,8 @@ void ResourceTest::Validate() {
 	// We update the memory limit to 0.5MB
 	resourceManager.SetMemoryLimit(500000);
 
-	resourceManager.LoadScene(scene);
+	asyncRequest = resourceManager.LoadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
 	printf("Scene loaded! Current resources: %zu\n", resourceManager.GetNumOfLoadedRes());
 	resourceManager.UnloadScene(scene);
 	// We restore default memory limit
@@ -50,11 +52,13 @@ void ResourceTest::Validate() {
 	std::cout << "TEST 3 - SCENE MEMORY TEST\n";
 	std::cout << "========================= Start =========================\n";
 
-	resourceManager.LoadScene(scene);
+	asyncRequest = resourceManager.LoadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
 	size_t initMemory = resourceManager.GetMemoryUsage();
 	Scene scene2;
 	scene2 = scene;
-	resourceManager.LoadScene(scene2);
+	asyncRequest = resourceManager.LoadScene(scene2);
+	resourceManager.AsynchRequestWait(asyncRequest);
 	size_t currentMemory = resourceManager.GetMemoryUsage();
 
 	if (initMemory == resourceManager.GetMemoryUsage())
@@ -92,10 +96,11 @@ void ResourceTest::PerformanceBenchmark() {
 	printf("Guids: %zu\n", scene.GetChunk().size());
 	std::cout << "SUBTEST 1. Load all resources and unload once\n";
 	auto tstart = high_resolution_clock::now();
-	resourceManager.LoadScene(scene);
-	printf("Loaded!\n");
-	resourceManager.UnloadScene(scene);
-	printf("Unloaded!\n");
+	auto asyncRequest = resourceManager.LoadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
+	
+	asyncRequest = resourceManager.UnloadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
 	std::printf("Benchmark test took %8.8lld micro seconds\n",
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 
@@ -104,8 +109,10 @@ void ResourceTest::PerformanceBenchmark() {
 
 	for (size_t i = 0; i < 10; i++)
 	{
-		resourceManager.LoadScene(scene);
-		resourceManager.UnloadScene(scene);
+		asyncRequest = resourceManager.LoadScene(scene);
+		resourceManager.AsynchRequestWait(asyncRequest);
+		asyncRequest = resourceManager.UnloadScene(scene);
+		resourceManager.AsynchRequestWait(asyncRequest);
 	}
 	std::printf("Benchmark test took %8.8lld micro seconds\n",
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());

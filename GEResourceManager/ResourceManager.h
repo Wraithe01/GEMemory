@@ -8,6 +8,7 @@
 #include "guiddef.h"
 #include "Scene.h"
 #include "Resource.h"
+#include "AsyncFunctionality.h"
 
 constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000;
 
@@ -19,15 +20,44 @@ struct HeaderEntry
     unz_file_pos_s filePos;
 };
 
-class ResourceManager sealed
+enum RMAsyncType
+{
+    RMNone,
+    RMLoadChunk,
+    RMUnloadChunk
+};
+
+struct RMAsyncIn
+{
+    RMAsyncType type = RMAsyncType::RMNone;
+    Scene* scene = nullptr;
+};
+
+struct RMAsyncOut
+{
+    int error = false;
+};
+
+typedef AsyncRequestHandle<RMAsyncOut> ResourceManagerRequestHandle;
+
+typedef void (*ResourceManagerCallbackFunction)(ResourceManagerRequestHandle request, void* callbackInput);
+
+class ResourceManager : public AsyncFunctionality<RMAsyncIn, RMAsyncOut>
 {
 private:
     ResourceManager();
 
     void LoadHeader();
 
-    std::string GetPackage(const std::string& guid);
-    void        ParseResource(const std::string& guid, const packageHandle& packid);
+    std::string            GetPackage(const std::string& guid);
+    AsyncFileRequestHandle AsyncGetResource(PAKid package, FilePos filePos, uint8_t*& o_buffer, int32_t* o_fileSize);
+    void                   ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize);
+
+    int RequestLoadScene(const Scene& scene);
+    int RequestUnloadScene(const Scene& scene);
+
+protected:
+    virtual void HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT) override;
 
 
 public:
@@ -37,8 +67,13 @@ public:
 
     static ResourceManager& GetInstance();
 
-    void LoadScene(const Scene& scene);
-    void UnloadScene(const Scene& scene);
+    ResourceManagerRequestHandle LoadScene(Scene& scene);
+    ResourceManagerRequestHandle UnloadScene(Scene& scene);
+    ResourceManagerRequestHandle LoadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput);
+    ResourceManagerRequestHandle UnloadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput);
+
+    // will return 0 if successful
+    int GetRequestError(ResourceManagerRequestHandle request);
 
     void SetMemoryLimit(size_t limit);
     bool CheckMemoryLimit() const;
