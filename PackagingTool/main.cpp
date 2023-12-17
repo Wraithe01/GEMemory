@@ -1,5 +1,5 @@
 #include "ZipPackaging.h"
-#include "TarGzPackaging.h"
+#include "TarPackaging.h"
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -38,13 +38,14 @@ int main() {
 
     // Get paths
     std::string outputPathTar = packageDirectory + folderName.string() + "_package.tar";
-    std::string outputPathTarGz = packageDirectory + folderName.string() + "_package.tar.gz";
 
     // Create the tar package
-    TarGzPackagingTool tarPackager;
+    TarPackagingTool tarPackager;
+
+    tarPackager.createHeaderFile(assets, headerPath, outputPathTar);
+
     tarPackager.createPackage(assets, outputPathTar);
-    tarPackager.gzipTarFile(outputPathTar, outputPathTarGz);
-    tarPackager.createHeaderFile(assets, headerPath, outputPathTarGz);
+
 
     return 0;
 }

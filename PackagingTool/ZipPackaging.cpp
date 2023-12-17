@@ -1,6 +1,6 @@
 #include "ZipPackaging.h"
 
-void ZipPackagingTool::createPackage(const std::vector<std::string>& assets, const std::string& outputPath) {
+void ZipPackagingTool::createPackage(std::vector<std::string>& assets, const std::string& outputPath) {
     // Open/create zip file
     zipFile zip = zipOpen(outputPath.c_str(), APPEND_STATUS_CREATE);
 
