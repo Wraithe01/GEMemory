@@ -152,12 +152,14 @@
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemExample.h" />
     <ClInclude Include="Includes.h" />
+    <ClInclude Include="microstl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ResourceTest.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="ufbx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

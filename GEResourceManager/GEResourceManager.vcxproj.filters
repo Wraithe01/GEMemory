@@ -22,6 +22,9 @@
     <Filter Include="External Tools\stb_image">
       <UniqueIdentifier>{4692cf86-4e48-4ea8-a6ea-2a68eca348ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Tools\gltf">
+      <UniqueIdentifier>{7ffe712b-a13c-4b94-94d6-7bc3543d26ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_gltf.h">
+      <Filter>External Tools\gltf</Filter>
+    </ClInclude>
+    <ClInclude Include="microstl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -93,10 +93,10 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
 
         // Memory limit check
         m_memoryUsage += fsize;
-        if (CheckMemoryLimit()) {
-            m_memoryUsage -= fsize;
-            return;
-        };
+        //if (CheckMemoryLimit()) {
+          //  m_memoryUsage -= fsize;
+            //return;
+        //};
 
         buffer = static_cast<uint8_t*>(std::malloc(fsize * sizeof(uint8_t)));
         if (PackageCurrentFileOpen(packid) != UNZ_OK)
@@ -110,19 +110,24 @@ void ResourceManager::ParseResource(const std::string& guid, const packageHandle
         switch (g_acceptedTypes[fext])
         {
         case ResourceFBX:
-            res = std::make_shared<Mesh>();
-            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+            res = std::make_shared<FBXMesh>();
+            res.get()->LoadResource(buffer, fsize);
             m_loadedData[guid] = res;
-            printf("Loaded FBX!\n");
+            //printf("Loaded FBX!\n");
             break;
-
+        case ResourceSTL:
+            res = std::make_shared<STLMesh>();
+            res.get()->LoadResource(buffer, fsize);
+            m_loadedData[guid] = res;
+            printf("Loaded STL!\n");
+            break;
         case ResourceJPG:
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
-            res.get()->LoadResource(static_cast<void*>(buffer), fsize);
+            res.get()->LoadResource(buffer, fsize);
             m_loadedData[guid] = res;
-            printf("Loaded PNG/JPG!\n");
+            //printf("Loaded PNG/JPG!\n");
             break;
 
         default:

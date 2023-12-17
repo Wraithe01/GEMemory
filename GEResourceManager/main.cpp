@@ -7,7 +7,7 @@ auto main(void) -> int
 {
     ResourceTest tester;
     tester.Validate();
-    //tester.PerformanceBenchmark();
+    tester.PerformanceBenchmark();
 
     int err = 0;
     err = AsyncFileSystemTest();

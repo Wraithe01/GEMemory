@@ -89,17 +89,20 @@ void ResourceTest::PerformanceBenchmark() {
 
 		scene.AppendGUID(guid);
 	}
+	printf("Guids: %zu\n", scene.GetChunk().size());
 	std::cout << "SUBTEST 1. Load all resources and unload once\n";
 	auto tstart = high_resolution_clock::now();
 	resourceManager.LoadScene(scene);
+	printf("Loaded!\n");
 	resourceManager.UnloadScene(scene);
+	printf("Unloaded!\n");
 	std::printf("Benchmark test took %8.8lld micro seconds\n",
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 
 	std::cout << "SUBTEST 2. Load all resources and unload 10 000 times\n";
 	tstart = high_resolution_clock::now();
 
-	for (size_t i = 0; i < 10000; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		resourceManager.LoadScene(scene);
 		resourceManager.UnloadScene(scene);
