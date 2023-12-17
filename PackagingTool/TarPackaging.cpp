@@ -1,13 +1,9 @@
-#include "ZipPackaging.h"
+#include "TarPackaging.h"
+#include "zlib.h"
 
-void ZipPackagingTool::createPackage(std::vector<std::string>& assets, const std::string& outputPath) {
-    // Open/create zip file
-    zipFile zip = zipOpen(outputPath.c_str(), APPEND_STATUS_CREATE);
-
-    if (zip == nullptr) {
-        std::cerr << "Failed to create zip file: " << outputPath << std::endl;
-        return;
-    }
+void TarPackagingTool::createPackage(std::vector<std::string>& assets, const std::string& outputPath) {
+    // Open/create tar file
+    tar::tar_writer tarWriter(outputPath);
 
     // Add the assets
     for (const std::string& asset : assets) {
@@ -26,16 +22,13 @@ void ZipPackagingTool::createPackage(std::vector<std::string>& assets, const std
 
         // Read the content of the asset file
         std::vector<char> buffer(static_cast<size_t>(size));
-        if (inputFile.read(buffer.data(), size)) {
+        if (inputFile.read(buffer.data(), size) || (inputFile.gcount() == size)) {
             // Extract filename
             std::filesystem::path assetPath(asset);
             std::string filename = assetPath.filename().string();
 
-            // Add the asset to the zip
-            zip_fileinfo fileInfo{};
-            zipOpenNewFileInZip(zip, filename.c_str(), &fileInfo, nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
-            zipWriteInFileInZip(zip, buffer.data(), static_cast<unsigned int>(size));
-            zipCloseFileInZip(zip);
+            // Add the asset to the tar file
+            tarWriter.write(filename, buffer.data(), static_cast<size_t>(size));
         }
         else {
             std::cerr << "Failed to read asset file: " << asset << std::endl;
@@ -43,8 +36,6 @@ void ZipPackagingTool::createPackage(std::vector<std::string>& assets, const std
 
         inputFile.close();
     }
-    std::cout << "Done creating zip package at: " << outputPath << std::endl;
 
-    // Close the zip
-    zipClose(zip, nullptr);
+    std::cout << "Done creating tar package at: " << outputPath << std::endl;
 }

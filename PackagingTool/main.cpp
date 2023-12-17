@@ -14,8 +14,6 @@ int main() {
         return 1;
     }
 
-    // Create zip or tar? option... :D
-
     // Get paths
     std::filesystem::path folderName = std::filesystem::path(folderPath).filename();
     std::string packageDirectory = "../PackageFolder/";
@@ -38,15 +36,15 @@ int main() {
     zipPackager.createPackage(assets, outputPath);
     zipPackager.createHeaderFile(assets, headerPath, outputPath);
 
-    std::string outputPathtest = packageDirectory + folderName.string() + "_package.tar.gz";
+    // Get paths
+    std::string outputPathTar = packageDirectory + folderName.string() + "_package.tar";
+    std::string outputPathTarGz = packageDirectory + folderName.string() + "_package.tar.gz";
 
     // Create the tar package
-    //TarGzPackagingTool tarPackager;
-    //tarPackager.createPackage(assets, outputPathtest);
-    // FIX createHeader... :D
-    //tarPackager.createHeaderFile(assets, headerPath, outputPathtest);
-
-    // libarchive !!!!!!
+    TarGzPackagingTool tarPackager;
+    tarPackager.createPackage(assets, outputPathTar);
+    tarPackager.gzipTarFile(outputPathTar, outputPathTarGz);
+    tarPackager.createHeaderFile(assets, headerPath, outputPathTarGz);
 
     return 0;
 }
