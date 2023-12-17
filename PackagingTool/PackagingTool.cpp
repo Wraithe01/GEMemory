@@ -1,5 +1,6 @@
 #include "PackagingTool.h"
 #include "json.hpp"
+#include "tar.hpp"
 
 void PackagingTool::generateGUID(GUID& guid) {
     CoCreateGuid(&guid); // Generates a guid
@@ -56,21 +57,32 @@ void PackagingTool::createHeaderFile(const std::vector<std::string>& assets, con
             item["filename"] = filename;
             item["filetype"] = filetype.substr(1);
 
-            // Get filePos struct and add to json
-            unzFile zipFile = unzOpen(packageName.c_str());
-            if (zipFile != nullptr) {
-                if (unzLocateFile(zipFile, assetPath.filename().string().c_str(), 1) != UNZ_OK) {
+            std::filesystem::path packagePath(packageName);
+            std::string packageType = packagePath.extension().string();
+            
+            if (packageType == ".zip") {
+                // Get filePos struct and add to json
+                unzFile zipFile = unzOpen(packageName.c_str());
+                if (zipFile != nullptr) {
+                    if (unzLocateFile(zipFile, assetPath.filename().string().c_str(), 1) != UNZ_OK) {
+                        unzClose(zipFile);
+                    }
+
+                    unz_file_pos filePos;
+                    if (unzGetFilePos(zipFile, &filePos) == UNZ_OK) {
+                        item["offset"] = filePos.pos_in_zip_directory;
+                        item["filenumber"] = filePos.num_of_file;
+                    }
+
                     unzClose(zipFile);
                 }
-                
-                unz_file_pos filePos;
-                if (unzGetFilePos(zipFile, &filePos) == UNZ_OK) {
-                    item["offset"] = filePos.pos_in_zip_directory;
-                    item["filenumber"] = filePos.num_of_file;
-                }
-            
-                unzClose(zipFile);
             }
+            else if (packageType == ".gz") {
+                // Add offset and or filenumber, or is it even needed for reading?   
+                item["offset"] = 1337;
+                item["filenumber"] = 1337;
+            }
+
             json[guidStream.str()] = item;
         }
     }
