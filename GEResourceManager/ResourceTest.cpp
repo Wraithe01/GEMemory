@@ -10,7 +10,7 @@ void ResourceTest::Validate() {
 	ResourceManager& resourceManager = ResourceManager::GetInstance();
 
 	std::cout << "[+] Starting validation test!\n";
-	std::cout << "TEST 1 - SHOULD NOT CAUSE ERRORS\n";
+	std::cout << "TEST 1 - BASIC SCENE LOAD OF 12 RESOURCES (SHOULD NOT CAUSE ERRORS)\n";
 	std::cout << "========================= Start =========================\n";
 	Scene scene;
 	scene.AppendGUID("2782cc3f-194c-436f-93f1-502e14227a39");
@@ -35,7 +35,7 @@ void ResourceTest::Validate() {
 	resourceManager.UnloadScene(scene);
 	std::cout << "========================= End =========================\n\n";
 
-	std::cout << "TEST 2 - SHOULD CAUSE ERRORS\n";
+	std::cout << "TEST 2 - MEMORY LIMIT TEST (SHOULD CAUSE ERRORS)\n";
 	std::cout << "========================= Start =========================\n";
 
 	// We update the memory limit to 0.5MB
@@ -49,7 +49,7 @@ void ResourceTest::Validate() {
 	resourceManager.SetMemoryLimit(DEFAULT_MEMORY_LIMIT);
 	std::cout << "========================= End =========================\n\n";
 
-	std::cout << "TEST 3 - SCENE MEMORY TEST\n";
+	std::cout << "TEST 3 - SCENE MEMORY TEST (SHOULD NOT CAUSE ERRORS)\n";
 	std::cout << "========================= Start =========================\n";
 
 	asyncRequest = resourceManager.LoadScene(scene);
@@ -74,7 +74,7 @@ void ResourceTest::Validate() {
 	std::cout << "========================= End =========================\n\n";
 
 
-	std::cout << "TEST 4 - Testing Async (Not locking main thread)\n";
+	std::cout << "TEST 4 - ASYNC TEST (SHOULD NOT LOCK MAIN THREAD)\n";
 	std::cout << "========================= Start =========================\n";
 	asyncRequest = resourceManager.LoadScene(scene);
 
