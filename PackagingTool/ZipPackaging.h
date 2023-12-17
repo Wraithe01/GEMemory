@@ -9,5 +9,5 @@
 
 class ZipPackagingTool : public PackagingTool {
 public:
-    virtual void createPackage(const std::vector<std::string>& assets, const std::string& outputPath) override;
+    virtual void createPackage(std::vector<std::string>& assets, const std::string& outputPath) override;
 };

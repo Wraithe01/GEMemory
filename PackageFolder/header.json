@@ -1,86 +1,44 @@
 {
-    "2782cc3f-194c-436f-93f1-502e14227a39": {
-        "filename": "imagecatangry",
-        "filenumber": 8,
-        "filetype": "png",
-        "offset": 3348663,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "28d7d94-135a-413b-bdfd-95519a9d2f8": {
-        "filename": "happycat",
-        "filenumber": 5,
-        "filetype": "jpg",
-        "offset": 3348495,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "539b33cb-af8d-4287-81a2-7e87eec372d": {
-        "filename": "Body mesh",
-        "filenumber": 2,
-        "filetype": "fbx",
-        "offset": 3348321,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "65d5de75-9365-4b2c-b7dc-d7dfaf5636cc": {
-        "filename": "image",
-        "filenumber": 7,
-        "filetype": "png",
-        "offset": 3348608,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "913b5a67-ec17-4fe3-823d-6aada1ce994": {
-        "filename": "sadcat",
-        "filenumber": 10,
-        "filetype": "jpg",
-        "offset": 3348781,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "97c2867a-5879-4cb9-917d-f1b18106ed3": {
-        "filename": "hicat",
-        "filenumber": 6,
-        "filetype": "jpg",
-        "offset": 3348553,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "a965f7fd-db8e-4efb-8dbf-852abcede398": {
-        "filename": "smallcatimage",
-        "filenumber": 11,
-        "filetype": "png",
-        "offset": 3348837,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "b84cad92-5370-4103-8c46-7df5d7f83e4b": {
-        "filename": "Pizza",
-        "filenumber": 9,
-        "filetype": "FBX",
-        "offset": 3348726,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "be7561e3-9a23-46bf-85a3-9051746c8fd6": {
-        "filename": "eepycat",
-        "filenumber": 4,
-        "filetype": "jpg",
-        "offset": 3348438,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "ea07e00f-6e79-4cc9-b648-fa559971fa2b": {
-        "filename": "anotherimage",
-        "filenumber": 1,
-        "filetype": "jpg",
-        "offset": 3348259,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "f2f94932-1e62-4a34-874e-7bc7a73149fc": {
-        "filename": "catimage",
-        "filenumber": 3,
-        "filetype": "png",
-        "offset": 3348380,
-        "package": "../PackageFolder/example_package.zip"
-    },
-    "f6ab137b-b72d-4967-adc-b8404ade3e53": {
-        "filename": "angrycat",
+    "2a558d7-8028-43e4-91b3-ccaf3076530": {
+        "filename": "bc6d5cdc-6b7d-47d2-ac37-629be8c0bea7",
         "filenumber": 0,
         "filetype": "jpg",
-        "offset": 3348201,
-        "package": "../PackageFolder/example_package.zip"
+        "offset": 550755,
+        "package": "../PackageFolder/testfolder_package.zip"
+    },
+    "53b077f6-ccae-4220-a7ca-27b9b2da255a": {
+        "filename": "e7995b1c-c2ee-4e9a-a096-22e612c3af6a",
+        "filenumber": 2,
+        "filetype": "fbx",
+        "offset": 550926,
+        "package": "../PackageFolder/testfolder_package.zip"
+    },
+    "5450ae97-f2d7-4ade-9e11-7158db91a0de": {
+        "filename": "5450ae97-f2d7-4ade-9e11-7158db91a0de.fbx",
+        "filenumber": 0,
+        "filetype": "fbx",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "6e4fef1c-c32-4601-adab-42c61ebc365d": {
+        "filename": "6e4fef1c-c32-4601-adab-42c61ebc365d.png",
+        "filenumber": 0,
+        "filetype": "png",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "8ef789fd-2290-47bd-bd5d-291617b4dd69": {
+        "filename": "bd215168-3060-4f9c-abb9-37e73aabf24",
+        "filenumber": 1,
+        "filetype": "png",
+        "offset": 550841,
+        "package": "../PackageFolder/testfolder_package.zip"
+    },
+    "ebf3db0c-36f6-49c2-aba1-367cd1ff73e": {
+        "filename": "ebf3db0c-36f6-49c2-aba1-367cd1ff73e.jpg",
+        "filenumber": 0,
+        "filetype": "jpg",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
     }
 }

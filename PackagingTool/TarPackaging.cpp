@@ -1,7 +1,7 @@
-#include "TarGzPackaging.h"
+#include "TarPackaging.h"
 #include "zlib.h"
-#include "zstr.hpp"
-void TarGzPackagingTool::createPackage(const std::vector<std::string>& assets, const std::string& outputPath) {
+
+void TarPackagingTool::createPackage(std::vector<std::string>& assets, const std::string& outputPath) {
     // Open/create tar file
     tar::tar_writer tarWriter(outputPath);
 
@@ -36,34 +36,6 @@ void TarGzPackagingTool::createPackage(const std::vector<std::string>& assets, c
 
         inputFile.close();
     }
-}
 
-void TarGzPackagingTool::gzipTarFile(const std::string& tarFile, const std::string& outputPath) {
-    // Open the tar file
-    std::ifstream ifs(tarFile, std::ios::binary);
-
-    if (!ifs.is_open()) {
-        std::cerr << "Error opening input file: " << tarFile << std::endl;
-        return;
-    }
-
-    // Open/create tar.gz file
-    zstr::ofstream gzout(outputPath, std::ios::binary);
-    if (!gzout.is_open()) {
-        std::cerr << "Error opening output file: " << outputPath << std::endl;
-        ifs.close();
-        return;
-    }
-
-    // Compress and write
-    gzout << ifs.rdbuf();
-
-    // Close files
-    ifs.close();
-    gzout.close();
-
-    // Remove the original .tar-file
-    std::filesystem::remove(tarFile);
-
-    std::cout << "Done creating tar.gz package at: " << outputPath << std::endl;
+    std::cout << "Done creating tar package at: " << outputPath << std::endl;
 }
