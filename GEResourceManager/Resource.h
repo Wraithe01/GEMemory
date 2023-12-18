@@ -46,11 +46,14 @@ public: // Methods
     virtual uint32_t GetRefcount() const;
     virtual const std::string& GetGUID() const;
 
+    size_t GetMemoryUsage() const;
+
 private:
 
 protected: // Variables
     std::string m_GUID;
     uint32_t m_refc;
+    size_t m_memoryUsage;
 };
 
 
