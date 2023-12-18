@@ -1,5 +1,6 @@
 #pragma once
 #include "Includes.h"
+#include "Settings.h"
 #include "ufbx.h"
 
 enum AcceptedResourceTypes : uint32_t
@@ -17,7 +18,7 @@ static void InitResourceMap() {
     g_acceptedTypes["JPG"] = ResourceJPG;
     g_acceptedTypes["PNG"] = ResourcePNG;
     g_acceptedTypes["FBX"] = ResourceFBX;
-    g_acceptedTypes["stl"] = ResourceSTL;
+    g_acceptedTypes["STL"] = ResourceSTL;
 }
 
 
@@ -76,7 +77,6 @@ private:
     ufbx_scene* m_fbxData;
 };
 
-
 class STLMesh sealed : public Mesh
 {
 public:
@@ -87,7 +87,7 @@ public:
     virtual void UnloadResource() override;
 
 private:
-    //tinygltf::Model m_model;
+    microstl::MeshReaderHandler handler;
 };
 
 class Texture sealed : public IResource

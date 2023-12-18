@@ -186,7 +186,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res = std::make_shared<FBXMesh>();
             res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
-            //printf("Loaded FBX!\n");
+            printf("Loaded FBX!\n");
             break;
         case ResourceSTL:
             res = std::make_shared<STLMesh>();
@@ -200,7 +200,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res = std::make_shared<Texture>();
             res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
-            //printf("Loaded PNG/JPG!\n");
+            printf("Loaded PNG/JPG!\n");
             break;
 
         default:
