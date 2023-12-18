@@ -159,7 +159,6 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="ufbx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
