@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr;$(SolutionDir)microtar</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr;$(SolutionDir)microtar</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -136,14 +136,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.c" />
+    <ClCompile Include="..\microtar\microtar.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PackagingTool.cpp" />
     <ClCompile Include="TarPackaging.cpp" />
     <ClCompile Include="ZipPackaging.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.h" />
+    <ClInclude Include="..\microtar\microtar.h" />
     <ClInclude Include="PackagingTool.h" />
     <ClInclude Include="TarPackaging.h" />
     <ClInclude Include="ZipPackaging.h" />

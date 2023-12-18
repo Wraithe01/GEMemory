@@ -51,7 +51,7 @@
     <ClCompile Include="ResourceTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="microtar.c">
+    <ClCompile Include="..\microtar\microtar.c">
       <Filter>External Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,11 +89,11 @@
     <ClInclude Include="ResourceTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="microtar.h">
-      <Filter>External Tools</Filter>
-    </ClInclude>
     <ClInclude Include="microstl.h">
       <Filter>External Tools\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\microtar\microtar.h">
+      <Filter>External Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
