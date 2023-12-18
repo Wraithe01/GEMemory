@@ -180,21 +180,26 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
     std::shared_ptr<IResource> res;
     switch (g_acceptedTypes[fext])
     {
-    case ResourceFBX:
-        res = std::make_shared<Mesh>();
-        res.get()->LoadResource(static_cast<void*>(buffer), filesize);
-        m_loadedData[guid] = res;
-        printf("Loaded FBX!\n");
-        break;
-
-    case ResourceJPG:
-        [[fallthrough]];
-    case ResourcePNG:
-        res = std::make_shared<Texture>();
-        res.get()->LoadResource(static_cast<void*>(buffer), filesize);
-        m_loadedData[guid] = res;
-        printf("Loaded PNG/JPG!\n");
-        break;
+        case ResourceFBX:
+            res = std::make_shared<FBXMesh>();
+            res.get()->LoadResource(buffer, filesize);
+            m_loadedData[guid] = res;
+            printf("Loaded FBX!\n");
+            break;
+        case ResourceSTL:
+            res = std::make_shared<STLMesh>();
+            res.get()->LoadResource(buffer, filesize);
+            m_loadedData[guid] = res;
+            printf("Loaded STL!\n");
+            break;
+        case ResourceJPG:
+            [[fallthrough]];
+        case ResourcePNG:
+            res = std::make_shared<Texture>();
+            res.get()->LoadResource(buffer, filesize);
+            m_loadedData[guid] = res;
+            printf("Loaded PNG/JPG!\n");
+            break;
 
     default:
         std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
