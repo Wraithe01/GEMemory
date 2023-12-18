@@ -87,7 +87,7 @@ public:
     virtual void UnloadResource() override;
 
 private:
-    microstl::MeshReaderHandler handler;
+    //microstl::MeshReaderHandler handler;
 };
 
 class Texture sealed : public IResource

@@ -1,8 +1,6 @@
 // microstl.h - STL file format parser - under MIT License
 // See https://github.com/cry-inc/microstl for details
 
-#pragma once
-
 #include <cstdint>
 #include <cstring>
 #include <cmath>
