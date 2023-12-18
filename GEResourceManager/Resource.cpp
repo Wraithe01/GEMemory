@@ -4,7 +4,7 @@
 #include "stb_image.h"
 
 IResource::IResource()
-    : m_refc(0)
+    : m_refc(0), m_memoryUsage(0)
 {
 }
 
@@ -23,6 +23,10 @@ uint32_t IResource::GetRefcount() const { return m_refc; }
 
 const std::string& IResource::GetGUID() const { return m_GUID; }
 
+size_t IResource::GetMemoryUsage() const
+{
+    return m_memoryUsage;
+}
 
 Mesh::Mesh()
     : m_data(nullptr)
@@ -38,12 +42,14 @@ bool Mesh::LoadResource(const void* buffer, int32_t buffSize)
         std::cerr << "Failed to load mesh (fbx), with error: " << err.description.data << std::endl;
         return false;
     }
+    m_memoryUsage = buffSize;
     return true;
 }
 void Mesh::UnloadResource()
 {
     ufbx_free_scene(m_data);
     m_data = nullptr;
+    m_memoryUsage = 0;
 }
 
 
@@ -66,10 +72,12 @@ bool Texture::LoadResource(const void* buffer, int32_t buffSize)
         std::cerr << "Failed to load texture (png/jpg)." << std::endl;
         return false;
     }
+    m_memoryUsage = buffSize;
     return true;
 }
 void Texture::UnloadResource()
 {
     stbi_image_free(m_img);
     m_img = nullptr;
+    m_memoryUsage = 0;
 }

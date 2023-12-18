@@ -54,14 +54,14 @@ void ResourceTest::Validate() {
 
 	asyncRequest = resourceManager.LoadScene(scene);
 	resourceManager.AsynchRequestWait(asyncRequest);
-	size_t initMemory = resourceManager.GetMemoryUsage();
+	size_t initMemory = resourceManager.GetTotalMemoryUsage();
 	Scene scene2;
 	scene2 = scene;
 	asyncRequest = resourceManager.LoadScene(scene2);
 	resourceManager.AsynchRequestWait(asyncRequest);
-	size_t currentMemory = resourceManager.GetMemoryUsage();
+	size_t currentMemory = resourceManager.GetTotalMemoryUsage();
 
-	if (initMemory == resourceManager.GetMemoryUsage())
+	if (initMemory == resourceManager.GetTotalMemoryUsage())
 	{
 		printf("PASS! Before: %zu bytes, After: %zu bytes\n", initMemory, currentMemory);
 	}

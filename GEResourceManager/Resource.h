@@ -26,7 +26,7 @@ public: // Methods
     ~IResource() = default;
 
     virtual bool LoadResource(const void* buffer, int32_t buffSize) = 0;
-    virtual void UnloadResource()                 = 0;
+    virtual void UnloadResource() = 0;
 
     // Reference counter functionality
     virtual void SetGUID(const std::string& guid);
@@ -43,11 +43,14 @@ public: // Methods
     virtual uint32_t GetRefcount() const;
     virtual const std::string& GetGUID() const;
 
+    size_t GetMemoryUsage() const;
+
 private:
 
 protected: // Variables
     std::string m_GUID;
     uint32_t m_refc;
+    size_t m_memoryUsage;
 };
 
 
