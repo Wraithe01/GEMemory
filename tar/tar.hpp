@@ -363,6 +363,14 @@ namespace tar{
 			return iter->second;
 		}
 
+		// Public member function to get a vector of filenames
+		std::vector<std::string> getFilenames() const {
+			std::vector<std::string> filenames;
+			for (const auto& entry : files_) {
+				filenames.push_back(entry.first);
+			}
+			return filenames;
+		}
 
 	private:
 		void init(){

@@ -268,7 +268,7 @@ void ResourceManager::LoadHeader()
         const std::string& package = entry.value()["package"];
         const uLong          offset = entry.value()["offset"];
         const uLong          fileNumber = entry.value()["filenumber"];
-        const unz_file_pos_s filePos{ offset, fileNumber };
+        const FilePos filePos{ {offset, fileNumber}, guid };
 
         HeaderEntry entryData{ filename, filetype, package, filePos };
         m_headerMap[guid] = entryData;

@@ -1,4 +1,5 @@
 #include "FileSystem.h"
+#include <cstring>
 
 FileSystem::FileSystem(uint32_t asyncAgentThreads)
 : AsyncFunctionality(asyncAgentThreads)
@@ -384,25 +385,61 @@ int CFileSystem::Seek(FILEid file, long offset, SeekOrigin origin)
     return -1;
 }
 
-PAKid FileSystem::PakOpen(const char* path) { return { 0, unzOpen(path) }; }
+PAKid FileSystem::PakOpen(const char* path) 
+{ 
+    char filePath[FILESYSTEM_TAR_MAX_PATH_LENGTH] = { 0 };
+    strcpy_s(filePath, FILESYSTEM_TAR_MAX_PATH_LENGTH, path);
+    char* saveptr;
+    strtok_s(filePath, ".", &saveptr);
+
+    if (strcmp(saveptr, "zip") == 0)
+    {
+        return { 0, unzOpen(path) };
+    }
+    
+    if (strcmp(saveptr, "tar") == 0)
+    {
+        return { 1, nullptr, new tar::tar_reader(path) };
+    }
+    return PAKid();
+}
 
 bool FileSystem::PakWasOpened(PAKid package)
 {
-    return package.handle != nullptr;
+    if (package.format == 0)
+        return package.handle != nullptr;
+    if (package.format == 1)
+        return package.tarReader != nullptr;
 }
 
 
 int FileSystem::PakClose(PAKid package)
 {
     if (package.format == 0)
-        return unzClose(package.handle);
+    {
+        int err = unzClose(package.handle);
+        package.handle = nullptr;
+        return err;
+    }
+    if (package.format == 1)
+    {
+        if (package.tarReader != nullptr)
+            delete package.tarReader;
+        package.tarReader = nullptr;
+        return 0;
+    }
     return -1;
 }
 
 int FileSystem::PakSeekFile(PAKid package, FilePos position)
 {
     if (package.format == 0)
-        return unzGoToFilePos(package.handle, &position);
+        return unzGoToFilePos(package.handle, &position.filePos);
+    if (package.format == 1)
+    {
+        package.fileName = position.GUID;
+        return 0;
+    }
     return -1;
 }
 
@@ -414,6 +451,12 @@ PakFileInfo FileSystem::PakGetCurrentFileInfo(PAKid package)
         unzGetCurrentFileInfo(package.handle, &info, nullptr, 0, nullptr, 0, nullptr, 0);
         return { info.uncompressed_size };
     }
+    if (package.format == 1)
+    {
+        size_t start = package.tarReader->get(package.fileName).tellg();
+        size_t end = package.tarReader->get(package.fileName).seekg(0, std::ios::end).tellg();
+        return {end - start};
+    }
     return PakFileInfo();
 }
 
@@ -421,6 +464,8 @@ int FileSystem::PakOpenCurrentFile(PAKid package)
 {
     if (package.format == 0)
         return unzOpenCurrentFile(package.handle);
+    if (package.format == 1)
+        return 0;
     return -1;
 }
 
@@ -428,6 +473,8 @@ int FileSystem::PakCloseCurrentFile(PAKid package)
 {
     if (package.format == 0)
         return unzCloseCurrentFile(package.handle);
+    if (package.format == 1)
+        return 0;
     return -1;
 }
 
@@ -435,5 +482,13 @@ int FileSystem::PakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package)
 {
     if (package.format == 0)
         return unzReadCurrentFile(package.handle, buffer, bytes);
+    if (package.format == 1)
+    {
+        if (package.tarReader->get(package.fileName).read((char*)buffer, bytes))
+        {
+            return 0;
+        }
+        return -1;
+    }
     return -1;
 }

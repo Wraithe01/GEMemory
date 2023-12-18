@@ -1,5 +1,6 @@
 #include "ZipPackaging.h"
 #include "TarPackaging.h"
+#include "microtar.h"
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -46,6 +47,4 @@ int main() {
 
     tarPackager.createPackage(assets, outputPathTar);
 
-
-    return 0;
 }

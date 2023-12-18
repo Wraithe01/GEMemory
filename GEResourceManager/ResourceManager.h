@@ -17,7 +17,7 @@ struct HeaderEntry
     std::string    filename;
     std::string    filetype;
     std::string    package;
-    unz_file_pos_s filePos;
+    FilePos filePos;
 };
 
 enum RMAsyncType
