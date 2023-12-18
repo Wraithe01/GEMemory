@@ -103,7 +103,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -121,7 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)zlib\;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)nlohmann;$(SolutionDir)tar;$(SolutionDir)zstr</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -136,12 +136,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PackagingTool.cpp" />
     <ClCompile Include="TarPackaging.cpp" />
     <ClCompile Include="ZipPackaging.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.h" />
     <ClInclude Include="PackagingTool.h" />
     <ClInclude Include="TarPackaging.h" />
     <ClInclude Include="ZipPackaging.h" />

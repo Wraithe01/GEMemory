@@ -1,7 +1,8 @@
 #pragma once
 
 #include "PackagingTool.h"
-#include "tar.hpp"
+#include "microtar.h"
+#include "zlib.h"
 
 class TarPackagingTool : public PackagingTool {
 public:

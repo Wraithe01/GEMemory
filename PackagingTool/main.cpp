@@ -1,5 +1,6 @@
 #include "ZipPackaging.h"
 #include "TarPackaging.h"
+#include "microtar.h"
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -32,9 +33,9 @@ int main() {
     }
 
     // Create the zip package
-    ZipPackagingTool zipPackager;
-    zipPackager.createPackage(assets, outputPath);
-    zipPackager.createHeaderFile(assets, headerPath, outputPath);
+    //ZipPackagingTool zipPackager;
+    //zipPackager.createPackage(assets, outputPath);
+    //zipPackager.createHeaderFile(assets, headerPath, outputPath);
 
     // Get paths
     std::string outputPathTar = packageDirectory + folderName.string() + "_package.tar";
@@ -45,6 +46,22 @@ int main() {
     tarPackager.createHeaderFile(assets, headerPath, outputPathTar);
 
     tarPackager.createPackage(assets, outputPathTar);
+
+    mtar_t tar;
+    mtar_header_t h;
+    char* p;
+
+    /* Open archive for reading */
+    mtar_open(&tar, outputPathTar.c_str(), "r");
+
+    /* Print all file names and sizes */
+    while ((mtar_read_header(&tar, &h)) != MTAR_ENULLRECORD) {
+        printf("%s (%d bytes)\n", h.name, h.size);
+        mtar_next(&tar);
+    }
+
+    /* Close archive */
+    mtar_close(&tar);
 
 
     return 0;

@@ -27,6 +27,9 @@
     <ClCompile Include="TarPackaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PackagingTool.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="TarPackaging.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

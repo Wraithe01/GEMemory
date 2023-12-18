@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.c" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="FileSystemExample.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.h" />
     <ClInclude Include="AsyncFunctionality.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemExample.h" />
