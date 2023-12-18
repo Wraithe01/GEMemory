@@ -3,6 +3,7 @@
 #include <chrono>
 #include "Scene.h"
 #include "ResourceManager.h"
+#include <windows.h> 
 
 // To construct guid pattern
 #include <iomanip>

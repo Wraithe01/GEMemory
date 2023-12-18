@@ -1,44 +1,58 @@
 {
-    "2a558d7-8028-43e4-91b3-ccaf3076530": {
-        "filename": "bc6d5cdc-6b7d-47d2-ac37-629be8c0bea7",
+    "2fdb31c4-8760-4343-a8fa-5786c29ddb": {
+        "filename": "2fdb31c4-8760-4343-a8fa-5786c29ddb.fbx",
+        "filenumber": 0,
+        "filetype": "fbx",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "405c6f96-eb47-4de5-8976-adeaa2800": {
+        "filename": "405c6f96-eb47-4de5-8976-adeaa2800.jpg",
         "filenumber": 0,
         "filetype": "jpg",
-        "offset": 550755,
-        "package": "../PackageFolder/testfolder_package.zip"
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
     },
-    "53b077f6-ccae-4220-a7ca-27b9b2da255a": {
-        "filename": "e7995b1c-c2ee-4e9a-a096-22e612c3af6a",
+    "61182300-5330-4425-8b0-fb3ba8e0c13a": {
+        "filename": "61182300-5330-4425-8b0-fb3ba8e0c13a.stl",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 0,
+        "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "7023d2a2-6f6d-49fc-9512-c1a3bc78b278": {
+        "filename": "a7304153-8f7b-42a5-aa61-6f221646774c",
         "filenumber": 2,
-        "filetype": "fbx",
-        "offset": 550926,
+        "filetype": "png",
+        "offset": 952043,
         "package": "../PackageFolder/testfolder_package.zip"
     },
-    "5450ae97-f2d7-4ade-9e11-7158db91a0de": {
-        "filename": "5450ae97-f2d7-4ade-9e11-7158db91a0de.fbx",
-        "filenumber": 0,
-        "filetype": "fbx",
-        "offset": 0,
-        "package": "../PackageFolder/testfolder_package.tar"
-    },
-    "6e4fef1c-c32-4601-adab-42c61ebc365d": {
-        "filename": "6e4fef1c-c32-4601-adab-42c61ebc365d.png",
-        "filenumber": 0,
-        "filetype": "png",
-        "offset": 0,
-        "package": "../PackageFolder/testfolder_package.tar"
-    },
-    "8ef789fd-2290-47bd-bd5d-291617b4dd69": {
-        "filename": "bd215168-3060-4f9c-abb9-37e73aabf24",
+    "798cb1b8-dfb9-4453-b2f7-ae67f75556e": {
+        "filename": "903dea2f-231a-4814-b2c4-3d3eeeadb1",
         "filenumber": 1,
-        "filetype": "png",
-        "offset": 550841,
+        "filetype": "jpg",
+        "offset": 951959,
         "package": "../PackageFolder/testfolder_package.zip"
     },
-    "ebf3db0c-36f6-49c2-aba1-367cd1ff73e": {
-        "filename": "ebf3db0c-36f6-49c2-aba1-367cd1ff73e.jpg",
+    "8baa3bc4-1b74-4015-971c-a91073603842": {
+        "filename": "fef33ab6-4ff1-4352-8e14-3c6d25576c3d",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 952129,
+        "package": "../PackageFolder/testfolder_package.zip"
+    },
+    "8c696454-7ac0-47de-8490-c25d6d4b01c": {
+        "filename": "8c696454-7ac0-47de-8490-c25d6d4b01c.png",
         "filenumber": 0,
-        "filetype": "jpg",
+        "filetype": "png",
         "offset": 0,
         "package": "../PackageFolder/testfolder_package.tar"
+    },
+    "bf2e0941-ad77-4d57-bd74-b7d43dc828ff": {
+        "filename": "4c62a752-2046-4c1a-a01f-b699e75f1299",
+        "filenumber": 0,
+        "filetype": "fbx",
+        "offset": 951873,
+        "package": "../PackageFolder/testfolder_package.zip"
     }
 }

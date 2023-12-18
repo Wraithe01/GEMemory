@@ -1,10 +1,13 @@
-#include "Settings.h"
 #include "Resource.h"
+
 #define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "microstl.h"
+
 IResource::IResource()
-    : m_refc(0)
+    : m_refc(0), m_memoryUsage(0)
 {
 }
 
@@ -23,27 +26,59 @@ uint32_t IResource::GetRefcount() const { return m_refc; }
 
 const std::string& IResource::GetGUID() const { return m_GUID; }
 
+size_t IResource::GetMemoryUsage() const
+{
+    return m_memoryUsage;
+}
 
-Mesh::Mesh()
-    : m_data(nullptr)
+FBXMesh::FBXMesh()
+    : m_fbxData(nullptr)
 {
 }
 
-bool Mesh::LoadResource(const void* buffer, int32_t buffSize)
+bool FBXMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
 {
     ufbx_error err;
-    m_data = ufbx_load_memory(buffer, buffSize, NULL, &err);
-    if (!m_data)
+    m_fbxData = ufbx_load_memory(buffer, buffSize, NULL, &err);
+    if (!m_fbxData)
     {
-        std::cerr << "Failed to load mesh (fbx), with error: " << err.description.data << std::endl;
+        std::cerr << "Failed to load FBX mesh, with error: " << err.description.data << std::endl;
         return false;
     }
+    m_memoryUsage = buffSize;
     return true;
 }
-void Mesh::UnloadResource()
+
+void FBXMesh::UnloadResource()
 {
-    ufbx_free_scene(m_data);
-    m_data = nullptr;
+    ufbx_free_scene(m_fbxData);
+    m_fbxData = nullptr;
+    m_memoryUsage = 0;
+}
+
+STLMesh::STLMesh()
+{
+    handler = new microstl::MeshReaderHandler;
+}
+
+bool STLMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
+{
+    microstl::Result result = microstl::Reader::readStlBuffer(reinterpret_cast<const char*>(buffer), buffSize, *handler);
+
+    if (result != microstl::Result::Success)
+    {
+        std::cerr << "Failed to load STL model: " << microstl::getResultString(result) << std::endl;
+        return false;
+    }
+    m_memoryUsage = buffSize;
+    return true;
+}
+
+void STLMesh::UnloadResource()
+{
+    m_memoryUsage = 0;
+    if (handler != nullptr)
+        delete handler;
 }
 
 
@@ -53,7 +88,7 @@ Texture::Texture()
     m_dim = {};
 }
 
-bool Texture::LoadResource(const void* buffer, int32_t buffSize)
+bool Texture::LoadResource(const uint8_t* buffer, int32_t buffSize)
 {
     m_img = stbi_load_from_memory((stbi_uc*)buffer,
         buffSize,
@@ -66,10 +101,12 @@ bool Texture::LoadResource(const void* buffer, int32_t buffSize)
         std::cerr << "Failed to load texture (png/jpg)." << std::endl;
         return false;
     }
+    m_memoryUsage = buffSize;
     return true;
 }
 void Texture::UnloadResource()
 {
     stbi_image_free(m_img);
     m_img = nullptr;
+    m_memoryUsage = 0;
 }

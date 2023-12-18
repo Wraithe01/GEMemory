@@ -22,6 +22,9 @@
     <Filter Include="External Tools\stb_image">
       <UniqueIdentifier>{4692cf86-4e48-4ea8-a6ea-2a68eca348ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Tools\stl">
+      <UniqueIdentifier>{b45995df-df43-4c49-9d37-b24e8ce45c17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,7 +51,7 @@
     <ClCompile Include="ResourceTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.c">
+    <ClCompile Include="microtar.c">
       <Filter>External Tools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,8 +89,11 @@
     <ClInclude Include="ResourceTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\microtar-master(1)\microtar-master\src\microtar.h">
+    <ClInclude Include="microtar.h">
       <Filter>External Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="microstl.h">
+      <Filter>External Tools\stl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

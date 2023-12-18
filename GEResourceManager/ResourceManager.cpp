@@ -81,7 +81,7 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
         int32_t nextBufSize = 0;
 
         int i = 0;
-        for(auto it = value.begin(); it != value.end(); it++)
+        for (auto it = value.begin(); it != value.end(); it++)
         {
             i++;
             if (it == value.begin())
@@ -159,7 +159,7 @@ AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos 
 
     *o_fileSize = PackageCurrentFileInfo(package).fileSize;
     o_buffer = static_cast<uint8_t*>(std::malloc((*o_fileSize) * sizeof(uint8_t)));
-    
+
     //opens async request for opening current file. File content will be read in callback
     fileRequest = PackageCurrentFileOpenAsync(package, CallbackPakFile, new FileBufCallback({ package, o_buffer, o_fileSize }));
 
@@ -168,40 +168,42 @@ AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos 
 
 void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize)
 {
+    if (CheckMemoryLimit(filesize))
+    {
+        return;
+    }
+
     // Get the type of file
     std::string fext = m_headerMap[guid].filetype;
     std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
-
-    // Memory limit check
-    m_memoryUsage += filesize;
-    if (CheckMemoryLimit()) {
-        m_memoryUsage -= filesize;
-        
-        return;
-    };
 
     std::shared_ptr<IResource> res;
     switch (g_acceptedTypes[fext])
     {
         case ResourceFBX:
-            res = std::make_shared<Mesh>();
-            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
+            res = std::make_shared<FBXMesh>();
+            res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
             printf("Loaded FBX!\n");
             break;
-
+        case ResourceSTL:
+            res = std::make_shared<STLMesh>();
+            res.get()->LoadResource(buffer, filesize);
+            m_loadedData[guid] = res;
+            printf("Loaded STL!\n");
+            break;
         case ResourceJPG:
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
-            res.get()->LoadResource(static_cast<void*>(buffer), filesize);
+            res.get()->LoadResource(buffer, filesize);
             m_loadedData[guid] = res;
             printf("Loaded PNG/JPG!\n");
             break;
 
-        default:
-            std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
-            break;
+    default:
+        std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
+        break;
     }
     m_loadedData[guid]->InitRefcount();
 
@@ -287,17 +289,33 @@ void ResourceManager::SetMemoryLimit(size_t limit) {
     m_memoryLimit = limit;
 }
 
-bool ResourceManager::CheckMemoryLimit() const {
-    if (m_memoryLimit > 0 && m_memoryUsage > m_memoryLimit) {
-        std::cerr << "Warning: Memory limit exceeded! Total memory usage: "
-            << m_memoryUsage << " bytes! Skipping to add resource\n";
+bool ResourceManager::CheckMemoryLimit(size_t fileSize) const {
+    size_t totalMemory = GetTotalMemoryUsage();
+    if (m_memoryLimit > 0 && totalMemory + fileSize > m_memoryLimit) {
+        std::cerr << "[-] Warning: Trying to add object with size : " << fileSize << " bytes! This exceeds the memory limit! Total memory usage : "
+            << totalMemory << " bytes! Asset was not loaded to memory.\n\n";
+        DumpLoadedResources();
         return true;
     }
     return false;
 }
 
-size_t ResourceManager::GetMemoryUsage() {
-    return m_memoryUsage;
+void ResourceManager::DumpLoadedResources() const {
+    std::cerr << "[-] Dumping list of all resources loaded in memory \n";
+    for (const auto& entry : m_loadedData)
+    {
+        const std::string& guid = entry.first;
+        std::cerr << "GUID: " << guid << "\n";
+    }
+    std::cerr << "\n";
+}
+
+size_t ResourceManager::GetTotalMemoryUsage() const {
+    size_t totalMemory = 0;
+    for (const auto& entry : m_loadedData) {
+        totalMemory += entry.second->GetMemoryUsage();
+    }
+    return totalMemory;
 }
 
 size_t ResourceManager::GetNumOfLoadedRes()
