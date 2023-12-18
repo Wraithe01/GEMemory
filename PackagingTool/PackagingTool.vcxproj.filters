@@ -24,7 +24,7 @@
     <ClCompile Include="ZipPackaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TarGzPackaging.cpp">
+    <ClCompile Include="TarPackaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="ZipPackaging.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="TarGzPackaging.h">
+    <ClInclude Include="TarPackaging.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

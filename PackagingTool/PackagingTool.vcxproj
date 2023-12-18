@@ -138,12 +138,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PackagingTool.cpp" />
-    <ClCompile Include="TarGzPackaging.cpp" />
+    <ClCompile Include="TarPackaging.cpp" />
     <ClCompile Include="ZipPackaging.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PackagingTool.h" />
-    <ClInclude Include="TarGzPackaging.h" />
+    <ClInclude Include="TarPackaging.h" />
     <ClInclude Include="ZipPackaging.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
