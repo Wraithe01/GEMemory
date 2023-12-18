@@ -3,6 +3,12 @@
 #include "Settings.h"
 #include "ufbx.h"
 
+// Forward declare
+namespace microstl
+{
+    struct MeshReaderHandler;
+}
+
 enum AcceptedResourceTypes : uint32_t
 {
     ResourceFBX = 0,
@@ -90,7 +96,7 @@ public:
     virtual void UnloadResource() override;
 
 private:
-    //microstl::MeshReaderHandler handler;
+    microstl::MeshReaderHandler* handler;
 };
 
 class Texture sealed : public IResource

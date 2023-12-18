@@ -58,13 +58,12 @@ void FBXMesh::UnloadResource()
 
 STLMesh::STLMesh()
 {
-
+    handler = new microstl::MeshReaderHandler;
 }
 
 bool STLMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
 {
-    microstl::MeshReaderHandler meshHandler;
-    microstl::Result result = microstl::Reader::readStlBuffer(reinterpret_cast<const char*>(buffer), buffSize, meshHandler);
+    microstl::Result result = microstl::Reader::readStlBuffer(reinterpret_cast<const char*>(buffer), buffSize, *handler);
 
     if (result != microstl::Result::Success)
     {
@@ -78,6 +77,8 @@ bool STLMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
 void STLMesh::UnloadResource()
 {
     m_memoryUsage = 0;
+    if (handler != nullptr)
+        delete handler;
 }
 
 
