@@ -10,7 +10,7 @@
 #include "Resource.h"
 #include "AsyncFunctionality.h"
 
-constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000;
+constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000 * 16;
 
 struct HeaderEntry
 {

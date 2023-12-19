@@ -10,7 +10,7 @@ void ResourceTest::Validate() {
 	ResourceManager& resourceManager = ResourceManager::GetInstance();
 
 	std::cout << "[+] Starting validation test!\n";
-	std::cout << "TEST 1 - BASIC SCENE LOAD OF 12 RESOURCES (SHOULD NOT CAUSE ERRORS)\n";
+	std::cout << "TEST 1 - BASIC SCENE LOAD OF 8 RESOURCES (SHOULD NOT CAUSE ERRORS)\n";
 	std::cout << "========================= Start =========================\n";
 	Scene scene;
 	// ZIP
@@ -136,18 +136,5 @@ void ResourceTest::PerformanceBenchmark() {
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 	std::cout << "========================= End =========================\n\n";
 
-	std::cout << "TEST 2 (5 packages, 1 000 resources in total)\n";
-	std::cout << "========================= Start =========================\n";
-	for (size_t i = 0; i < 1000; i++)
-	{
-		// Generate the last four digits with leading zeros
-		std::ostringstream oss;
-		oss << std::setw(4) << std::setfill('0') << i;
-
-		// Construct the full GUID with the generated suffix
-		std::string guid = "00000000-0000-0000-0000-00000000" + oss.str();
-
-		scene.AppendGUID(guid);
-	}
-	// TODO 
+	std::cout << "All tests performed!" << std::endl;
 }
