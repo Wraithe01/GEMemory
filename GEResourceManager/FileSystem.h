@@ -3,7 +3,7 @@
 #include "Includes.h"
 #include "AsyncFunctionality.h"
 #include <fstream>
-#include "tar.hpp"
+#include "microtar.h"
 
 // fopen based function call
 #define FileOpen(path, mode) CFileSystem::Instance()->Open(path, mode)
@@ -115,8 +115,8 @@ struct packageHandle
 {
 	int8_t format = -1; // 0 for zip | 1 for tar
 	void* handle = nullptr;
-	tar::tar_reader* tarReader = nullptr;
 	std::string fileName = "";
+	mtar_header_t* header = nullptr;
 };
 
 typedef packageHandle PAKid;
@@ -125,6 +125,7 @@ struct FilePos
 {
 	unz_file_pos_s filePos;
 	std::string GUID;
+	std::string filetype;
 };
 
 struct PakFileInfo

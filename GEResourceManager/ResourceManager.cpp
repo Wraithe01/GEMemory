@@ -151,7 +151,7 @@ AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos 
 
     AsyncFileRequestHandle fileRequest = nullptr;
 
-    if (PackageSeekFile(package, filePos) != UNZ_OK)
+    if (PackageSeekFile(package, filePos) != UNZ_OK || PackageSeekFile(package, filePos) != MTAR_ESUCCESS)
     {
         std::cerr << "ERROR: Seek file failed\n";
         return nullptr;
@@ -268,7 +268,7 @@ void ResourceManager::LoadHeader()
         const std::string& package = entry.value()["package"];
         const uLong          offset = entry.value()["offset"];
         const uLong          fileNumber = entry.value()["filenumber"];
-        const FilePos filePos{ {offset, fileNumber}, guid };
+        const FilePos filePos{ {offset, fileNumber}, guid, filetype };
 
         HeaderEntry entryData{ filename, filetype, package, filePos };
         m_headerMap[guid] = entryData;
