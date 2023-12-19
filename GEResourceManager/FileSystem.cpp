@@ -399,7 +399,12 @@ PAKid FileSystem::PakOpen(const char* path)
     
     if (strcmp(saveptr, "tar") == 0)
     {
-        return { 1, nullptr, new tar::tar_reader(path) };
+        mtar_t* tar = new mtar_t;
+        if (mtar_open(tar, path, "r") != MTAR_ESUCCESS) {
+            delete tar;
+            return PAKid();
+        }
+        return { 1, tar };
     }
     return PAKid();
 }
@@ -409,7 +414,8 @@ bool FileSystem::PakWasOpened(PAKid package)
     if (package.format == 0)
         return package.handle != nullptr;
     if (package.format == 1)
-        return package.tarReader != nullptr;
+        return package.handle != nullptr;
+    return -1;
 }
 
 
@@ -423,9 +429,11 @@ int FileSystem::PakClose(PAKid package)
     }
     if (package.format == 1)
     {
-        if (package.tarReader != nullptr)
-            delete package.tarReader;
-        package.tarReader = nullptr;
+        if (package.handle != nullptr) {
+            mtar_close(static_cast<mtar_t*>(package.handle));
+            delete package.handle;
+        }
+        package.handle = nullptr;
         return 0;
     }
     return -1;
@@ -437,8 +445,9 @@ int FileSystem::PakSeekFile(PAKid package, FilePos position)
         return unzGoToFilePos(package.handle, &position.filePos);
     if (package.format == 1)
     {
-        package.fileName = position.GUID;
-        return 0;
+        // Recreate the filename with guid + filetype
+        std::string fileName = position.GUID + "." + position.filetype;
+        return mtar_find(static_cast<mtar_t*>(package.handle), fileName.c_str(), package.header);
     }
     return -1;
 }
@@ -453,9 +462,12 @@ PakFileInfo FileSystem::PakGetCurrentFileInfo(PAKid package)
     }
     if (package.format == 1)
     {
-        size_t start = package.tarReader->get(package.fileName).tellg();
-        size_t end = package.tarReader->get(package.fileName).seekg(0, std::ios::end).tellg();
-        return {end - start};
+        mtar_header_t header;
+        package.header = &header;
+        mtar_read_header(static_cast<mtar_t*>(package.handle), package.header);
+        PakFileInfo info;
+        info.fileSize = package.header->size;
+        return info;
     }
     return PakFileInfo();
 }
@@ -465,6 +477,7 @@ int FileSystem::PakOpenCurrentFile(PAKid package)
     if (package.format == 0)
         return unzOpenCurrentFile(package.handle);
     if (package.format == 1)
+        // no need to open file in tar
         return 0;
     return -1;
 }
@@ -474,6 +487,7 @@ int FileSystem::PakCloseCurrentFile(PAKid package)
     if (package.format == 0)
         return unzCloseCurrentFile(package.handle);
     if (package.format == 1)
+        // no need to close file in tar 
         return 0;
     return -1;
 }
@@ -484,11 +498,8 @@ int FileSystem::PakCurrentFileRead(void* buffer, uint32_t bytes, PAKid package)
         return unzReadCurrentFile(package.handle, buffer, bytes);
     if (package.format == 1)
     {
-        if (package.tarReader->get(package.fileName).read((char*)buffer, bytes))
-        {
-            return 0;
-        }
-        return -1;
+        mtar_read_data(static_cast<mtar_t*>(package.handle), buffer, bytes);
+        return bytes;
     }
     return -1;
 }

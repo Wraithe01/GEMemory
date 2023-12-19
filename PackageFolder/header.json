@@ -1,20 +1,20 @@
 {
     "2fdb31c4-8760-4343-a8fa-5786c29ddb": {
-        "filename": "2fdb31c4-8760-4343-a8fa-5786c29ddb.fbx",
+        "filename": "2fdb31c4-8760-4343-a8fa-5786c29ddb",
         "filenumber": 0,
         "filetype": "fbx",
         "offset": 0,
         "package": "../PackageFolder/testfolder_package.tar"
     },
     "405c6f96-eb47-4de5-8976-adeaa2800": {
-        "filename": "405c6f96-eb47-4de5-8976-adeaa2800.jpg",
+        "filename": "405c6f96-eb47-4de5-8976-adeaa2800",
         "filenumber": 0,
         "filetype": "jpg",
         "offset": 0,
         "package": "../PackageFolder/testfolder_package.tar"
     },
     "61182300-5330-4425-8b0-fb3ba8e0c13a": {
-        "filename": "61182300-5330-4425-8b0-fb3ba8e0c13a.stl",
+        "filename": "61182300-5330-4425-8b0-fb3ba8e0c13a",
         "filenumber": 0,
         "filetype": "stl",
         "offset": 0,
@@ -42,7 +42,7 @@
         "package": "../PackageFolder/testfolder_package.zip"
     },
     "8c696454-7ac0-47de-8490-c25d6d4b01c": {
-        "filename": "8c696454-7ac0-47de-8490-c25d6d4b01c.png",
+        "filename": "8c696454-7ac0-47de-8490-c25d6d4b01c",
         "filenumber": 0,
         "filetype": "png",
         "offset": 0,

@@ -78,19 +78,19 @@ void PackagingTool::createHeaderFile(std::vector<std::string>& assets, const std
             }
             else if (packageType == ".tar") {
                 std::string guidFileName = guidStream.str() + filetype;
-               // item["filename"] = guidFileName;
+                item["filename"] = guidStream.str();
                 item["filename"] = filename;
                 item["offset"] = 0;
                 item["filenumber"] = 0;
 
                 // File renaming quickfix (should be able to do it better but no time rn)
-                /*std::string oldFilePath = assetPath.string();
+                std::string oldFilePath = assetPath.string();
                 std::string newFileName = guidFileName;
                 std::filesystem::path directoryPath = std::filesystem::path(oldFilePath).parent_path();
                 std::filesystem::path newFilePath = directoryPath / newFileName;
-                std::filesystem::rename(oldFilePath, newFilePath);*/
+                std::filesystem::rename(oldFilePath, newFilePath);
                 
-                //asset = newFilePath.string();
+                asset = newFilePath.string();
 
             }
             json[guidStream.str()] = item;
