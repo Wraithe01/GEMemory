@@ -32,12 +32,16 @@ public:  // Methods
     virtual size_t CurrentStored();
 
 private:
-public:  // variables
-    uint8_t* m_start;
-    uint8_t* m_last;
+    uint32_t IndexFromAddr(uint8_t* addr) const;
+    uint8_t* AddrFromIndex(uint32_t index) const;
 
+public: // variables
+    static const uint32_t s_headerSize = sizeof(uint32_t);
+
+private: 
+
+    uint16_t m_nodeCount;
     uint32_t m_freeNodes;
-    uint32_t   m_nodesize;
-
-    static const uint32_t m_headerSize = sizeof(uint8_t*);
+    uint32_t m_nodeSize;
+    uint8_t* m_next;
 };
