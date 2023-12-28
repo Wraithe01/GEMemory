@@ -5,22 +5,43 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Library">
-      <UniqueIdentifier>{9f29e474-b9b6-4e1b-83e9-79b39a44d7ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui">
+    <Filter Include="Resource Files\ImGui">
       <UniqueIdentifier>{ef10d3d9-1acf-4d1f-8441-e7aa0e5892eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{63aa537c-093b-4e7d-a508-d582303652fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{5c9637c0-b6be-4d6d-8daa-bf5b08cd2212}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Imgui.cpp">
-      <Filter>ImGui</Filter>
+      <Filter>Resource Files\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui.h">
-      <Filter>ImGui</Filter>
+      <Filter>Resource Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
