@@ -10,7 +10,7 @@ static void AllocTest()
     BuddyAlloc  buddy(DEFAULT_BUDDY_MEM_SIZE);
 
     //tester.Validate(stack, DEFAULT_NODE_SIZE, "Default Stack Test");
-    tester.Validate(pool, DEFAULT_NODE_SIZE, "Default Pool Test", sizeof(uint8_t*));
+    tester.Validate(pool, DEFAULT_NODE_SIZE, "Default Pool Test", pool.s_headerSize);
     tester.TestStomp(stomp);
     tester.BuddyTest(buddy, 128, "Default Buddy Test");
 
