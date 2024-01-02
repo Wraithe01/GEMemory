@@ -135,6 +135,13 @@
   <ItemGroup>
     <ClInclude Include="Imgui.h" />
     <ClInclude Include="Includes.h" />
+    <ClInclude Include="Libs\raylib\include\raylib.h" />
+    <ClInclude Include="Libs\raylib\include\raymath.h" />
+    <ClInclude Include="Libs\raylib\include\rlgl.h" />
+    <ClInclude Include="Libs\rlImGui\include\extras\FA6FreeSolidFontData.h" />
+    <ClInclude Include="Libs\rlImGui\include\extras\IconsFontAwesome6.h" />
+    <ClInclude Include="Libs\rlImGui\include\imgui_raylib.h" />
+    <ClInclude Include="Libs\rlImGui\include\imgui_raylibcolors.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Settings.h" />
@@ -144,6 +151,24 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="Renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libs\ImGui\lib\Debug\ImGui.pdb" />
+    <None Include="Libs\ImGui\lib\Release\ImGui.pdb" />
+    <None Include="Libs\rlImGui\lib\Debug\rlImGui.idb" />
+    <None Include="Libs\rlImGui\lib\Debug\rlImGui.pdb" />
+    <None Include="Libs\rlImGui\lib\Release\rlImGui.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libs\ImGui\lib\Debug\ImGui.lib" />
+    <Library Include="Libs\ImGui\lib\Release\ImGui.lib" />
+    <Library Include="Libs\raylib\lib\Debug\raylib.lib" />
+    <Library Include="Libs\raylib\lib\Release\raylib.lib" />
+    <Library Include="Libs\rlImGui\lib\Debug\rlImGui.lib" />
+    <Library Include="Libs\rlImGui\lib\Release\rlImGui.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Libs\rlImGui\include\extras\FontAwsome_LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
