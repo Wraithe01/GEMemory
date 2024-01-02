@@ -115,7 +115,6 @@ struct packageHandle
 {
 	int8_t format = -1; // 0 for zip | 1 for tar
 	void* handle = nullptr;
-	std::string fileName = "";
 	mtar_header_t* header = nullptr;
 };
 
@@ -124,9 +123,9 @@ typedef packageHandle PAKid;
 struct FilePos
 {
 	unz_file_pos_s filePos;
-	std::string GUID;
-	std::string filetype;
+	std::string filename;
 };
+
 
 struct PakFileInfo
 {

@@ -445,9 +445,7 @@ int FileSystem::PakSeekFile(PAKid package, FilePos position)
         return unzGoToFilePos(package.handle, &position.filePos);
     if (package.format == 1)
     {
-        // Recreate the filename with guid + filetype
-        std::string fileName = position.GUID + "." + position.filetype;
-        return mtar_find(static_cast<mtar_t*>(package.handle), fileName.c_str(), package.header);
+        return mtar_find(static_cast<mtar_t*>(package.handle), position.filename.c_str(), package.header);
     }
     return -1;
 }
