@@ -175,6 +175,11 @@
   <ItemGroup>
     <Text Include="Libs\rlImGui\include\extras\FontAwsome_LICENSE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GEResourceManager\GEResourceManager.vcxproj">
+      <Project>{07105903-9b89-4e64-b7d8-fa97cce4af44}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

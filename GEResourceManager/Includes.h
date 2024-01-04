@@ -8,6 +8,10 @@
 #pragma once
 #include "Settings.h"
 
+#if defined(_WIN32)
+#define NOGDI   // All GDI defines and routines
+#define NOUSER  // All USER defines and routines
+#endif
 #include <iostream>
 #include <map>
 #include <queue>
@@ -25,3 +29,12 @@
 #define ZLIB_WINAPI
 #include "zip.h"
 #include "unzip.h"
+
+
+// Keep last
+#if defined(_WIN32)  // raylib uses these names as function parameters
+#undef near
+#undef far
+#endif
+#include <raylib.h>  // Order is important
+#include <raymath.h>

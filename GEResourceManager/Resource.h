@@ -3,7 +3,6 @@
 #include "Settings.h"
 #include "ufbx.h"
 
-#include <raylib.h>
 
 // Forward declare
 namespace microstl
