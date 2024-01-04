@@ -2,8 +2,8 @@
 #include <set>
 
 // Singleton stuff
-ResourceManager::ResourceManager() :
-    AsyncFunctionality(RESOURCEMANAGER_ASYNCHTHREADS)
+ResourceManager::ResourceManager()
+: AsyncFunctionality(RESOURCEMANAGER_ASYNCHTHREADS)
 {
     // Init from Resource.h
     InitResourceMap();
@@ -20,19 +20,23 @@ ResourceManager& ResourceManager::GetInstance()
 
 ResourceManagerRequestHandle ResourceManager::LoadScene(Scene& scene)
 {
-    return EnqueueRequest({ RMAsyncType::RMLoadChunk , &scene }, nullptr, nullptr);
+    return EnqueueRequest({ RMAsyncType::RMLoadChunk, &scene }, nullptr, nullptr);
 }
 ResourceManagerRequestHandle ResourceManager::UnloadScene(Scene& scene)
 {
-    return EnqueueRequest({ RMAsyncType::RMUnloadChunk , &scene }, nullptr, nullptr);
+    return EnqueueRequest({ RMAsyncType::RMUnloadChunk, &scene }, nullptr, nullptr);
 }
-ResourceManagerRequestHandle ResourceManager::LoadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput)
+ResourceManagerRequestHandle ResourceManager::LoadScene(Scene&                          scene,
+                                                        ResourceManagerCallbackFunction callback,
+                                                        void* callbackInput)
 {
-    return EnqueueRequest({ RMAsyncType::RMLoadChunk , &scene }, callback, callbackInput);
+    return EnqueueRequest({ RMAsyncType::RMLoadChunk, &scene }, callback, callbackInput);
 }
-ResourceManagerRequestHandle ResourceManager::UnloadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput)
+ResourceManagerRequestHandle ResourceManager::UnloadScene(Scene&                          scene,
+                                                          ResourceManagerCallbackFunction callback,
+                                                          void* callbackInput)
 {
-    return EnqueueRequest({ RMAsyncType::RMUnloadChunk , &scene }, callback, callbackInput);
+    return EnqueueRequest({ RMAsyncType::RMUnloadChunk, &scene }, callback, callbackInput);
 }
 
 int ResourceManager::GetRequestError(ResourceManagerRequestHandle request)
@@ -82,11 +86,11 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             continue;
         }
 
-        AsyncFileRequestHandle fileRequest = nullptr;
-        uint8_t* currentBuf = nullptr;
-        int32_t currentBufSize = 0;
-        uint8_t* nextBuf = nullptr;
-        int32_t nextBufSize = 0;
+        AsyncFileRequestHandle fileRequest    = nullptr;
+        uint8_t*               currentBuf     = nullptr;
+        int32_t                currentBufSize = 0;
+        uint8_t*               nextBuf        = nullptr;
+        int32_t                nextBufSize    = 0;
 
         int i = 0;
         for (auto it = value.begin(); it != value.end(); it++)
@@ -94,15 +98,17 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
             i++;
             if (it == value.begin())
             {
-                fileRequest = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
+                fileRequest
+                    = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
             }
             FileRequestCallbackWait(fileRequest);
-            currentBuf = nextBuf;
+            currentBuf     = nextBuf;
             currentBufSize = nextBufSize;
             if (i < value.size())
             {
                 it++;
-                fileRequest = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
+                fileRequest
+                    = AsyncGetResource(phandle, m_headerMap[*it].filePos, nextBuf, &nextBufSize);
                 it--;
             }
             if (currentBufSize < 0)
@@ -121,7 +127,7 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
 
 struct FileBufCallback
 {
-    PAKid packid;
+    PAKid    packid;
     uint8_t* buffer;
     int32_t* bufSize;
 };
@@ -133,7 +139,7 @@ void CallbackPakFile(AsyncFileRequestHandle request, void* input)
         std::cerr << "ERROR: package current file could not be opened\n";
         return;
     }
-    FileBufCallback* buffer = (FileBufCallback*)input;
+    FileBufCallback* buffer = (FileBufCallback*) input;
 
     int32_t requested = *(buffer->bufSize);
 
@@ -151,25 +157,30 @@ void CallbackPakFile(AsyncFileRequestHandle request, void* input)
     delete input;
 }
 
-AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid package, FilePos filePos, uint8_t*& o_buffer, int32_t* o_fileSize)
+AsyncFileRequestHandle ResourceManager::AsyncGetResource(PAKid     package,
+                                                         FilePos   filePos,
+                                                         uint8_t*& o_buffer,
+                                                         int32_t*  o_fileSize)
 {
     // Read to buffer
     *o_fileSize = 0;
-    o_buffer = nullptr;
+    o_buffer    = nullptr;
 
     AsyncFileRequestHandle fileRequest = nullptr;
 
-    if (PackageSeekFile(package, filePos) != UNZ_OK || PackageSeekFile(package, filePos) != MTAR_ESUCCESS)
+    if (PackageSeekFile(package, filePos) != UNZ_OK
+        || PackageSeekFile(package, filePos) != MTAR_ESUCCESS)
     {
         std::cerr << "ERROR: Seek file failed\n";
         return nullptr;
     }
 
     *o_fileSize = PackageCurrentFileInfo(package).fileSize;
-    o_buffer = static_cast<uint8_t*>(std::malloc((*o_fileSize) * sizeof(uint8_t)));
+    o_buffer    = static_cast<uint8_t*>(std::malloc((*o_fileSize) * sizeof(uint8_t)));
 
-    //opens async request for opening current file. File content will be read in callback
-    fileRequest = PackageCurrentFileOpenAsync(package, CallbackPakFile, new FileBufCallback({ package, o_buffer, o_fileSize }));
+    // opens async request for opening current file. File content will be read in callback
+    fileRequest = PackageCurrentFileOpenAsync(
+        package, CallbackPakFile, new FileBufCallback({ package, o_buffer, o_fileSize }));
 
     return fileRequest;
 }
@@ -193,7 +204,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res.get()->LoadResource(buffer, filesize);
             m_loadedMeshes[guid] = res;
             res->InitRefcount();
-            //printf("Loaded FBX!\n");
+            // printf("Loaded FBX!\n");
             break;
         }
         case ResourceSTL:
@@ -202,7 +213,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res.get()->LoadResource(buffer, filesize);
             m_loadedMeshes[guid] = res;
             res->InitRefcount();
-            //printf("Loaded STL!\n");
+            // printf("Loaded STL!\n");
             break;
         }
         case ResourceJPG:
@@ -213,12 +224,12 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             res.get()->LoadResource(buffer, filesize);
             m_loadedTextures[guid] = res;
             res->InitRefcount();
-            //printf("Loaded PNG/JPG!\n");
+            // printf("Loaded PNG/JPG!\n");
             break;
         }
-    default:
-        std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
-        break;
+        default:
+            std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
+            break;
     }
 
     if (buffer != nullptr)
@@ -234,7 +245,7 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
             int32_t counter = --(*m_loadedMeshes[guid].get());
             if (counter <= 0)
                 m_loadedMeshes.erase(guid);
-        } // Look in textures if we did not find guid in current meshes
+        }  // Look in textures if we did not find guid in current meshes
         else if (m_loadedTextures.find(guid) != m_loadedTextures.end())
         {
             int32_t counter = --(*m_loadedTextures[guid].get());
@@ -249,12 +260,12 @@ void ResourceManager::HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_re
 {
     switch (requestIN.type)
     {
-    case RMAsyncType::RMLoadChunk:
-        o_requestOUT->error = RequestLoadScene(*requestIN.scene);
-        break;
-    case RMAsyncType::RMUnloadChunk:
-        o_requestOUT->error = RequestUnloadScene(*requestIN.scene);
-        break;
+        case RMAsyncType::RMLoadChunk:
+            o_requestOUT->error = RequestLoadScene(*requestIN.scene);
+            break;
+        case RMAsyncType::RMUnloadChunk:
+            o_requestOUT->error = RequestUnloadScene(*requestIN.scene);
+            break;
     }
 }
 
@@ -281,13 +292,13 @@ void ResourceManager::LoadHeader()
 
     for (const auto& entry : jsonData.items())
     {
-        const std::string& guid = entry.key();
-        const std::string& filename = entry.value()["filename"];
-        const std::string& filetype = entry.value()["filetype"];
-        const std::string& package = entry.value()["package"];
-        const uLong          offset = entry.value()["offset"];
-        const uLong          fileNumber = entry.value()["filenumber"];
-        const FilePos filePos{ {offset, fileNumber}, filename + "." + filetype };
+        const std::string& guid       = entry.key();
+        const std::string& filename   = entry.value()["filename"];
+        const std::string& filetype   = entry.value()["filetype"];
+        const std::string& package    = entry.value()["package"];
+        const uLong        offset     = entry.value()["offset"];
+        const uLong        fileNumber = entry.value()["filenumber"];
+        const FilePos      filePos{ { offset, fileNumber }, filename + "." + filetype };
 
         HeaderEntry entryData{ filename, filetype, package, filePos };
         m_headerMap[guid] = entryData;
@@ -304,22 +315,24 @@ std::string ResourceManager::GetPackage(const std::string& guid)
     return "";
 }
 
-void ResourceManager::SetMemoryLimit(size_t limit) {
-    m_memoryLimit = limit;
-}
+void ResourceManager::SetMemoryLimit(size_t limit) { m_memoryLimit = limit; }
 
-bool ResourceManager::CheckMemoryLimit(size_t fileSize) const {
+bool ResourceManager::CheckMemoryLimit(size_t fileSize) const
+{
     size_t totalMemory = GetTotalMemoryUsage();
-    if (m_memoryLimit > 0 && totalMemory + fileSize > m_memoryLimit) {
-        std::cerr << "[-] Warning: Trying to add object with size : " << fileSize << " bytes! This exceeds the memory limit! Total memory usage : "
-            << totalMemory << " bytes! Asset was not loaded to memory.\n\n";
+    if (m_memoryLimit > 0 && totalMemory + fileSize > m_memoryLimit)
+    {
+        std::cerr << "[-] Warning: Trying to add object with size : " << fileSize
+                  << " bytes! This exceeds the memory limit! Total memory usage : " << totalMemory
+                  << " bytes! Asset was not loaded to memory.\n\n";
         DumpLoadedResources();
         return true;
     }
     return false;
 }
 
-void ResourceManager::DumpLoadedResources() const {
+void ResourceManager::DumpLoadedResources() const
+{
     std::cerr << "[-] Dumping list of all resources loaded in memory \n";
     for (const auto& entry : m_loadedMeshes)
     {
@@ -334,12 +347,15 @@ void ResourceManager::DumpLoadedResources() const {
     std::cerr << "\n";
 }
 
-size_t ResourceManager::GetTotalMemoryUsage() const {
+size_t ResourceManager::GetTotalMemoryUsage() const
+{
     size_t totalMemory = 0;
-    for (const auto& entry : m_loadedMeshes) {
+    for (const auto& entry : m_loadedMeshes)
+    {
         totalMemory += entry.second->GetMemoryUsage();
     }
-    for (const auto& entry : m_loadedTextures) {
+    for (const auto& entry : m_loadedTextures)
+    {
         totalMemory += entry.second->GetMemoryUsage();
     }
     return totalMemory;

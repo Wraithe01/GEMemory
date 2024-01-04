@@ -14,10 +14,10 @@ constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000 * 16;
 
 struct HeaderEntry
 {
-    std::string    filename;
-    std::string    filetype;
-    std::string    package;
-    FilePos filePos;
+    std::string filename;
+    std::string filetype;
+    std::string package;
+    FilePos     filePos;
 };
 
 enum RMAsyncType
@@ -29,8 +29,8 @@ enum RMAsyncType
 
 struct RMAsyncIn
 {
-    RMAsyncType type = RMAsyncType::RMNone;
-    Scene* scene = nullptr;
+    RMAsyncType type  = RMAsyncType::RMNone;
+    Scene*      scene = nullptr;
 };
 
 struct RMAsyncOut
@@ -40,7 +40,8 @@ struct RMAsyncOut
 
 typedef AsyncRequestHandle<RMAsyncOut> ResourceManagerRequestHandle;
 
-typedef void (*ResourceManagerCallbackFunction)(ResourceManagerRequestHandle request, void* callbackInput);
+typedef void (*ResourceManagerCallbackFunction)(ResourceManagerRequestHandle request,
+                                                void*                        callbackInput);
 
 class ResourceManager : public AsyncFunctionality<RMAsyncIn, RMAsyncOut>
 {
@@ -50,8 +51,11 @@ private:
     void LoadHeader();
 
     std::string            GetPackage(const std::string& guid);
-    AsyncFileRequestHandle AsyncGetResource(PAKid package, FilePos filePos, uint8_t*& o_buffer, int32_t* o_fileSize);
-    void                   ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize);
+    AsyncFileRequestHandle AsyncGetResource(PAKid     package,
+                                            FilePos   filePos,
+                                            uint8_t*& o_buffer,
+                                            int32_t*  o_fileSize);
+    void ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize);
 
     int RequestLoadScene(const Scene& scene);
     int RequestUnloadScene(const Scene& scene);
@@ -63,14 +67,18 @@ protected:
 public:
     ~ResourceManager();
     ResourceManager(const ResourceManager& other) = delete;
-    void operator=(const ResourceManager& other) = delete;
+    void operator=(const ResourceManager& other)  = delete;
 
     static ResourceManager& GetInstance();
 
     ResourceManagerRequestHandle LoadScene(Scene& scene);
     ResourceManagerRequestHandle UnloadScene(Scene& scene);
-    ResourceManagerRequestHandle LoadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput);
-    ResourceManagerRequestHandle UnloadScene(Scene& scene, ResourceManagerCallbackFunction callback, void* callbackInput);
+    ResourceManagerRequestHandle LoadScene(Scene&                          scene,
+                                           ResourceManagerCallbackFunction callback,
+                                           void*                           callbackInput);
+    ResourceManagerRequestHandle UnloadScene(Scene&                          scene,
+                                             ResourceManagerCallbackFunction callback,
+                                             void*                           callbackInput);
 
     // will return 0 if successful
     int GetRequestError(ResourceManagerRequestHandle request);
@@ -89,8 +97,9 @@ public:
     std::unordered_map<std::string, std::shared_ptr<ITexture>>* GetLoadedTextures();
 
 private:
-    std::unordered_map<std::string, HeaderEntry>                m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;;
+    std::unordered_map<std::string, HeaderEntry>            m_headerMap;
+    std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;
+    ;
     std::unordered_map<std::string, std::shared_ptr<ITexture>> m_loadedTextures;
-    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
+    size_t                                                     m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };
