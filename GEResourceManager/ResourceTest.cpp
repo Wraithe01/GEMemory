@@ -92,6 +92,14 @@ void ResourceTest::Validate() {
 	std::cout << "========================= End =========================\n\n";
 }
 
+void ThreadLoadScene(void* in)
+{
+	Scene* scene = (Scene*)in;
+	auto handle = ResourceManager::GetInstance().LoadScene(*scene);
+	ResourceManager::GetInstance().AsynchRequestWait(handle);
+	std::cout << "Thread exiting\n";
+}
+
 void ResourceTest::PerformanceBenchmark() {
 	ResourceManager& resourceManager = ResourceManager::GetInstance();
 
@@ -136,5 +144,33 @@ void ResourceTest::PerformanceBenchmark() {
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 	std::cout << "========================= End =========================\n\n";
 
+	std::cout << "SUBTEST 3. Load all resources and unload with 5 threads concurrently\n";
+	std::cout << "Should have no errors and should hopefully have execution time close to first benchmark if running perfectly concurrent\n";
+	std::vector<std::thread> threads;
+	std::vector<Scene> scenes;
+
+	for (int i = 0; i < 5; i++) {
+		scenes.push_back(scene); // Copy the original scene
+	}
+
+	tstart = high_resolution_clock::now();
+	for (int i = 0; i < 5; ++i) {
+		threads.emplace_back(ThreadLoadScene, &(scenes[i]));
+	}
+
+	// Join the threads with the main thread
+	for (std::thread& thread : threads) {
+		if (thread.joinable()) {
+			thread.join();
+		}
+	}
+	asyncRequest = resourceManager.UnloadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
+
+	std::printf("Benchmark test took %8.8lld micro seconds\n",
+		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+	std::cout << "========================= End =========================\n\n";
+
+	std::cout << "All tests performed!" << std::endl;
 	std::cout << "All tests performed!" << std::endl;
 }
