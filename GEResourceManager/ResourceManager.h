@@ -76,16 +76,17 @@ public:
     int GetRequestError(ResourceManagerRequestHandle request);
 
     void SetMemoryLimit(size_t limit);
-    bool CheckMemoryLimit(size_t fileSize) const;
+    bool CheckMemoryLimit(size_t fileSize);
     void DumpLoadedResources() const;
 
 
-    size_t GetTotalMemoryUsage() const;
+    size_t GetTotalMemoryUsage();
 
     size_t GetNumOfLoadedRes();
 
 private:
     std::unordered_map<std::string, HeaderEntry>                m_headerMap;
+    std::mutex m_loadedLock;
     std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
     size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };

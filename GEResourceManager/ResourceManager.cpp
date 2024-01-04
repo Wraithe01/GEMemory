@@ -45,7 +45,9 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
     std::map<std::string, std::set<std::string>> packages;
     for (auto& guid : scene.GetChunk())
     {
+        m_loadedLock.lock();
         const auto& it = m_loadedData.find(guid);
+        m_loadedLock.unlock();
         if (it != m_loadedData.end())
         {
             ++(*m_loadedData[guid].get());
@@ -183,29 +185,58 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
         case ResourceFBX:
             res = std::make_shared<FBXMesh>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
-            //printf("Loaded FBX!\n");
+            m_loadedLock.lock();
+            if (m_loadedData.count(guid) == 0)
+            {
+                m_loadedData[guid] = res;
+                m_loadedData[guid]->InitRefcount();
+                //printf("Loaded FBX!\n");
+            }
+            else
+            {
+                m_loadedData[guid]->Increment();
+            }
+            m_loadedLock.unlock();
             break;
         case ResourceSTL:
             res = std::make_shared<STLMesh>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
-            //printf("Loaded STL!\n");
+            m_loadedLock.lock();
+            if (m_loadedData.count(guid) == 0)
+            {
+                m_loadedData[guid] = res;
+                m_loadedData[guid]->InitRefcount();
+                //printf("Loaded STL!\n");
+            }
+            else
+            {
+                m_loadedData[guid]->Increment();
+            }
+            m_loadedLock.unlock();
             break;
         case ResourceJPG:
             [[fallthrough]];
         case ResourcePNG:
             res = std::make_shared<Texture>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
-            //printf("Loaded PNG/JPG!\n");
+            m_loadedLock.lock();
+            if (m_loadedData.count(guid) == 0)
+            {
+                m_loadedData[guid] = res;
+                m_loadedData[guid]->InitRefcount();
+                //printf("Loaded PNG/JPG!\n");
+            }
+            else
+            {
+                m_loadedData[guid]->Increment();
+            }
+            m_loadedLock.unlock();
             break;
 
     default:
         std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
         break;
     }
-    m_loadedData[guid]->InitRefcount();
 
     if (buffer != nullptr)
         delete buffer;
@@ -217,9 +248,11 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
     {
         if (m_loadedData.find(guid) != m_loadedData.end())
         {
+            m_loadedLock.lock();
             int32_t counter = --(*m_loadedData[guid].get());
             if (counter <= 0)
                 m_loadedData.erase(guid);
+            m_loadedLock.unlock();
         }
     }
     return 0;
@@ -289,7 +322,7 @@ void ResourceManager::SetMemoryLimit(size_t limit) {
     m_memoryLimit = limit;
 }
 
-bool ResourceManager::CheckMemoryLimit(size_t fileSize) const {
+bool ResourceManager::CheckMemoryLimit(size_t fileSize) {
     size_t totalMemory = GetTotalMemoryUsage();
     if (m_memoryLimit > 0 && totalMemory + fileSize > m_memoryLimit) {
         std::cerr << "[-] Warning: Trying to add object with size : " << fileSize << " bytes! This exceeds the memory limit! Total memory usage : "
@@ -310,11 +343,13 @@ void ResourceManager::DumpLoadedResources() const {
     std::cerr << "\n";
 }
 
-size_t ResourceManager::GetTotalMemoryUsage() const {
+size_t ResourceManager::GetTotalMemoryUsage() {
     size_t totalMemory = 0;
+    m_loadedLock.lock();
     for (const auto& entry : m_loadedData) {
         totalMemory += entry.second->GetMemoryUsage();
     }
+    m_loadedLock.unlock();
     return totalMemory;
 }
 
