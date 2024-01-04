@@ -12,7 +12,7 @@ void RendererInit(uint32_t width, uint32_t height)
 
     //RendererCalcScale(width, height);
 
-    camera.position = { 50.0f, 50.0f, 50.0f };
+    camera.position = { 0.0f, 0.0f, 0.0f };
     camera.target = { 0.0f, 0.0f, 0.0f };
     camera.up = { 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;

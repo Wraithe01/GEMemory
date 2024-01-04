@@ -84,8 +84,13 @@ public:
 
     size_t GetNumOfLoadedRes();
 
+    std::unordered_map<std::string, std::shared_ptr<IMesh>>* GetLoadedMeshes();
+
+    std::unordered_map<std::string, std::shared_ptr<ITexture>>* GetLoadedTextures();
+
 private:
     std::unordered_map<std::string, HeaderEntry>                m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<IResource>> m_loadedData;
+    std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;;
+    std::unordered_map<std::string, std::shared_ptr<ITexture>> m_loadedTextures;
     size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };

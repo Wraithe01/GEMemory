@@ -3,6 +3,8 @@
 #include "Settings.h"
 #include "ufbx.h"
 
+#include <raylib.h>
+
 // Forward declare
 namespace microstl
 {
@@ -63,17 +65,21 @@ protected: // Variables
 };
 
 
-class Mesh : public IResource
+class IMesh : public IResource
 {
 public:
-    Mesh() = default;
-    virtual ~Mesh() = default;
+    IMesh() = default;
+    virtual ~IMesh() = default;
 
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override = 0;
     virtual void UnloadResource() override = 0;
+    virtual void ToRayLib() = 0;
+
+protected:
+    Mesh* meshes;
 };
 
-class FBXMesh sealed : public Mesh
+class FBXMesh sealed : public IMesh
 {
 public:
     FBXMesh();
@@ -81,12 +87,13 @@ public:
 
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;
+    virtual void ToRayLib() override;
 
 private:
     ufbx_scene* m_fbxData;
 };
 
-class STLMesh sealed : public Mesh
+class STLMesh sealed : public IMesh
 {
 public:
     STLMesh();
@@ -94,16 +101,17 @@ public:
 
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;
+    virtual void ToRayLib() override;
 
 private:
     microstl::MeshReaderHandler* handler;
 };
 
-class Texture sealed : public IResource
+class ITexture sealed : public IResource
 {
 public:  // Methods
-    Texture();
-    ~Texture() = default;
+    ITexture();
+    ~ITexture() = default;
 
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;

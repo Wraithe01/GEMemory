@@ -45,12 +45,20 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
     std::map<std::string, std::set<std::string>> packages;
     for (auto& guid : scene.GetChunk())
     {
-        const auto& it = m_loadedData.find(guid);
-        if (it != m_loadedData.end())
+        const auto& it = m_loadedMeshes.find(guid);
+        if (it != m_loadedMeshes.end())
         {
-            ++(*m_loadedData[guid].get());
+            ++(*m_loadedMeshes[guid].get());
             continue;
         }
+
+        const auto& it2 = m_loadedTextures.find(guid);
+        if (it2 != m_loadedTextures.end())
+        {
+            ++(*m_loadedTextures[guid].get());
+            continue;
+        }
+
         std::string package = GetPackage(guid);
 
         if (strcmp(package.c_str(), "") == 0)
@@ -177,35 +185,41 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
     std::string fext = m_headerMap[guid].filetype;
     std::transform(fext.begin(), fext.end(), fext.begin(), ::toupper);
 
-    std::shared_ptr<IResource> res;
     switch (g_acceptedTypes[fext])
     {
         case ResourceFBX:
-            res = std::make_shared<FBXMesh>();
+        {
+            std::shared_ptr<IMesh> res = std::make_shared<FBXMesh>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
+            m_loadedMeshes[guid] = res;
+            res->InitRefcount();
             //printf("Loaded FBX!\n");
             break;
+        }
         case ResourceSTL:
-            res = std::make_shared<STLMesh>();
+        {
+            std::shared_ptr<IMesh> res = std::make_shared<STLMesh>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
+            m_loadedMeshes[guid] = res;
+            res->InitRefcount();
             //printf("Loaded STL!\n");
             break;
+        }
         case ResourceJPG:
             [[fallthrough]];
         case ResourcePNG:
-            res = std::make_shared<Texture>();
+        {
+            std::shared_ptr<ITexture> res = std::make_shared<ITexture>();
             res.get()->LoadResource(buffer, filesize);
-            m_loadedData[guid] = res;
+            m_loadedTextures[guid] = res;
+            res->InitRefcount();
             //printf("Loaded PNG/JPG!\n");
             break;
-
+        }
     default:
         std::cerr << "Filetype " << fext << " is not recognized." << std::endl;
         break;
     }
-    m_loadedData[guid]->InitRefcount();
 
     if (buffer != nullptr)
         delete buffer;
@@ -215,11 +229,17 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
 {
     for (auto& guid : scene.GetChunk())
     {
-        if (m_loadedData.find(guid) != m_loadedData.end())
+        if (m_loadedMeshes.find(guid) != m_loadedMeshes.end())
         {
-            int32_t counter = --(*m_loadedData[guid].get());
+            int32_t counter = --(*m_loadedMeshes[guid].get());
             if (counter <= 0)
-                m_loadedData.erase(guid);
+                m_loadedMeshes.erase(guid);
+        } // Look in textures if we did not find guid in current meshes
+        else if (m_loadedTextures.find(guid) != m_loadedTextures.end())
+        {
+            int32_t counter = --(*m_loadedTextures[guid].get());
+            if (counter <= 0)
+                m_loadedTextures.erase(guid);
         }
     }
     return 0;
@@ -237,7 +257,6 @@ void ResourceManager::HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_re
         break;
     }
 }
-
 
 void ResourceManager::LoadHeader()
 {
@@ -302,7 +321,12 @@ bool ResourceManager::CheckMemoryLimit(size_t fileSize) const {
 
 void ResourceManager::DumpLoadedResources() const {
     std::cerr << "[-] Dumping list of all resources loaded in memory \n";
-    for (const auto& entry : m_loadedData)
+    for (const auto& entry : m_loadedMeshes)
+    {
+        const std::string& guid = entry.first;
+        std::cerr << "GUID: " << guid << "\n";
+    }
+    for (const auto& entry : m_loadedTextures)
     {
         const std::string& guid = entry.first;
         std::cerr << "GUID: " << guid << "\n";
@@ -312,7 +336,10 @@ void ResourceManager::DumpLoadedResources() const {
 
 size_t ResourceManager::GetTotalMemoryUsage() const {
     size_t totalMemory = 0;
-    for (const auto& entry : m_loadedData) {
+    for (const auto& entry : m_loadedMeshes) {
+        totalMemory += entry.second->GetMemoryUsage();
+    }
+    for (const auto& entry : m_loadedTextures) {
         totalMemory += entry.second->GetMemoryUsage();
     }
     return totalMemory;
@@ -320,5 +347,15 @@ size_t ResourceManager::GetTotalMemoryUsage() const {
 
 size_t ResourceManager::GetNumOfLoadedRes()
 {
-    return m_loadedData.size();
+    return m_loadedMeshes.size() + m_loadedMeshes.size();
+}
+
+std::unordered_map<std::string, std::shared_ptr<IMesh>>* ResourceManager::GetLoadedMeshes()
+{
+    return &m_loadedMeshes;
+}
+
+std::unordered_map<std::string, std::shared_ptr<ITexture>>* ResourceManager::GetLoadedTextures()
+{
+    return &m_loadedTextures;
 }

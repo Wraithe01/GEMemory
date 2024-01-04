@@ -104,13 +104,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ImGui\include;$(ProjectDir)Libs\rlImGui\include;$(ProjectDir)Libs\raylib\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ImGui\include;$(ProjectDir)Libs\rlImGui\include;$(ProjectDir)Libs\raylib\include;$(SolutionDir)zlib;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)microtar;$(SolutionDir)tar;$(SolutionDir)nlohmann;$(SolutionDir)GEResourceManager;$(SolutionDir)GEMemory</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>gdi32.lib;shell32.lib;winmm.lib;$(ProjectDir)Libs\ImGui\lib\$(Configuration)\ImGui.lib;$(ProjectDir)Libs\raylib\lib\$(Configuration)\raylib.lib;$(ProjectDir)Libs\rlImGui\lib\$(Configuration)\rlImGui.lib</AdditionalDependencies>
+      <AdditionalDependencies>gdi32.lib;shell32.lib;winmm.lib;$(ProjectDir)Libs\ImGui\lib\$(Configuration)\ImGui.lib;$(ProjectDir)Libs\raylib\lib\$(Configuration)\raylib.lib;$(ProjectDir)Libs\rlImGui\lib\$(Configuration)\rlImGui.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

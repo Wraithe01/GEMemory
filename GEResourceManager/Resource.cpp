@@ -36,6 +36,47 @@ FBXMesh::FBXMesh()
 {
 }
 
+void FBXMesh::ToRayLib()
+{
+    size_t size = m_fbxData->meshes.count * sizeof(Mesh);
+    meshes = (Mesh*)malloc(size);
+    memset(meshes, 0, size);
+
+    for (size_t meshIndex = 0; meshIndex < m_fbxData->meshes.count; meshIndex++)
+    {
+        Mesh raylibMesh = { 0 };
+
+        ufbx_mesh* fbxMesh = m_fbxData->meshes.data[meshIndex];
+        raylibMesh.vertexCount = fbxMesh->num_vertices;
+        raylibMesh.triangleCount = fbxMesh->num_triangles;
+
+        // Allocate memory for vertex positions, normals, and texture coordinates
+        raylibMesh.vertices = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float));
+        raylibMesh.normals = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float));
+        raylibMesh.texcoords = (float*)malloc(raylibMesh.vertexCount * 2 * sizeof(float));
+
+        // Copy vertex data from FBX to Raylib
+        for (size_t i = 0; i < raylibMesh.vertexCount; i++)
+        {
+            ufbx_vec3 fbxVertex = fbxMesh->vertices[i];
+            ufbx_vec3 fbxNormal = fbxMesh->vertex_normal[i]; // Correct normal type?
+            ufbx_vec2 fbxTexCoord = fbxMesh->vertex_uv[i]; // Correct uv type?
+
+            raylibMesh.vertices[i * 3] = fbxVertex.x;
+            raylibMesh.vertices[i * 3 + 1] = fbxVertex.y;
+            raylibMesh.vertices[i * 3 + 2] = fbxVertex.z;
+
+            raylibMesh.normals[i * 3] = fbxNormal.x;
+            raylibMesh.normals[i * 3 + 1] = fbxNormal.y;
+            raylibMesh.normals[i * 3 + 2] = fbxNormal.z;
+
+            raylibMesh.texcoords[i * 2] = fbxTexCoord.x;
+            raylibMesh.texcoords[i * 2 + 1] = fbxTexCoord.y;
+        }
+        meshes[meshIndex] = raylibMesh;
+    }
+}
+
 bool FBXMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
 {
     ufbx_error err;
@@ -82,13 +123,13 @@ void STLMesh::UnloadResource()
 }
 
 
-Texture::Texture()
+ITexture::ITexture()
     : m_img(nullptr)
 {
     m_dim = {};
 }
 
-bool Texture::LoadResource(const uint8_t* buffer, int32_t buffSize)
+bool ITexture::LoadResource(const uint8_t* buffer, int32_t buffSize)
 {
     m_img = stbi_load_from_memory((stbi_uc*)buffer,
         buffSize,
@@ -104,7 +145,7 @@ bool Texture::LoadResource(const uint8_t* buffer, int32_t buffSize)
     m_memoryUsage = buffSize;
     return true;
 }
-void Texture::UnloadResource()
+void ITexture::UnloadResource()
 {
     stbi_image_free(m_img);
     m_img = nullptr;
