@@ -43,7 +43,7 @@ void ZipPackagingTool::createPackage(std::vector<std::string>& assets, const std
 
         inputFile.close();
     }
-    std::cout << "Done creating zip package at: " << outputPath << std::endl;
+    std::cout << std::endl << "Success: Done creating zip package at: " << outputPath << std::endl;
 
     // Close the zip
     zipClose(zip, nullptr);

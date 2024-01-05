@@ -29,7 +29,7 @@ void PackagingTool::createHeaderFile(std::vector<std::string>& assets, const std
         bool assetExists = false;
         for (const auto& entry : json.items()) {
             const auto& existingAsset = entry.value();
-            if (existingAsset["filename"] == filename && existingAsset["package"] == packageName) {
+            if (existingAsset["filename"] == filename) { // Add && existingAsset["package"] == packageName for tar support
                 assetExists = true;
             }
         }
