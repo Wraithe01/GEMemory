@@ -1,44 +1,2235 @@
 {
-    "1c6e3e28-928-452f-a377-eb54a0e91212": {
-        "filename": "stl",
-        "filenumber": 3,
+    "1157b4f6-812d-4552-b94e-2673e1e2c35b": {
+        "filename": "Cube_120",
+        "filenumber": 117,
         "filetype": "stl",
-        "offset": 951902,
-        "package": "../PackageFolder/Chunk1_package.zip"
+        "offset": 54954,
+        "package": "../PackageFolder/side5_package.zip"
     },
-    "65db8803-8c8b-4433-a3cb-ac07e28c85e": {
-        "filename": "jpg",
-        "filenumber": 1,
-        "filetype": "jpg",
-        "offset": 951796,
-        "package": "../PackageFolder/Chunk1_package.zip"
+    "11982c4-af3b-47f3-ab1f-215589bcf7f": {
+        "filename": "Cube_031",
+        "filenumber": 28,
+        "filetype": "stl",
+        "offset": 49792,
+        "package": "../PackageFolder/side5_package.zip"
     },
-    "ad9d2945-341b-4ba8-b8e2-e5a176db020": {
-        "filename": "fbx",
-        "filenumber": 0,
-        "filetype": "fbx",
-        "offset": 951743,
-        "package": "../PackageFolder/Chunk1_package.zip"
+    "12c8dcf-74b9-4698-a81b-5e2a95d2e35": {
+        "filename": "Cube_032",
+        "filenumber": 29,
+        "filetype": "stl",
+        "offset": 49850,
+        "package": "../PackageFolder/side5_package.zip"
     },
-    "bb3ec891-ae59-4d9e-b7b1-8b2a528a86": {
-        "filename": "png",
+    "143fecfc-a7d0-4e94-9589-f9ec7ecdebfc": {
+        "filename": "bananaplant__022",
         "filenumber": 2,
-        "filetype": "png",
-        "offset": 951849,
-        "package": "../PackageFolder/Chunk1_package.zip"
+        "filetype": "stl",
+        "offset": 902896,
+        "package": "../PackageFolder/corner1-2_package.zip"
     },
-    "d68241af-c97f-4be3-948a-9b427413ab5": {
-        "filename": "cactus",
-        "filenumber": 0,
-        "filetype": "fbx",
-        "offset": 23911,
-        "package": "../PackageFolder/zip_package.zip"
+    "150f2522-de0f-4f59-989c-553fcc3d8c54": {
+        "filename": "Carcinian_mesh_031",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 960521,
+        "package": "../PackageFolder/corner6-1_package.zip"
     },
-    "ea303148-233d-4162-ad2c-365f86d3b071": {
-        "filename": "test",
+    "168f5cd3-474c-4927-9d37-651145839f81": {
+        "filename": "Carcinian_mesh_036",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 960861,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "16993faf-d66d-4a30-9652-137157c3142c": {
+        "filename": "tree1_002",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 250062,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "16bce107-7fdb-4b21-8bd6-cffa50d3be58": {
+        "filename": "Cube_180",
+        "filenumber": 55,
+        "filetype": "stl",
+        "offset": 371462,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "17787249-6fcb-4c0d-acae-6d45a242bfda": {
+        "filename": "Cube_073",
+        "filenumber": 70,
+        "filetype": "stl",
+        "offset": 52228,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "178b3fc7-cc8d-48c3-98e4-1924fcfabc": {
+        "filename": "Cube_149",
+        "filenumber": 24,
+        "filetype": "stl",
+        "offset": 369664,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "17c78a80-bf60-4760-af65-8e8e584d4bac": {
+        "filename": "Cube_108",
+        "filenumber": 105,
+        "filetype": "stl",
+        "offset": 54258,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "18b1292e-488-41f0-9198-536b2059ee49": {
+        "filename": "Cube_184",
+        "filenumber": 59,
+        "filetype": "stl",
+        "offset": 371694,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "19d42836-3b08-4758-a25-25e5bba862c0": {
+        "filename": "stone2_003",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 249943,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "1a4bc46d-f913-4777-afc8-896a6d79d8e": {
+        "filename": "Cube_025",
+        "filenumber": 22,
+        "filetype": "stl",
+        "offset": 49444,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "1a69ddb6-b954-4cc0-bd90-2841591c4cf4": {
+        "filename": "scene",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 1207591,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "1b7adcea-eb2-4c10-9b47-5f864253f06d": {
+        "filename": "bananaplant__016",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 249500,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "1e69218e-3af3-4193-9dce-8e1f3acd6360": {
+        "filename": "Cube_175",
+        "filenumber": 50,
+        "filetype": "stl",
+        "offset": 371172,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "1ee44cd5-9e59-4a67-8689-33b17948cde0": {
+        "filename": "Cube_079",
+        "filenumber": 76,
+        "filetype": "stl",
+        "offset": 52576,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "1eef5e5a-130-4b3a-aee8-899c1b5ba774": {
+        "filename": "Cube_136",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 368910,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "1f6a9dc3-fd79-4af8-b49b-19fea7bab6": {
+        "filename": "tree3_001",
+        "filenumber": 21,
+        "filetype": "stl",
+        "offset": 249559,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "1fedeb4a-6807-4797-8d71-1f55b7fdf57d": {
+        "filename": "Cube_157",
+        "filenumber": 32,
+        "filetype": "stl",
+        "offset": 370128,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "20c8b92c-b743-4fcd-95a9-eede834054fc": {
+        "filename": "corner1-2",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 903906,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "214d1d84-359c-4539-b653-897f5d3415f7": {
+        "filename": "Cube_036",
+        "filenumber": 33,
+        "filetype": "stl",
+        "offset": 50082,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "218040c3-62f9-42eb-b0f4-a19a95662018": {
+        "filename": "bananaplant__019",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 249698,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "21e506e7-4f8f-461c-a1ba-ba3fccd26198": {
+        "filename": "bananaplant__026",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 903160,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "22741299-cfc1-4435-a04a-989c48b38863": {
+        "filename": "Cube_117",
+        "filenumber": 114,
+        "filetype": "stl",
+        "offset": 54780,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "2292c0bf-79d6-419b-b86-a175bf785ff8": {
+        "filename": "tree2_006",
+        "filenumber": 20,
+        "filetype": "stl",
+        "offset": 904101,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "23264e7-b0aa-46dd-b79e-4d4340d09e6d": {
+        "filename": "Cube_095",
+        "filenumber": 92,
+        "filetype": "stl",
+        "offset": 53504,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "235ea9b-60cd-42a4-89a4-833de39f7d0": {
+        "filename": "corrupt_1_mesh_005",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 1062803,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "238aeb51-e30c-4874-b97e-29a76b663251": {
+        "filename": "Cube_115",
+        "filenumber": 112,
+        "filetype": "stl",
+        "offset": 54664,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "2473b6c3-cb4-410b-8d7f-e3a3cafb62c": {
+        "filename": "corrupt_1_mesh_001",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 1062531,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "260ac1d2-d113-450d-ac9f-59ecf0c450f2": {
+        "filename": "bananaplant__015",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 249434,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "26428771-a476-4e69-ae29-33df1d1cf5": {
+        "filename": "Cube_048",
+        "filenumber": 45,
+        "filetype": "stl",
+        "offset": 50778,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "26db8dae-eedb-40e6-82a6-8cee271bdb7": {
+        "filename": "tree2_005",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 250180,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "27274d67-1c9a-4ef9-98d1-3521e13cadb0": {
+        "filename": "corner2-3",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 249764,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "2760bc38-60ab-4f9e-8290-dc17ac0a339": {
+        "filename": "Cube_037",
+        "filenumber": 34,
+        "filetype": "stl",
+        "offset": 50140,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "278243db-89e1-446f-84a6-53a759d966c3": {
+        "filename": "bananaplant__017",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 249566,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "27acdfcd-e8d3-430e-bc78-37f90bddc58": {
+        "filename": "Cube_006",
         "filenumber": 3,
         "filetype": "stl",
-        "offset": 951903,
-        "package": "../PackageFolder/Chunk3_package.zip"
+        "offset": 48342,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "280d38f0-4695-4f40-80b3-32909bd8d282": {
+        "filename": "Cube_069",
+        "filenumber": 66,
+        "filetype": "stl",
+        "offset": 51996,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "28e133c-f4c8-49e2-a832-7cc9c6857b2": {
+        "filename": "corrupt_1_mesh_004",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 1062735,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "2a0d0e70-ccf4-4bfe-9d4f-60c27ea35db": {
+        "filename": "Carcinian_mesh_025",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 903770,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "2ac77323-ab73-4491-8227-1af258c55c": {
+        "filename": "Carcinian_mesh_005",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 1206853,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "2b841d-3fcc-4b88-b8e5-e46e51f7ddcc": {
+        "filename": "Cube_187",
+        "filenumber": 62,
+        "filetype": "stl",
+        "offset": 371868,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "2b9c2d02-9e65-4ff6-914d-95218770fd72": {
+        "filename": "bananaplant__003",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 248420,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "2d7ce155-6367-4771-9d3a-015790654b": {
+        "filename": "Cube_047",
+        "filenumber": 44,
+        "filetype": "stl",
+        "offset": 50720,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "2eafe5c7-632d-444c-b58b-4416574f8382": {
+        "filename": "Cube_045",
+        "filenumber": 42,
+        "filetype": "stl",
+        "offset": 50604,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "3010479d-958f-41c4-9de9-54955eb5572a": {
+        "filename": "Carcinian_mesh_009",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 1207125,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "30c1c06d-487a-4c9c-874f-f6732d5bfdb7": {
+        "filename": "Cube_063",
+        "filenumber": 60,
+        "filetype": "stl",
+        "offset": 51648,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "313533a4-5343-46bb-85af-c9587443f68f": {
+        "filename": "Cube_170",
+        "filenumber": 45,
+        "filetype": "stl",
+        "offset": 370882,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "326f6a91-204-4d32-b1a6-57746f61c11": {
+        "filename": "Cube_059",
+        "filenumber": 56,
+        "filetype": "stl",
+        "offset": 51416,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "346518ad-9a26-4145-9882-e461cb78b215": {
+        "filename": "Cube_003",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 48168,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "3545c2b8-572-4a49-9e59-b8c18863b2ec": {
+        "filename": "Cube_154",
+        "filenumber": 29,
+        "filetype": "stl",
+        "offset": 369954,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "35531986-2518-4ce3-b5f3-feaa5eca908d": {
+        "filename": "tree3_002",
+        "filenumber": 22,
+        "filetype": "stl",
+        "offset": 249618,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "35c33939-6e59-4d38-8fb3-bac3c89964f": {
+        "filename": "Carcinian_mesh_016",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 960181,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "37044d1-7f8e-48ed-b836-efba31b99a5c": {
+        "filename": "Cube_100",
+        "filenumber": 97,
+        "filetype": "stl",
+        "offset": 53794,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "38d16f35-e5cd-43a1-998c-7632e22022fb": {
+        "filename": "Cube_111",
+        "filenumber": 108,
+        "filetype": "stl",
+        "offset": 54432,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "38f4fe9c-447e-4b38-a158-b26455c695c0": {
+        "filename": "Carcinian_mesh",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 1206517,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "3a4b4ee9-8881-490d-b3b8-456d61b2a01d": {
+        "filename": "corner3-4",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 58269415,
+        "package": "../PackageFolder/corner3-4_package.zip"
+    },
+    "3a9c9747-a547-4973-8fff-ef57a51014b": {
+        "filename": "bananaplant__002",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 248354,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "3b9c635a-58b4-4b9b-8a17-367611f25ad": {
+        "filename": "Cube_138",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 369026,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "3c5b6e7-ddda-4d3b-bf95-d4d5d18ab9b8": {
+        "filename": "Cube_140",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 369142,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "3cd596ad-edb-47e8-acca-ca54739769": {
+        "filename": "Cube_090",
+        "filenumber": 87,
+        "filetype": "stl",
+        "offset": 53214,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "3ce689dc-1108-4116-b2fb-ce4eceab3d": {
+        "filename": "Cube_089",
+        "filenumber": 86,
+        "filetype": "stl",
+        "offset": 53156,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "3d05d3ce-b9b5-4ca0-bfa1-b7a385e4ad7a": {
+        "filename": "Cube_191",
+        "filenumber": 66,
+        "filetype": "stl",
+        "offset": 372100,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "3e0fb510-80fd-42b5-93a5-9509523162": {
+        "filename": "Carcinian_mesh_014",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 1207465,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "3e9b3c4c-32c1-4352-aa46-3cd66176cdc4": {
+        "filename": "stone2_002",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 249883,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "41248239-172c-4682-9637-7ae612d62b": {
+        "filename": "Cube_167",
+        "filenumber": 42,
+        "filetype": "stl",
+        "offset": 370708,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "41787548-3992-4a1f-bcf9-1ea0fffd54ab": {
+        "filename": "Cube_153",
+        "filenumber": 28,
+        "filetype": "stl",
+        "offset": 369896,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "42cf1951-8de-4dbf-a697-6f5281a7a022": {
+        "filename": "Cube_015",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 48864,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4361eacb-5cb4-4df7-9361-4aa72269eaab": {
+        "filename": "corrupt_1_mesh",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 1062467,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "4394323b-b2ea-4713-aaa7-9741d4f35d94": {
+        "filename": "Cube_156",
+        "filenumber": 31,
+        "filetype": "stl",
+        "offset": 370070,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "43b26954-ef51-42e3-afbc-105d8e747166": {
+        "filename": "bananaplant__021",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 902830,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "454cebe3-9f76-459c-a3df-5f13254edaf": {
+        "filename": "Cube_168",
+        "filenumber": 43,
+        "filetype": "stl",
+        "offset": 370766,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "4590ea3b-5259-4d59-a979-8df8c7dc4cdf": {
+        "filename": "Cube_146",
+        "filenumber": 21,
+        "filetype": "stl",
+        "offset": 369490,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "45afc52c-3bad-4c29-a8a5-b79e17ae73f": {
+        "filename": "bananaplant__023",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 902962,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "45fd973d-3fe0-4078-bf85-c8dfba3d24b2": {
+        "filename": "Cube_131",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 368620,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "4609a6b0-52a6-447d-a7ab-58e5914f383a": {
+        "filename": "Cube_142",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 369258,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "463d87f2-631e-4262-a8ba-b9884f55ace3": {
+        "filename": "bananaplant__005",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 248552,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "475ca735-d0cf-48e0-8032-35f2e41f7428": {
+        "filename": "Cube_114",
+        "filenumber": 111,
+        "filetype": "stl",
+        "offset": 54606,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4887d5fb-7f1e-44e3-b52c-5d4c470b154": {
+        "filename": "Cube_029",
+        "filenumber": 26,
+        "filetype": "stl",
+        "offset": 49676,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4a1abd0b-c637-4836-80f0-f43a32cacb64": {
+        "filename": "Cube_074",
+        "filenumber": 71,
+        "filetype": "stl",
+        "offset": 52286,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4a48255-ac88-4722-8aa-5024bfcbd021": {
+        "filename": "Cube_104",
+        "filenumber": 101,
+        "filetype": "stl",
+        "offset": 54026,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4a67ff7f-b088-4fdf-be10-5146ae734974": {
+        "filename": "Cube_178",
+        "filenumber": 53,
+        "filetype": "stl",
+        "offset": 371346,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "4b4d544-7f38-4385-b2a5-47ff8874a259": {
+        "filename": "Carcinian_mesh_024",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 903702,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "4b70600d-68d3-41b6-98db-7ff194735c3": {
+        "filename": "bananaplant__009",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 248816,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "4c07606-3477-4b25-93d5-5c9b249e879d": {
+        "filename": "Cube_091",
+        "filenumber": 88,
+        "filetype": "stl",
+        "offset": 53272,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4cf1e32f-1de6-4f31-8ea2-7362d2935c": {
+        "filename": "tree2_003",
+        "filenumber": 19,
+        "filetype": "stl",
+        "offset": 249445,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "4f221553-1326-44c4-933-695f725c37ad": {
+        "filename": "Cube_124",
+        "filenumber": 121,
+        "filetype": "stl",
+        "offset": 55186,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "4f473710-6d40-43c1-9173-dcb4f2262dea": {
+        "filename": "tree2_002",
+        "filenumber": 18,
+        "filetype": "stl",
+        "offset": 249386,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "4fd66a24-9327-4e1e-8d38-f4fff852585e": {
+        "filename": "Cube_023",
+        "filenumber": 20,
+        "filetype": "stl",
+        "offset": 49328,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "506bbf1c-dca6-452b-98e6-e1cf6ef6274e": {
+        "filename": "Cube_014",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 48806,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "51ac17a5-94aa-40a3-a9cc-2f7920ade34c": {
+        "filename": "Cube_034",
+        "filenumber": 31,
+        "filetype": "stl",
+        "offset": 49966,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "51f11d18-f116-40e0-9362-39535f36aac8": {
+        "filename": "Omni_directional_stone_001",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 248954,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "52c1e756-7736-4cba-897d-bd769ed5de89": {
+        "filename": "Cube_088",
+        "filenumber": 85,
+        "filetype": "stl",
+        "offset": 53098,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "533f4a3d-f0f0-4aea-b1d0-98f764f7fe8e": {
+        "filename": "Cube_013",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 48748,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "5414edaa-6217-479e-80eb-3f5a5849f466": {
+        "filename": "Cube_009",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 48516,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "544e10d2-6bf-4d12-a95b-34606abb9ff": {
+        "filename": "Cube_141",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 369200,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "5793a3eb-d4e9-493d-9917-16996222f52e": {
+        "filename": "side3",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 4476538,
+        "package": "../PackageFolder/side3_package.zip"
+    },
+    "57dc165b-4df8-4796-a648-70dbaeaaf15": {
+        "filename": "Cube_060",
+        "filenumber": 57,
+        "filetype": "stl",
+        "offset": 51474,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "5851b264-8d0f-4c1c-a2a-296ce2d22b8": {
+        "filename": "tree1_001",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 250003,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "58ec75d3-2cb2-4748-9f43-53e32a5f8e95": {
+        "filename": "Cube_107",
+        "filenumber": 104,
+        "filetype": "stl",
+        "offset": 54200,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "58f680b-e9b-4882-8fcd-c746e436a2e": {
+        "filename": "Cube_033",
+        "filenumber": 30,
+        "filetype": "stl",
+        "offset": 49908,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "5aa0a25b-d195-45a4-ab84-67e2abaeccd": {
+        "filename": "Carcinian_mesh_003",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 1206717,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "5ccd9d12-9293-4819-8d7a-b3603625c9d8": {
+        "filename": "Carcinian_mesh_035",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 960793,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "5da7411e-d926-4604-95d9-b4fb1522c6eb": {
+        "filename": "Cube_158",
+        "filenumber": 33,
+        "filetype": "stl",
+        "offset": 370186,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "5dcb8ab9-35b0-40d3-9058-de5c427020cf": {
+        "filename": "Cube_096",
+        "filenumber": 93,
+        "filetype": "stl",
+        "offset": 53562,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "5f2fac4e-5b2f-4fc1-a5e0-ffaa7bd73b72": {
+        "filename": "Cube_057",
+        "filenumber": 54,
+        "filetype": "stl",
+        "offset": 51300,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "5f805f0-8b81-4d7e-8c38-b4455f58d89": {
+        "filename": "Cube_055",
+        "filenumber": 52,
+        "filetype": "stl",
+        "offset": 51184,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "61dbee9c-ca62-48af-af37-509246e63a6e": {
+        "filename": "Cube_171",
+        "filenumber": 46,
+        "filetype": "stl",
+        "offset": 370940,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "6217a01a-32ff-4247-bed8-2b252ff0c2a2": {
+        "filename": "Cube_066",
+        "filenumber": 63,
+        "filetype": "stl",
+        "offset": 51822,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "63093f6a-6616-4e45-9b52-be84773c4dff": {
+        "filename": "Cube_085",
+        "filenumber": 82,
+        "filetype": "stl",
+        "offset": 52924,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "644fce91-6442-4565-a9f3-b0fe1c39b67d": {
+        "filename": "Cube_105",
+        "filenumber": 102,
+        "filetype": "stl",
+        "offset": 54084,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "65afdb3-9c37-4c1f-a830-1c7b997c5e5": {
+        "filename": "tree2_007",
+        "filenumber": 21,
+        "filetype": "stl",
+        "offset": 904160,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "65cc4c65-8514-4a2f-84d2-5dea7c5d5820": {
+        "filename": "Cube_098",
+        "filenumber": 95,
+        "filetype": "stl",
+        "offset": 53678,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6675cb3c-4cd9-472f-9f3-bede6f7cfc67": {
+        "filename": "Cube_125",
+        "filenumber": 122,
+        "filetype": "stl",
+        "offset": 55244,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "69060e24-c756-4c22-8e73-4ed39722d44c": {
+        "filename": "Cube_119",
+        "filenumber": 116,
+        "filetype": "stl",
+        "offset": 54896,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6942cbf0-f938-446f-8893-7653b4a01f64": {
+        "filename": "Cube_053",
+        "filenumber": 50,
+        "filetype": "stl",
+        "offset": 51068,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "69a71fdc-2c40-4b65-9f2c-489bdd2488e6": {
+        "filename": "Cube_183",
+        "filenumber": 58,
+        "filetype": "stl",
+        "offset": 371636,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "6a00eac4-1e5c-4202-ac29-a96476c74e46": {
+        "filename": "stone2_001",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 249823,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "6ade2d21-c915-4464-8f55-9bcd28a4b9e1": {
+        "filename": "Cube_040",
+        "filenumber": 37,
+        "filetype": "stl",
+        "offset": 50314,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6d36a692-dfad-47c8-8a40-908c3385dd": {
+        "filename": "Cube_050",
+        "filenumber": 47,
+        "filetype": "stl",
+        "offset": 50894,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6d658040-d2ad-4c74-8f26-d9ff97d2932": {
+        "filename": "Cube_026",
+        "filenumber": 23,
+        "filetype": "stl",
+        "offset": 49502,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6e60025f-215b-44e3-9655-a7fe87eaf1a1": {
+        "filename": "Plane_008",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 961047,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "6ec7aa78-2fd6-4284-b755-908d504175f2": {
+        "filename": "Cube_147",
+        "filenumber": 22,
+        "filetype": "stl",
+        "offset": 369548,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "6f54131b-7932-4f83-9f4b-4f4394e47646": {
+        "filename": "Cube_160",
+        "filenumber": 35,
+        "filetype": "stl",
+        "offset": 370302,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "6f748bc2-9217-43a6-ad85-a86fd16e0d8": {
+        "filename": "Cube_126",
+        "filenumber": 123,
+        "filetype": "stl",
+        "offset": 55302,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "6ffdd90c-bc89-4788-9135-d7ad4ede17a3": {
+        "filename": "Cube_109",
+        "filenumber": 106,
+        "filetype": "stl",
+        "offset": 54316,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "70bd5d65-7802-4c69-9a59-bf21beab5a57": {
+        "filename": "Cube_112",
+        "filenumber": 109,
+        "filetype": "stl",
+        "offset": 54490,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "71564669-f72d-4060-bcb5-94f354fcd32d": {
+        "filename": "Cube_148",
+        "filenumber": 23,
+        "filetype": "stl",
+        "offset": 369606,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "72348883-91e8-4bc6-9b42-6f751bf3d0a": {
+        "filename": "jhonnu__corr_mesh",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 1063063,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "72b6380a-d3b1-4ea9-8ab0-71e549bbcf5": {
+        "filename": "Cube_051",
+        "filenumber": 48,
+        "filetype": "stl",
+        "offset": 50952,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "7316ed32-77e6-4528-9e66-1f3b35994e22": {
+        "filename": "full_hugger",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 58269474,
+        "package": "../PackageFolder/corner3-4_package.zip"
+    },
+    "73a56486-aa2a-45da-97b9-8ec9531f2383": {
+        "filename": "tree2",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 249272,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "747826da-1e51-4b3f-b669-8773fe63e0a8": {
+        "filename": "Cube_186",
+        "filenumber": 61,
+        "filetype": "stl",
+        "offset": 371810,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "74e5dd7a-2a90-4539-8dcb-dde64446c34e": {
+        "filename": "jhonnu__corr_mesh_002",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 1063201,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "75f0012a-2f0c-4940-8822-e72b5ec4bf5c": {
+        "filename": "Cube_122",
+        "filenumber": 119,
+        "filetype": "stl",
+        "offset": 55070,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "76504dbb-85ec-4356-86f0-7593844d1a40": {
+        "filename": "corrupt_1_mesh_003",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 1062667,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "773640a2-81eb-4dab-beed-d48eccf5ddf6": {
+        "filename": "Cube_044",
+        "filenumber": 41,
+        "filetype": "stl",
+        "offset": 50546,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "774a96d0-aff6-489c-a181-7d565e7cc17d": {
+        "filename": "Carcinian_mesh_032",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 960589,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "77ad3dc7-b78-49e3-8721-8c17224ad18a": {
+        "filename": "side6",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 914180,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "77d203cf-2cc9-40cf-b38-512fbea9bb2": {
+        "filename": "jhonnu__corr_mesh_005",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 58269677,
+        "package": "../PackageFolder/corner3-4_package.zip"
+    },
+    "786b8a4c-e7b1-4df3-be63-2dedf3177c2f": {
+        "filename": "Cube_182",
+        "filenumber": 57,
+        "filetype": "stl",
+        "offset": 371578,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "7b721376-3f3f-420b-bf4b-826c8fd3cc6": {
+        "filename": "Cube_011",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 48632,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "7b92180c-6f38-4995-a6ec-813e40d7ec2d": {
+        "filename": "jhonnu__corr_mesh_001",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 1063130,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "7c36df0a-905c-4a9d-90f7-233586df0b1": {
+        "filename": "Cube_145",
+        "filenumber": 20,
+        "filetype": "stl",
+        "offset": 369432,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "7c4b18c0-bb82-45bf-8b15-4962ebd439b1": {
+        "filename": "bananaplant__020",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 902764,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "7c8cc4cd-3a00-42ab-ab1a-3278887f36df": {
+        "filename": "demon_head",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 1063003,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "7ca36379-d313-4be0-bffc-85b8c13352": {
+        "filename": "Cube_022",
+        "filenumber": 19,
+        "filetype": "stl",
+        "offset": 49270,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "7d50e92e-d8db-48ce-b9e5-9d2df7ee9344": {
+        "filename": "Cube_152",
+        "filenumber": 27,
+        "filetype": "stl",
+        "offset": 369838,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "7d6144f7-d958-4b88-a124-463578a35e43": {
+        "filename": "Cube_103",
+        "filenumber": 100,
+        "filetype": "stl",
+        "offset": 53968,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "7e2fbacf-52b2-484d-accd-568dc18e55c5": {
+        "filename": "tree1",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 249217,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "7e6887f9-4e57-41f7-a2e-73416a8341fe": {
+        "filename": "Cube_093",
+        "filenumber": 90,
+        "filetype": "stl",
+        "offset": 53388,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "7f3588de-8d3f-4eee-9768-507eeba8f4a4": {
+        "filename": "side4",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 1063272,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "7f4d0795-c81f-49ed-a3cd-541bd23ec345": {
+        "filename": "Carcinian_mesh_028",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 960317,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "7f684e9b-3aa6-44f4-85fa-ae9879e22726": {
+        "filename": "Cube_123",
+        "filenumber": 120,
+        "filetype": "stl",
+        "offset": 55128,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "80c926f9-4659-4ae0-84a8-65d755f6fa3": {
+        "filename": "Corrupt_2_mesh",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 1062871,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "828ab32c-a754-4abb-92f4-3c15feb62467": {
+        "filename": "bananaplant__001",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 248288,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "83151e36-1b59-4942-a89-e26721e0bab": {
+        "filename": "Cube_081",
+        "filenumber": 78,
+        "filetype": "stl",
+        "offset": 52692,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "83b8b8f5-9c38-4542-86ea-c11d97a2fab": {
+        "filename": "Cube_016",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 48922,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "84813e02-f79f-4777-9dd6-3d80aec52a35": {
+        "filename": "bananaplant_",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 248226,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "8489d7fb-51ef-42ac-8b39-3af7e0ce69b2": {
+        "filename": "Cube_064",
+        "filenumber": 61,
+        "filetype": "stl",
+        "offset": 51706,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "882fead2-15b7-413e-8aa8-caa90f78a48": {
+        "filename": "Cube_087",
+        "filenumber": 84,
+        "filetype": "stl",
+        "offset": 53040,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "887afd8b-5807-484b-899a-88a181d74150": {
+        "filename": "Carcinian_mesh_027",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 960249,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "8883183d-c4f8-41d7-976d-2da9c275960": {
+        "filename": "Cube_127",
+        "filenumber": 124,
+        "filetype": "stl",
+        "offset": 55360,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "8897c807-b84f-4c2e-94a2-a062f492b486": {
+        "filename": "Carcinian_mesh_002",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 1206649,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "89e5b9ad-690c-4139-ba2a-6923b6739253": {
+        "filename": "Cube_083",
+        "filenumber": 80,
+        "filetype": "stl",
+        "offset": 52808,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "8a3a60b6-a4e8-43a6-b620-10be2cc645fe": {
+        "filename": "Cube_049",
+        "filenumber": 46,
+        "filetype": "stl",
+        "offset": 50836,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "8a72f8a4-6249-491d-afb3-18bdfc84de3": {
+        "filename": "Plane_005",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 914062,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "8b2a930b-46bf-44b7-a62f-1eb7484841ef": {
+        "filename": "Cube_017",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 48980,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "8b33ae7c-d7a5-417a-8ad-fd79c78e8e1b": {
+        "filename": "Carcinian_mesh_006",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 1206921,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "8b7fa457-975a-446a-8b6d-ff93db4310": {
+        "filename": "Cube_001",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 1207533,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "8c45c46e-fa7e-4b60-993a-f8a44b1454a4": {
+        "filename": "stone2",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 249161,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "8e226fed-7d64-4d21-9187-e2f9f9d77683": {
+        "filename": "Cube_151",
+        "filenumber": 26,
+        "filetype": "stl",
+        "offset": 369780,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "8eee4808-c210-44b5-8bb1-84f8237ba9c": {
+        "filename": "Cube_027",
+        "filenumber": 24,
+        "filetype": "stl",
+        "offset": 49560,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "8f6f8803-adc-4a96-bf2e-7384b54abfe": {
+        "filename": "Carcinian_mesh_013",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 1207397,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "9069cfa6-94a6-4795-9d29-25d396353e80": {
+        "filename": "Cube_054",
+        "filenumber": 51,
+        "filetype": "stl",
+        "offset": 51126,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "918e1aae-5c7e-431f-85c5-8d7e8b66b7bd": {
+        "filename": "bananaplant__004",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 248486,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "92ce4523-e8cc-4345-90ec-82d59289f855": {
+        "filename": "tree2_004",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 250121,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "93610861-334-442f-92b7-db97d9a7f90": {
+        "filename": "Cube_190",
+        "filenumber": 65,
+        "filetype": "stl",
+        "offset": 372042,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "9381bee7-96d-4867-8482-b08133e7c6f3": {
+        "filename": "bananaplant__024",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 903028,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "940dc3b2-2cdc-4d49-9e27-a85f42fd75da": {
+        "filename": "Cube_070",
+        "filenumber": 67,
+        "filetype": "stl",
+        "offset": 52054,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "94a2adf4-837b-42c2-b84-6281aed47bb0": {
+        "filename": "Cube_129",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 368504,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "95172cc2-d0f1-42e0-8ddf-d494973f12": {
+        "filename": "Plane",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 913889,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "95327d81-9407-4681-b27b-6d6f284e5e89": {
+        "filename": "Cube_078",
+        "filenumber": 75,
+        "filetype": "stl",
+        "offset": 52518,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "96048e44-910f-4fb5-bb6d-38a166a2c59": {
+        "filename": "Carcinian_mesh_004",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 1206785,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "970ea544-b5c9-4da6-ba41-51238a7ff9b0": {
+        "filename": "Carcinian_mesh_011",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 1207261,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "98543c2-c840-4755-a74c-2f8db34d412": {
+        "filename": "jhonnu__corr_mesh_004",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 58269606,
+        "package": "../PackageFolder/corner3-4_package.zip"
+    },
+    "98d32550-d9b2-49e1-a5d9-6634e0451aaa": {
+        "filename": "Cube_174",
+        "filenumber": 49,
+        "filetype": "stl",
+        "offset": 371114,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "993e647c-12dd-452c-82f8-ced689d3e49": {
+        "filename": "bananaplant__011",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 249170,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "9ac60b3b-d356-4518-b930-c84e3b87c9f": {
+        "filename": "Cube_135",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 368852,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "9ae46892-7448-40d7-abec-745d5cabb137": {
+        "filename": "Cube_039",
+        "filenumber": 36,
+        "filetype": "stl",
+        "offset": 50256,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9c71b3a7-5674-4138-96ae-1c18d0a5844": {
+        "filename": "Cube_058",
+        "filenumber": 55,
+        "filetype": "stl",
+        "offset": 51358,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9dbbad78-f91d-493f-8837-135c00abd": {
+        "filename": "tree3",
+        "filenumber": 20,
+        "filetype": "stl",
+        "offset": 249504,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "9e0864c5-5814-487e-b8e9-c947945edbee": {
+        "filename": "Cube_179",
+        "filenumber": 54,
+        "filetype": "stl",
+        "offset": 371404,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "9e5c1e05-470b-4e27-9534-fd96a0c82cad": {
+        "filename": "Cube_077",
+        "filenumber": 74,
+        "filetype": "stl",
+        "offset": 52460,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9eb757a5-f6f2-4a77-9b1b-ec0da6f6ba": {
+        "filename": "Cube_106",
+        "filenumber": 103,
+        "filetype": "stl",
+        "offset": 54142,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9ecd276a-3018-4826-847e-cb4cbc2a05b": {
+        "filename": "Cube_028",
+        "filenumber": 25,
+        "filetype": "stl",
+        "offset": 49618,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9f23d3be-1aa0-4dca-831-755410ab41f3": {
+        "filename": "Cube_052",
+        "filenumber": 49,
+        "filetype": "stl",
+        "offset": 51010,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "9fb748b2-2533-442a-8b56-eb20695fb761": {
+        "filename": "Carcinian_mesh_019",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 903362,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "9fdd422e-68e5-479d-9582-ebfb3bd6579": {
+        "filename": "bananaplant__025",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 903094,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "a0aa996f-57fc-46d6-8c47-fa84b185440": {
+        "filename": "Cube_177",
+        "filenumber": 52,
+        "filetype": "stl",
+        "offset": 371288,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "a0c719f0-6cbf-4ada-8498-dd3143619855": {
+        "filename": "side5",
+        "filenumber": 126,
+        "filetype": "stl",
+        "offset": 55476,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a1e14c01-cab0-41c1-affb-de1431b3826": {
+        "filename": "jhonnu__corr_mesh_003",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 58269535,
+        "package": "../PackageFolder/corner3-4_package.zip"
+    },
+    "a23fcf3d-fbb1-4031-9c56-6da549135da1": {
+        "filename": "Cube_132",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 368678,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "a2fbd362-60f8-4590-9782-e7d9f41d83c": {
+        "filename": "Cube_043",
+        "filenumber": 40,
+        "filetype": "stl",
+        "offset": 50488,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a342ceb2-34ae-4ea2-825f-7f9826bee11": {
+        "filename": "Cube_110",
+        "filenumber": 107,
+        "filetype": "stl",
+        "offset": 54374,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a40f9e02-c313-4278-8754-6c661c4f86e5": {
+        "filename": "Plane_006",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 914121,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "a49558e5-32e-45a2-bbef-a424b869e9b9": {
+        "filename": "Carcinian_mesh_012",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 1207329,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "a4cd36ed-50d6-4522-8c49-4d8658861c5": {
+        "filename": "Carcinian_mesh_015",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 960113,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "a54325bd-317d-41ac-a573-f63aac5458e": {
+        "filename": "Carcinian_mesh_030",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 960453,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "a673c441-7a28-4957-b021-9b1762aff240": {
+        "filename": "Cube_061",
+        "filenumber": 58,
+        "filetype": "stl",
+        "offset": 51532,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a679a87c-27c4-4e2b-b2ee-49716565696e": {
+        "filename": "Omni_directional_stone",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 248882,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "a71072b6-eff8-496c-85a2-193b56587ee3": {
+        "filename": "Cube_046",
+        "filenumber": 43,
+        "filetype": "stl",
+        "offset": 50662,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a7196efc-13a0-4951-9c50-e252eb6522fb": {
+        "filename": "Cube_042",
+        "filenumber": 39,
+        "filetype": "stl",
+        "offset": 50430,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a74fbb9d-e3f5-4367-8d16-733edfdc78d4": {
+        "filename": "Carcinian_mesh_020",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 903430,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "a8307c47-4b74-49e4-bb94-2466c63e80e": {
+        "filename": "Cube_165",
+        "filenumber": 40,
+        "filetype": "stl",
+        "offset": 370592,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "a869ca2a-985d-4c92-945b-4ab39ac4026": {
+        "filename": "male_teen_lo",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 913827,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "a920f27c-5006-4228-9651-956937d8fb6": {
+        "filename": "Cube_181",
+        "filenumber": 56,
+        "filetype": "stl",
+        "offset": 371520,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "a9a9b038-6b-4392-9696-5c3ee62e917": {
+        "filename": "Cube_188",
+        "filenumber": 63,
+        "filetype": "stl",
+        "offset": 371926,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "a9dbeeeb-45a8-4ea2-8d4b-299aabd52fc0": {
+        "filename": "Cube_056",
+        "filenumber": 53,
+        "filetype": "stl",
+        "offset": 51242,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "a9e166e4-d864-44aa-907e-6a74448cd17": {
+        "filename": "Cube_102",
+        "filenumber": 99,
+        "filetype": "stl",
+        "offset": 53910,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "aa6785e9-afcd-4b55-a177-4d68c156fa91": {
+        "filename": "Carcinian_mesh_021",
+        "filenumber": 11,
+        "filetype": "stl",
+        "offset": 903498,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "aab24c39-43f3-47e0-bcc7-493492e751fb": {
+        "filename": "Carcinian_mesh_018",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 903294,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "aaf74f94-f297-4256-88cc-d04b9d6067f5": {
+        "filename": "Cube_121",
+        "filenumber": 118,
+        "filetype": "stl",
+        "offset": 55012,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "ab2151d3-78c2-411a-bdb5-261ca9f060a": {
+        "filename": "Carcinian_mesh_026",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 903838,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "ab2f9c43-7040-421a-9aa0-4fd4332e90fd": {
+        "filename": "Cube_173",
+        "filenumber": 48,
+        "filetype": "stl",
+        "offset": 371056,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "ae3d4dc5-b0fc-4ba7-9678-8b781737e4e": {
+        "filename": "Cube_080",
+        "filenumber": 77,
+        "filetype": "stl",
+        "offset": 52634,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "ae4711a5-9d2-4282-abef-2a9d9f886b0": {
+        "filename": "Cube_020",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 49154,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "aee9c12d-a8-401d-b763-6f72122e7156": {
+        "filename": "Cube_189",
+        "filenumber": 64,
+        "filetype": "stl",
+        "offset": 371984,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "aff1f095-5850-4870-ae52-73f620763e1": {
+        "filename": "corner6-1",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 960929,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "b1b0ac4a-e3f2-439d-bdb0-d1bce5c97915": {
+        "filename": "Omni_directional_stone_003",
+        "filenumber": 18,
+        "filetype": "stl",
+        "offset": 903965,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "b35dd967-1271-44c8-ad8f-f85982f19546": {
+        "filename": "bananaplant__006",
+        "filenumber": 6,
+        "filetype": "stl",
+        "offset": 248618,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "b484cd2a-ca1e-4cd1-b74e-b82b3af2ff17": {
+        "filename": "Cube_084",
+        "filenumber": 81,
+        "filetype": "stl",
+        "offset": 52866,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b4ed34e2-98fe-41ef-843-7c1a3ae5d7": {
+        "filename": "Cube_062",
+        "filenumber": 59,
+        "filetype": "stl",
+        "offset": 51590,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b5955298-2e4c-446f-bd67-ecaff3fd976a": {
+        "filename": "Cube_065",
+        "filenumber": 62,
+        "filetype": "stl",
+        "offset": 51764,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b5b4dfed-db81-428f-9f5c-3aa0fc12fa2c": {
+        "filename": "Cube_097",
+        "filenumber": 94,
+        "filetype": "stl",
+        "offset": 53620,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b632ec19-dd71-4765-bebf-56d197f26eb1": {
+        "filename": "Cube_007",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 48400,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b7bab98b-720a-4e70-8a3b-a85d6d71957c": {
+        "filename": "Cube_134",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 368794,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "b7f5f1da-bbc1-47b2-bd3e-3eea9883ddea": {
+        "filename": "Cube_169",
+        "filenumber": 44,
+        "filetype": "stl",
+        "offset": 370824,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "b962329d-5b0d-41d6-b64d-c321c3f83c4e": {
+        "filename": "side2",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 249106,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "b9835aaf-ecd6-468b-a7c3-175ed39532d": {
+        "filename": "Cube_128",
+        "filenumber": 125,
+        "filetype": "stl",
+        "offset": 55418,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "b98a25f-d319-4061-9a5c-cd4381221027": {
+        "filename": "Carcinian_mesh_029",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 960385,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "b9d9186f-4730-435a-869-424e526ddc9": {
+        "filename": "Cube_133",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 368736,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "bbdf3518-fc8a-4c16-8753-5a7e327c36d4": {
+        "filename": "side1",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 1207646,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "bc45a4f5-cd26-4693-8f48-12a0851556c": {
+        "filename": "Cube_038",
+        "filenumber": 35,
+        "filetype": "stl",
+        "offset": 50198,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "bcc523d6-27a2-4a0b-8cd6-63f57edb1c50": {
+        "filename": "Corrupt_2_mesh_002",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 368368,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "bd202c18-6197-49fb-8c1e-cdb54deb7497": {
+        "filename": "Cube_159",
+        "filenumber": 34,
+        "filetype": "stl",
+        "offset": 370244,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "bd271f64-e7ba-4ba7-b4e-9844e37c98b": {
+        "filename": "Cube_094",
+        "filenumber": 91,
+        "filetype": "stl",
+        "offset": 53446,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "bdc3b164-281e-416f-a024-2e2195131bc9": {
+        "filename": "Cube_082",
+        "filenumber": 79,
+        "filetype": "stl",
+        "offset": 52750,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "beef3a85-95ed-4d5e-97c6-2538c08ee0fa": {
+        "filename": "Cube_185",
+        "filenumber": 60,
+        "filetype": "stl",
+        "offset": 371752,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "bfebc30b-ee06-4407-a5fa-bea7dcd3f081": {
+        "filename": "Cube_075",
+        "filenumber": 72,
+        "filetype": "stl",
+        "offset": 52344,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "c1556ad2-d424-46c2-b126-3178ad4d6cc": {
+        "filename": "bananaplant__018",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 249632,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "c3b3c1a7-b846-468d-a78a-c9e1fcf5a179": {
+        "filename": "Cube_076",
+        "filenumber": 73,
+        "filetype": "stl",
+        "offset": 52402,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "c3ed09d-49ac-42cc-848b-b55426dd2d5e": {
+        "filename": "Plane_002",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 914003,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "c517bdb1-ef33-4838-984e-c06be327415b": {
+        "filename": "Cube_072",
+        "filenumber": 69,
+        "filetype": "stl",
+        "offset": 52170,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "c6a40d93-6c99-4418-b0ca-8335cc22ebda": {
+        "filename": "Carcinian_mesh_034",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 960725,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "cac9049b-2606-4d0e-9176-3619861ea338": {
+        "filename": "Carcinian_mesh_022",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 903566,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "cb6b725a-38cb-4c02-8a3-4e2ba2bd3d9": {
+        "filename": "Cube_021",
+        "filenumber": 18,
+        "filetype": "stl",
+        "offset": 49212,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "cbac8989-600c-4d52-882-82194b5537d1": {
+        "filename": "bananaplant__012",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 249236,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "cd3abb1e-dcee-4139-881c-624b75984621": {
+        "filename": "Cube_161",
+        "filenumber": 36,
+        "filetype": "stl",
+        "offset": 370360,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "cd9b94a7-4441-4b82-8745-c2e24c1febfa": {
+        "filename": "Cube_139",
+        "filenumber": 14,
+        "filetype": "stl",
+        "offset": 369084,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "cda2c79-2d6c-40e8-9b97-f7be777f5ad7": {
+        "filename": "Cube_067",
+        "filenumber": 64,
+        "filetype": "stl",
+        "offset": 51880,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "cebf372e-7142-4386-967b-ae539bf1dd19": {
+        "filename": "bananaplant__013",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 249302,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "cfb81f7b-ef7a-47f4-848b-8657d7e5ad": {
+        "filename": "Corrupt_2_mesh_001",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 1062935,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "cfc093c4-ad05-40a2-aa98-5b9c4cc593b3": {
+        "filename": "Cube_008",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 48458,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "cff81605-8ab8-468c-bda-16cfe86ebe92": {
+        "filename": "Cube_162",
+        "filenumber": 37,
+        "filetype": "stl",
+        "offset": 370418,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "d1702652-494c-402b-97cc-749a5f10ae99": {
+        "filename": "bananaplant__014",
+        "filenumber": 4,
+        "filetype": "stl",
+        "offset": 249368,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "d1e5f5d9-d455-46f1-9e31-4b88a417bdb4": {
+        "filename": "Cube_019",
+        "filenumber": 16,
+        "filetype": "stl",
+        "offset": 49096,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "d31516aa-7a8c-4748-86a4-fdec268059d5": {
+        "filename": "Carcinian_mesh_010",
+        "filenumber": 10,
+        "filetype": "stl",
+        "offset": 1207193,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "d49605be-a4b2-415a-9ac5-ceb2d5eafe4c": {
+        "filename": "Cube_118",
+        "filenumber": 115,
+        "filetype": "stl",
+        "offset": 54838,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "d55e7c1d-c37d-4673-8940-72472ec4e12f": {
+        "filename": "jhonnu__corr_mesh_007",
+        "filenumber": 68,
+        "filetype": "stl",
+        "offset": 372229,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "d5f35850-8bfe-4f09-8ade-153747563837": {
+        "filename": "Cube_099",
+        "filenumber": 96,
+        "filetype": "stl",
+        "offset": 53736,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "d734a7f4-8441-4492-8013-7c4491777afc": {
+        "filename": "corrupt_1_mesh_002",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 1062599,
+        "package": "../PackageFolder/side4_package.zip"
+    },
+    "d9fb41bb-ac64-46fc-91af-c9627576c150": {
+        "filename": "Cube_101",
+        "filenumber": 98,
+        "filetype": "stl",
+        "offset": 53852,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "db131d23-bd21-4840-ac1f-545601b1e46": {
+        "filename": "Cube_012",
+        "filenumber": 9,
+        "filetype": "stl",
+        "offset": 48690,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "dc9963a0-16b2-4f82-a82a-65859b30b441": {
+        "filename": "Carcinian_mesh_033",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 960657,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "dd23713f-5665-46ce-a180-dbc338b5827e": {
+        "filename": "Omni_directional_stone_002",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 249030,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "de2c71dd-51b6-4837-9563-ce4a151c30e0": {
+        "filename": "Cube_041",
+        "filenumber": 38,
+        "filetype": "stl",
+        "offset": 50372,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "de40cb9c-d50c-493a-9682-13e997754e": {
+        "filename": "Carcinian_mesh_008",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 1207057,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "deb3e407-242e-4a5f-a92e-6994c2ebecde": {
+        "filename": "Cube_163",
+        "filenumber": 38,
+        "filetype": "stl",
+        "offset": 370476,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "df60d877-3b19-408c-88a2-dab9995ccb95": {
+        "filename": "Plane_001",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 913944,
+        "package": "../PackageFolder/side6_package.zip"
+    },
+    "e03e405e-41fa-4b1c-a091-c34cd98254ba": {
+        "filename": "Carcinian_mesh_007",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 1206989,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "e057d4f8-d051-4367-91a0-9ffdd545f899": {
+        "filename": "corrupt_1_mesh_006",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 368300,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "e0c1e176-a00f-449d-828c-356dbe20e3f0": {
+        "filename": "Cube_030",
+        "filenumber": 27,
+        "filetype": "stl",
+        "offset": 49734,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e1b3f69b-b2a1-4176-a4e6-e73a3b8612ee": {
+        "filename": "Cube_035",
+        "filenumber": 32,
+        "filetype": "stl",
+        "offset": 50024,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e37b22c5-b925-4690-85b9-8176e76928d0": {
+        "filename": "Carcinian_mesh_017",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 903226,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "e484c6d9-1ab7-4801-8eb0-22f4d8417f25": {
+        "filename": "Cube_018",
+        "filenumber": 15,
+        "filetype": "stl",
+        "offset": 49038,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e4a5dc07-37ec-40c1-aac4-65a2253b40e8": {
+        "filename": "Cube_010",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 48574,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e4af2a39-8551-438e-8dc3-4f694ef63e3f": {
+        "filename": "bananaplant__007",
+        "filenumber": 7,
+        "filetype": "stl",
+        "offset": 248684,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "e626d749-2947-4666-91cb-cbe8028ebf9": {
+        "filename": "Cube_086",
+        "filenumber": 83,
+        "filetype": "stl",
+        "offset": 52982,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e70cca44-16ef-489f-bfdc-48b8f3b63933": {
+        "filename": "Cube_172",
+        "filenumber": 47,
+        "filetype": "stl",
+        "offset": 370998,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "e7c5f2aa-d8f2-450b-84b3-3eab8e42518f": {
+        "filename": "Cube_071",
+        "filenumber": 68,
+        "filetype": "stl",
+        "offset": 52112,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e7e296a7-e8c2-49a0-8c86-fa544a609897": {
+        "filename": "Cube_116",
+        "filenumber": 113,
+        "filetype": "stl",
+        "offset": 54722,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e8430f32-3a21-4f4a-a166-aff69379c1ce": {
+        "filename": "Cube_068",
+        "filenumber": 65,
+        "filetype": "stl",
+        "offset": 51938,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "e8d8636e-863b-4937-9454-ae34c8ea9fa2": {
+        "filename": "Cube_024",
+        "filenumber": 21,
+        "filetype": "stl",
+        "offset": 49386,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "ea39e98e-1df4-483d-a879-559ff811622e": {
+        "filename": "Cube_176",
+        "filenumber": 51,
+        "filetype": "stl",
+        "offset": 371230,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "eb314c19-955e-4f4b-8ceb-65253386ba3": {
+        "filename": "Cube_092",
+        "filenumber": 89,
+        "filetype": "stl",
+        "offset": 53330,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "eb8ec9c9-dd04-4a0d-9b5d-3f6594b313f4": {
+        "filename": "Cube_113",
+        "filenumber": 110,
+        "filetype": "stl",
+        "offset": 54548,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "ef293767-ac3-49de-9ad5-cbd1a0b53452": {
+        "filename": "Plane_007",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 960988,
+        "package": "../PackageFolder/corner6-1_package.zip"
+    },
+    "efe058d-1ff9-460c-93bd-496bc9139d9": {
+        "filename": "bananaplant__008",
+        "filenumber": 8,
+        "filetype": "stl",
+        "offset": 248750,
+        "package": "../PackageFolder/side2_package.zip"
+    },
+    "f0669959-fdda-4b16-8bb-9ac4b14c2764": {
+        "filename": "Cube_143",
+        "filenumber": 18,
+        "filetype": "stl",
+        "offset": 369316,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f18d1b44-8f4f-41a6-8b70-da5d99497b79": {
+        "filename": "Cube_144",
+        "filenumber": 19,
+        "filetype": "stl",
+        "offset": 369374,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f1e09d5d-eaaa-4e78-be3d-48cb491992e4": {
+        "filename": "Cube_155",
+        "filenumber": 30,
+        "filetype": "stl",
+        "offset": 370012,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f20aefec-e803-4ef8-9efa-72cb46840f4": {
+        "filename": "jhonnu__corr_mesh_006",
+        "filenumber": 67,
+        "filetype": "stl",
+        "offset": 372158,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f3bd157e-37f2-4a41-9470-a3ab86a4f3ee": {
+        "filename": "Carcinian_mesh_023",
+        "filenumber": 13,
+        "filetype": "stl",
+        "offset": 903634,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "f67d03c2-1a76-425e-b877-34196951067": {
+        "filename": "Cube_164",
+        "filenumber": 39,
+        "filetype": "stl",
+        "offset": 370534,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f6d79730-b06a-4a6f-a0f5-34f23814cb77": {
+        "filename": "Cube_005",
+        "filenumber": 2,
+        "filetype": "stl",
+        "offset": 48284,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "f73dcd06-7e7a-4838-a4d6-cd3160a7f4d3": {
+        "filename": "scorpo",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 4476482,
+        "package": "../PackageFolder/side3_package.zip"
+    },
+    "f82adf0c-32f5-42ee-8d12-ad448631aa53": {
+        "filename": "Cube_150",
+        "filenumber": 25,
+        "filetype": "stl",
+        "offset": 369722,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "f834495-fca6-4e5e-a65-86403766625d": {
+        "filename": "corner4-5",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 368241,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "fa0d4f2d-f0cd-4cb6-aee4-5ae0ac41937d": {
+        "filename": "Corrupt_2_mesh_003",
+        "filenumber": 3,
+        "filetype": "stl",
+        "offset": 368436,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "faa6233a-1aa7-4a4c-99ab-e03a8c6fd0c2": {
+        "filename": "Cube_137",
+        "filenumber": 12,
+        "filetype": "stl",
+        "offset": 368968,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "fae33934-a33d-4fe6-878-856cb3cb7688": {
+        "filename": "stone2_004",
+        "filenumber": 19,
+        "filetype": "stl",
+        "offset": 904041,
+        "package": "../PackageFolder/corner1-2_package.zip"
+    },
+    "faf36d6f-fce-4578-b1b-246c91c406a": {
+        "filename": "bananaplant__010",
+        "filenumber": 0,
+        "filetype": "stl",
+        "offset": 249104,
+        "package": "../PackageFolder/corner2-3_package.zip"
+    },
+    "fba60cc7-d6cb-4b29-8d68-737fd77ab627": {
+        "filename": "Cube_166",
+        "filenumber": 41,
+        "filetype": "stl",
+        "offset": 370650,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "fbbd099-b60a-4ada-a6e4-6697a0a956d9": {
+        "filename": "Carcinian_mesh_001",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 1206581,
+        "package": "../PackageFolder/side1_package.zip"
+    },
+    "fbdfa72e-e9ed-47dd-8cfd-a5466eab63f0": {
+        "filename": "Cube_004",
+        "filenumber": 1,
+        "filetype": "stl",
+        "offset": 48226,
+        "package": "../PackageFolder/side5_package.zip"
+    },
+    "fd6e71b6-19e9-4bfe-9e57-ce8172036e6": {
+        "filename": "Cube_130",
+        "filenumber": 5,
+        "filetype": "stl",
+        "offset": 368562,
+        "package": "../PackageFolder/corner4-5_package.zip"
+    },
+    "fdcb1c7f-530d-4ad6-9538-d8d7c05b2b15": {
+        "filename": "tree2_001",
+        "filenumber": 17,
+        "filetype": "stl",
+        "offset": 249327,
+        "package": "../PackageFolder/side2_package.zip"
     }
 }
