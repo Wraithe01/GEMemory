@@ -41,7 +41,7 @@ void TarPackagingTool::createPackage(std::vector<std::string>& assets, const std
 
         inputFile.close();
     }
-    std::cout << "Done creating tar package at: " << outputPath << std::endl;
+    std::cout << std::endl << "Success: Done creating tar package at: " << outputPath << std::endl;
 
     // Close the tar
     mtar_finalize(&tar);
