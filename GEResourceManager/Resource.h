@@ -73,9 +73,13 @@ public:
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override = 0;
     virtual void UnloadResource() override = 0;
     virtual void ToRayLib() = 0;
+    
+    Mesh* GetMeshes();
+    size_t GetMeshCount();
 
 protected:
     Mesh* meshes;
+   size_t meshCount;
 };
 
 class FBXMesh sealed : public IMesh

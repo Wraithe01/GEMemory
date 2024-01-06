@@ -7054,5 +7054,12 @@
     "filetype": "fbx",
     "offset": 951873,
     "package": "../PackageFolder/testfolder_package.zip"
+  },
+  "d68241af-c97f-4be3-948a-9b427413ab5": {
+        "filename": "cactus",
+        "filenumber": 0,
+        "filetype": "fbx",
+        "offset": 23911,
+        "package": "../PackageFolder/zip_package.zip"
   }
 }

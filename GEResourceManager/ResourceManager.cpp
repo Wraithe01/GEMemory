@@ -202,6 +202,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
         {
             std::shared_ptr<IMesh> res = std::make_shared<FBXMesh>();
             res.get()->LoadResource(buffer, filesize);
+            res->ToRayLib();
             m_loadedMeshes[guid] = res;
             res->InitRefcount();
             // printf("Loaded FBX!\n");
@@ -211,6 +212,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
         {
             std::shared_ptr<IMesh> res = std::make_shared<STLMesh>();
             res.get()->LoadResource(buffer, filesize);
+            res->ToRayLib();
             m_loadedMeshes[guid] = res;
             res->InitRefcount();
             // printf("Loaded STL!\n");

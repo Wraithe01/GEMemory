@@ -37,42 +37,70 @@ FBXMesh::FBXMesh()
 void FBXMesh::ToRayLib()
 {
     size_t size = m_fbxData->meshes.count * sizeof(Mesh);
-    meshes      = (Mesh*) malloc(size);
-    memset(meshes, 0, size);
+    this->meshes = (Mesh*)malloc(size);
 
     for (size_t meshIndex = 0; meshIndex < m_fbxData->meshes.count; meshIndex++)
     {
         Mesh raylibMesh = { 0 };
 
-        ufbx_mesh* fbxMesh       = m_fbxData->meshes.data[meshIndex];
-        raylibMesh.vertexCount   = fbxMesh->num_vertices;
-        raylibMesh.triangleCount = fbxMesh->num_triangles;
+        ufbx_mesh* fbxMesh = m_fbxData->meshes.data[meshIndex];
 
+        size_t verticesCount = fbxMesh->vertices.count;
+        size_t triangles = fbxMesh->num_triangles;
+        size_t normals = fbxMesh->vertex_normal.values.count;
+        size_t uvs = fbxMesh->vertex_uv.values.count;
+        size_t indices = fbxMesh->num_indices;
+     
+        raylibMesh.vertexCount = verticesCount;
+        raylibMesh.triangleCount = triangles;
+       
         // Allocate memory for vertex positions, normals, and texture coordinates
-        raylibMesh.vertices  = (float*) malloc(raylibMesh.vertexCount * 3 * sizeof(float));
-        raylibMesh.normals   = (float*) malloc(raylibMesh.vertexCount * 3 * sizeof(float));
-        raylibMesh.texcoords = (float*) malloc(raylibMesh.vertexCount * 2 * sizeof(float));
+        raylibMesh.vertices = (float*)MemAlloc(verticesCount * 3 * sizeof(float)); // 3 coordinates each (x, y, z)
+        raylibMesh.normals = (float*)MemAlloc(normals * 3 * sizeof(float)); // 3 coordinates each (x, y, z)
+        raylibMesh.texcoords = (float*)MemAlloc(uvs * 2 * sizeof(float)); // 2 coordinates each (x, y)
+        raylibMesh.indices = (unsigned short*)malloc(indices * sizeof(unsigned short));
+
+        for (int i = 0; i < verticesCount; i++) {
+           raylibMesh.vertices[i * 3] = (float)fbxMesh->vertices[i].x;
+           raylibMesh.vertices[i * 3 + 1] = (float)fbxMesh->vertices[i].y;
+           raylibMesh.vertices[i * 3 + 2] = (float)fbxMesh->vertices[i].z;
+        }
+
+        for (int i = 0; i < normals; i++) {
+            raylibMesh.normals[i * 3] = (float)fbxMesh->vertex_normal[i].x;
+            raylibMesh.normals[i * 3 + 1] = (float)fbxMesh->vertex_normal[i].y;
+            raylibMesh.normals[i * 3 + 2] = (float)fbxMesh->vertex_normal[i].z;
+        }
+
+        // Convert indices
+        for (size_t i = 0; i < indices; i++) {
+            raylibMesh.indices[i] = (unsigned short)fbxMesh->vertex_indices.data[i];
+        }
 
         // Copy vertex data from FBX to Raylib
         for (size_t i = 0; i < raylibMesh.vertexCount; i++)
         {
-            ufbx_vec3 fbxVertex   = fbxMesh->vertices[i];
-            ufbx_vec3 fbxNormal   = fbxMesh->vertex_normal[i];  // Correct normal type?
-            ufbx_vec2 fbxTexCoord = fbxMesh->vertex_uv[i];      // Correct uv type?
+            ufbx_vec3 fbxVertex = fbxMesh->vertices[i];
+            ufbx_vec3 fbxNormal = fbxMesh->vertex_normal[i];
+            ufbx_vec2 fbxTexCoord = fbxMesh->vertex_uv[i];
 
-            raylibMesh.vertices[i * 3]     = fbxVertex.x;
-            raylibMesh.vertices[i * 3 + 1] = fbxVertex.y;
-            raylibMesh.vertices[i * 3 + 2] = fbxVertex.z;
+            //raylibMesh.vertices[i * 3] = fbxVertex.x;
+            //raylibMesh.vertices[i * 3 + 1] = fbxVertex.y;
+            //raylibMesh.vertices[i * 3 + 2] = fbxVertex.z;
 
-            raylibMesh.normals[i * 3]     = fbxNormal.x;
-            raylibMesh.normals[i * 3 + 1] = fbxNormal.y;
-            raylibMesh.normals[i * 3 + 2] = fbxNormal.z;
+            //raylibMesh.normals[i * 3] = fbxNormal.x;
+            //raylibMesh.normals[i * 3 + 1] = fbxNormal.y;
+           // raylibMesh.normals[i * 3 + 2] = fbxNormal.z;
 
-            raylibMesh.texcoords[i * 2]     = fbxTexCoord.x;
-            raylibMesh.texcoords[i * 2 + 1] = fbxTexCoord.y;
+            //raylibMesh.texcoords[i * 2] = fbxTexCoord.x;
+            //raylibMesh.texcoords[i * 2 + 1] = fbxTexCoord.y;
         }
-        meshes[meshIndex] = raylibMesh;
+        // Upload mesh data from CPU (RAM) to GPU (VRAM) memory
+        //UploadMesh(&raylibMesh, false);
+
+        this->meshes[meshIndex] = raylibMesh;
     }
+    meshCount = m_fbxData->meshes.count;
 }
 
 bool FBXMesh::LoadResource(const uint8_t* buffer, int32_t buffSize)
@@ -118,7 +146,40 @@ void STLMesh::UnloadResource()
         delete handler;
 }
 
-void STLMesh::ToRayLib() { std::cerr << "STL ToRayLib NYI.\n"; }
+void STLMesh::ToRayLib()
+{ 
+    this->meshCount = 1;
+    size_t size = this->meshCount * sizeof(Mesh);
+    this->meshes = (Mesh*)malloc(size);
+    Mesh raylibMesh = { 0 };
+
+    // Assuming each facet is a triangle
+    size_t numFacets = handler->mesh.facets.size();
+    raylibMesh.vertexCount = numFacets * 3; // 3 vertices per triangle
+    raylibMesh.triangleCount = numFacets;
+
+    raylibMesh.vertices = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per vertex
+    raylibMesh.normals = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per normal
+
+    for (size_t i = 0; i < numFacets; i++) {
+        const auto& facet = handler->mesh.facets[i];
+
+        // Set vertex positions and normals for each vertex in the facet
+        const microstl::Vertex* vertices[3] = { &facet.v1, &facet.v2, &facet.v3 };
+        for (int j = 0; j < 3; j++) {
+            raylibMesh.vertices[(i * 3 + j) * 3 + 0] = vertices[j]->x;
+            raylibMesh.vertices[(i * 3 + j) * 3 + 1] = vertices[j]->y;
+            raylibMesh.vertices[(i * 3 + j) * 3 + 2] = vertices[j]->z;
+
+            raylibMesh.normals[(i * 3 + j) * 3 + 0] = facet.n.x;
+            raylibMesh.normals[(i * 3 + j) * 3 + 1] = facet.n.y;
+            raylibMesh.normals[(i * 3 + j) * 3 + 2] = facet.n.z;
+        }
+    }
+    // The mesh is not indexed; indices are not needed
+    raylibMesh.indices = nullptr;
+    this->meshes[0] = raylibMesh;
+}
 
 
 ITexture::ITexture()
@@ -148,4 +209,14 @@ void ITexture::UnloadResource()
     stbi_image_free(m_img);
     m_img         = nullptr;
     m_memoryUsage = 0;
+}
+
+Mesh* IMesh::GetMeshes()
+{
+    return meshes;
+}
+
+size_t IMesh::GetMeshCount()
+{
+    return meshCount;
 }
