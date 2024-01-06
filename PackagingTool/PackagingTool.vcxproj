@@ -139,12 +139,14 @@
     <ClCompile Include="..\microtar\microtar.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PackagingTool.cpp" />
+    <ClCompile Include="ScenePackaging.cpp" />
     <ClCompile Include="TarPackaging.cpp" />
     <ClCompile Include="ZipPackaging.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\microtar\microtar.h" />
     <ClInclude Include="PackagingTool.h" />
+    <ClInclude Include="ScenePackaging.h" />
     <ClInclude Include="TarPackaging.h" />
     <ClInclude Include="ZipPackaging.h" />
   </ItemGroup>

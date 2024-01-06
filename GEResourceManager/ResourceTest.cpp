@@ -13,16 +13,19 @@ void ResourceTest::Validate() {
 	std::cout << "TEST 1 - BASIC SCENE LOAD OF 8 RESOURCES (SHOULD NOT CAUSE ERRORS)\n";
 	std::cout << "========================= Start =========================\n";
 	Scene scene;
-	// ZIP
-	scene.AppendGUID("7023d2a2-6f6d-49fc-9512-c1a3bc78b278");
-	scene.AppendGUID("798cb1b8-dfb9-4453-b2f7-ae67f75556e");
-	scene.AppendGUID("8baa3bc4-1b74-4015-971c-a91073603842");
-	scene.AppendGUID("bf2e0941-ad77-4d57-bd74-b7d43dc828ff");
-	// TAR
-	scene.AppendGUID("2fdb31c4-8760-4343-a8fa-5786c29ddb");
-	scene.AppendGUID("405c6f96-eb47-4de5-8976-adeaa2800");
-	scene.AppendGUID("61182300-5330-4425-8b0-fb3ba8e0c13a");
-	scene.AppendGUID("8c696454-7ac0-47de-8490-c25d6d4b01c");
+
+	scene.AppendScene("scene1");
+
+	//// ZIP
+	//scene.AppendGUID("7023d2a2-6f6d-49fc-9512-c1a3bc78b278");
+	//scene.AppendGUID("798cb1b8-dfb9-4453-b2f7-ae67f75556e");
+	//scene.AppendGUID("8baa3bc4-1b74-4015-971c-a91073603842");
+	//scene.AppendGUID("bf2e0941-ad77-4d57-bd74-b7d43dc828ff");
+	//// TAR
+	//scene.AppendGUID("2fdb31c4-8760-4343-a8fa-5786c29ddb");
+	//scene.AppendGUID("405c6f96-eb47-4de5-8976-adeaa2800");
+	//scene.AppendGUID("61182300-5330-4425-8b0-fb3ba8e0c13a");
+	//scene.AppendGUID("8c696454-7ac0-47de-8490-c25d6d4b01c");
 
 	// Load scene
 	auto asyncRequest = resourceManager.LoadScene(scene);
@@ -92,6 +95,14 @@ void ResourceTest::Validate() {
 	std::cout << "========================= End =========================\n\n";
 }
 
+void ThreadLoadScene(void* in)
+{
+	Scene* scene = (Scene*)in;
+	auto handle = ResourceManager::GetInstance().LoadScene(*scene);
+	ResourceManager::GetInstance().AsynchRequestWait(handle);
+	std::cout << "Thread exiting\n";
+}
+
 void ResourceTest::PerformanceBenchmark() {
 	ResourceManager& resourceManager = ResourceManager::GetInstance();
 
@@ -136,5 +147,33 @@ void ResourceTest::PerformanceBenchmark() {
 		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
 	std::cout << "========================= End =========================\n\n";
 
+	std::cout << "SUBTEST 3. Load all resources and unload with 5 threads concurrently\n";
+	std::cout << "Should have no errors and should hopefully have execution time close to first benchmark if running perfectly concurrent\n";
+	std::vector<std::thread> threads;
+	std::vector<Scene> scenes;
+
+	for (int i = 0; i < 5; i++) {
+		scenes.push_back(scene); // Copy the original scene
+	}
+
+	tstart = high_resolution_clock::now();
+	for (int i = 0; i < 5; ++i) {
+		threads.emplace_back(ThreadLoadScene, &(scenes[i]));
+	}
+
+	// Join the threads with the main thread
+	for (std::thread& thread : threads) {
+		if (thread.joinable()) {
+			thread.join();
+		}
+	}
+	asyncRequest = resourceManager.UnloadScene(scene);
+	resourceManager.AsynchRequestWait(asyncRequest);
+
+	std::printf("Benchmark test took %8.8lld micro seconds\n",
+		duration_cast<microseconds>(high_resolution_clock::now() - tstart).count());
+	std::cout << "========================= End =========================\n\n";
+
+	std::cout << "All tests performed!" << std::endl;
 	std::cout << "All tests performed!" << std::endl;
 }
