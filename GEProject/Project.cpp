@@ -18,9 +18,9 @@ void Run()
     Scene scene;
     //scene.AppendGUID("7023d2a2-6f6d-49fc-9512-c1a3bc78b278"); // PNG
     //scene.AppendGUID("798cb1b8-dfb9-4453-b2f7-ae67f75556e"); //JPG
-    scene.AppendGUID("8baa3bc4-1b74-4015-971c-a91073603842"); //STL
-    scene.AppendGUID("d68241af-c97f-4be3-948a-9b427413ab5"); // FBX cactus
-    //scene.AppendGUID("bf2e0941-ad77-4d57-bd74-b7d43dc828ff");
+    //scene.AppendGUID("8baa3bc4-1b74-4015-971c-a91073603842"); //STL
+    //scene.AppendGUID("d68241af-c97f-4be3-948a-9b427413ab5"); // FBX cactus
+    scene.AppendGUID("bf2e0941-ad77-4d57-bd74-b7d43dc828ff");
 
     // Load scene
     auto asyncRequest = resourceManager.LoadScene(scene);

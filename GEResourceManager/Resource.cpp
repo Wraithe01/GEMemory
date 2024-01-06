@@ -36,69 +36,80 @@ FBXMesh::FBXMesh()
 
 void FBXMesh::ToRayLib()
 {
+    // Create the meshes array
     size_t size = m_fbxData->meshes.count * sizeof(Mesh);
     this->meshes = (Mesh*)malloc(size);
+    memset(this->meshes, 0, size);
 
     for (size_t meshIndex = 0; meshIndex < m_fbxData->meshes.count; meshIndex++)
     {
-        Mesh raylibMesh = { 0 };
-
+        Mesh& raylibMesh = this->meshes[meshIndex];
         ufbx_mesh* fbxMesh = m_fbxData->meshes.data[meshIndex];
 
         size_t verticesCount = fbxMesh->vertices.count;
-        size_t triangles = fbxMesh->num_triangles;
         size_t normals = fbxMesh->vertex_normal.values.count;
         size_t uvs = fbxMesh->vertex_uv.values.count;
-        size_t indices = fbxMesh->num_indices;
      
         raylibMesh.vertexCount = verticesCount;
-        raylibMesh.triangleCount = triangles;
        
         // Allocate memory for vertex positions, normals, and texture coordinates
         raylibMesh.vertices = (float*)MemAlloc(verticesCount * 3 * sizeof(float)); // 3 coordinates each (x, y, z)
         raylibMesh.normals = (float*)MemAlloc(normals * 3 * sizeof(float)); // 3 coordinates each (x, y, z)
         raylibMesh.texcoords = (float*)MemAlloc(uvs * 2 * sizeof(float)); // 2 coordinates each (x, y)
-        raylibMesh.indices = (unsigned short*)malloc(indices * sizeof(unsigned short));
 
+        // VERTEX
         for (int i = 0; i < verticesCount; i++) {
            raylibMesh.vertices[i * 3] = (float)fbxMesh->vertices[i].x;
            raylibMesh.vertices[i * 3 + 1] = (float)fbxMesh->vertices[i].y;
            raylibMesh.vertices[i * 3 + 2] = (float)fbxMesh->vertices[i].z;
         }
 
+        // NORMALS
         for (int i = 0; i < normals; i++) {
             raylibMesh.normals[i * 3] = (float)fbxMesh->vertex_normal[i].x;
             raylibMesh.normals[i * 3 + 1] = (float)fbxMesh->vertex_normal[i].y;
             raylibMesh.normals[i * 3 + 2] = (float)fbxMesh->vertex_normal[i].z;
         }
 
-        // Convert indices
-        for (size_t i = 0; i < indices; i++) {
-            raylibMesh.indices[i] = (unsigned short)fbxMesh->vertex_indices.data[i];
-        }
-
-        // Copy vertex data from FBX to Raylib
-        for (size_t i = 0; i < raylibMesh.vertexCount; i++)
+        // UVS
+        for (int i = 0; i < uvs; i++)
         {
-            ufbx_vec3 fbxVertex = fbxMesh->vertices[i];
-            ufbx_vec3 fbxNormal = fbxMesh->vertex_normal[i];
-            ufbx_vec2 fbxTexCoord = fbxMesh->vertex_uv[i];
-
-            //raylibMesh.vertices[i * 3] = fbxVertex.x;
-            //raylibMesh.vertices[i * 3 + 1] = fbxVertex.y;
-            //raylibMesh.vertices[i * 3 + 2] = fbxVertex.z;
-
-            //raylibMesh.normals[i * 3] = fbxNormal.x;
-            //raylibMesh.normals[i * 3 + 1] = fbxNormal.y;
-           // raylibMesh.normals[i * 3 + 2] = fbxNormal.z;
-
-            //raylibMesh.texcoords[i * 2] = fbxTexCoord.x;
-            //raylibMesh.texcoords[i * 2 + 1] = fbxTexCoord.y;
+            raylibMesh.texcoords[i * 2] = fbxMesh->vertex_uv[i].x;
+            raylibMesh.texcoords[i * 2 + 1] = fbxMesh->vertex_uv[i].y;
         }
-        // Upload mesh data from CPU (RAM) to GPU (VRAM) memory
-        //UploadMesh(&raylibMesh, false);
 
-        this->meshes[meshIndex] = raylibMesh;
+        // FACES
+        int totalTriangles = 0;
+        // First pass: count the total number of triangles needed
+        for (int i = 0; i < fbxMesh->faces.count; i++) {
+            ufbx_face face = fbxMesh->faces.data[i];
+            if (face.num_indices >= 3) {
+                totalTriangles += face.num_indices - 2;
+            }
+        }
+
+        // Allocate memory for the triangles
+        raylibMesh.indices = (unsigned short*)malloc(totalTriangles * 3 * sizeof(unsigned short));
+        raylibMesh.triangleCount = totalTriangles;
+
+        // Second pass: triangulate faces
+        int k = 0;
+        for (int i = 0; i < fbxMesh->faces.count; i++) {
+            ufbx_face face = fbxMesh->faces.data[i];
+            if (face.num_indices < 3) continue; // Skip invalid faces
+
+            // Fan triangulation for convex polygons
+            for (int j = 2; j < face.num_indices; j++) {
+                raylibMesh.indices[k++] = fbxMesh->vertex_indices.data[face.index_begin];
+                raylibMesh.indices[k++] = fbxMesh->vertex_indices.data[face.index_begin + j - 1];
+                raylibMesh.indices[k++] = fbxMesh->vertex_indices.data[face.index_begin + j];
+            }
+        }
+
+        // EDIT: Does not work here... :(
+        // UploadMesh(&raylibMesh, false);
+
+        //this->meshes[meshIndex] = raylibMesh;
     }
     meshCount = m_fbxData->meshes.count;
 }
