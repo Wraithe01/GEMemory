@@ -185,7 +185,7 @@ static void ImGuiMemoryTrace(void)
             if (ImGui::BeginChild(std::format("alloc {}", index).c_str(),
                                   ImVec2(winSize.x / 2, winSize.y / 3)))
             {
-                ImGui::Text("Allocator %d s graph.", index++);
+                ImGui::Text("%s Allocator %d s Graph.", allocator->GetAllocName(), index++);
                 ImGui::Text("Capacity used %d", allocator->CurrentStored());
             }
             ImGui::EndChild();
