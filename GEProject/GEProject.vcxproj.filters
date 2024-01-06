@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Imgui.cpp">
+    <ClCompile Include="ImguiConfig.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Project.cpp">
@@ -34,7 +34,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Imgui.h">
+    <ClInclude Include="ImguiConfig.h">
       <Filter>Resource Files\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Settings.h">
@@ -87,6 +87,7 @@
     <None Include="Libs\rlImGui\lib\Release\rlImGui.pdb">
       <Filter>Resource Files\libdata</Filter>
     </None>
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\ImGui\lib\Debug\ImGui.lib">

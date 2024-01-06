@@ -15,5 +15,11 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="implot.h" />
+    <ClInclude Include="implot_internal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="implot.cpp" />
+    <ClCompile Include="implot_items.cpp" />
   </ItemGroup>
 </Project>

@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libs\raylib\include;$(ProjectDir)Libs\rlImGui\include;$(SolutionDir)zlib;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)microtar;$(SolutionDir)tar;$(SolutionDir)nlohmann;$(SolutionDir)GEResourceManager;$(SolutionDir)GEMemory</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ImGui;$(ProjectDir)Libs\raylib\include;$(ProjectDir)Libs\rlImGui\include;$(SolutionDir)zlib;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)microtar;$(SolutionDir)tar;$(SolutionDir)nlohmann;$(SolutionDir)GEResourceManager;$(SolutionDir)GEMemory</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libs\rlImGui\include;$(ProjectDir)Libs\raylib\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ImGui;$(ProjectDir)Libs\rlImGui\include;$(ProjectDir)Libs\raylib\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Imgui.h" />
+    <ClInclude Include="ImguiConfig.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Libs\raylib\include\raylib.h" />
     <ClInclude Include="Libs\raylib\include\raymath.h" />
@@ -154,12 +154,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Imgui.cpp" />
+    <ClCompile Include="ImguiConfig.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui.ini" />
     <None Include="Libs\ImGui\lib\Debug\ImGui.pdb" />
     <None Include="Libs\ImGui\lib\Release\ImGui.pdb" />
     <None Include="Libs\rlImGui\lib\Debug\rlImGui.idb" />
