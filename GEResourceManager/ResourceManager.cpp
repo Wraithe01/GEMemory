@@ -50,14 +50,15 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
     for (auto& guid : scene.GetChunk())
     {
         m_loadedLock.lock();
-        const auto& it = m_loadedData.find(guid);
+        const auto& it = m_loadedMeshes.find(guid);
         m_loadedLock.unlock();
-        if (it != m_loadedData.end())
+        if (it != m_loadedMeshes.end())
         {
             ++(*m_loadedMeshes[guid].get());
             continue;
         }
 
+        // TODO: ADD LOCK
         const auto& it2 = m_loadedTextures.find(guid);
         if (it2 != m_loadedTextures.end())
         {
@@ -205,15 +206,16 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             std::shared_ptr<IMesh> res = std::make_shared<FBXMesh>();
             res.get()->LoadResource(buffer, filesize);
             m_loadedLock.lock();
-            if (m_loadedData.count(guid) == 0)
+            if (m_loadedMeshes.count(guid) == 0)
             {
-                m_loadedData[guid] = res;
-                m_loadedData[guid]->InitRefcount();
+                m_loadedMeshes[guid] = res;
+                m_loadedMeshes[guid]->InitRefcount();
+                m_loadedMeshes[guid]->ToRayLib();
                 //printf("Loaded FBX!\n");
             }
             else
             {
-                m_loadedData[guid]->Increment();
+                m_loadedMeshes[guid]->Increment();
             }
             m_loadedLock.unlock();
             break;
@@ -223,15 +225,16 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             std::shared_ptr<IMesh> res = std::make_shared<STLMesh>();
             res.get()->LoadResource(buffer, filesize);
             m_loadedLock.lock();
-            if (m_loadedData.count(guid) == 0)
+            if (m_loadedMeshes.count(guid) == 0)
             {
-                m_loadedData[guid] = res;
-                m_loadedData[guid]->InitRefcount();
+                m_loadedMeshes[guid] = res;
+                m_loadedMeshes[guid]->InitRefcount();
+                m_loadedMeshes[guid]->ToRayLib();
                 //printf("Loaded STL!\n");
             }
             else
             {
-                m_loadedData[guid]->Increment();
+                m_loadedMeshes[guid]->Increment();
             }
             m_loadedLock.unlock();
             break;
@@ -243,15 +246,15 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             std::shared_ptr<ITexture> res = std::make_shared<ITexture>();
             res.get()->LoadResource(buffer, filesize);
             m_loadedLock.lock();
-            if (m_loadedData.count(guid) == 0)
+            if (m_loadedTextures.count(guid) == 0)
             {
-                m_loadedData[guid] = res;
-                m_loadedData[guid]->InitRefcount();
+                m_loadedTextures[guid] = res;
+                m_loadedTextures[guid]->InitRefcount();
                 //printf("Loaded PNG/JPG!\n");
             }
             else
             {
-                m_loadedData[guid]->Increment();
+                m_loadedTextures[guid]->Increment();
             }
             m_loadedLock.unlock();
             break;
@@ -271,6 +274,7 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
     {
         if (m_loadedMeshes.find(guid) != m_loadedMeshes.end())
         {
+            // TODO: ADD LOCK HERE
             int32_t counter = --(*m_loadedMeshes[guid].get());
             if (counter <= 0)
                 m_loadedMeshes.erase(guid);
@@ -278,9 +282,9 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
         else if (m_loadedTextures.find(guid) != m_loadedTextures.end())
         {
             m_loadedLock.lock();
-            int32_t counter = --(*m_loadedData[guid].get());
+            int32_t counter = --(*m_loadedTextures[guid].get());
             if (counter <= 0)
-                m_loadedData.erase(guid);
+                m_loadedTextures.erase(guid);
             m_loadedLock.unlock();
         }
     }
@@ -379,8 +383,14 @@ void ResourceManager::DumpLoadedResources() const
 
 size_t ResourceManager::GetTotalMemoryUsage() {
     size_t totalMemory = 0;
+
+    // TODO: ADD LOCK HERE!
+    for (const auto& entry : m_loadedMeshes) {
+        totalMemory += entry.second->GetMemoryUsage();
+    }
+
     m_loadedLock.lock();
-    for (const auto& entry : m_loadedData) {
+    for (const auto& entry : m_loadedTextures) {
         totalMemory += entry.second->GetMemoryUsage();
     }
     m_loadedLock.unlock();

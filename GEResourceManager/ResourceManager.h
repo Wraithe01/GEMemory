@@ -97,12 +97,9 @@ public:
     std::unordered_map<std::string, std::shared_ptr<ITexture>>* GetLoadedTextures();
 
 private:
-    std::unordered_map<std::string, HeaderEntry>                m_headerMap;
-    std::mutex m_loadedLock;
-    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
-};
-    std::unordered_map<std::string, HeaderEntry>            m_headerMap;
+    std::unordered_map<std::string, HeaderEntry> m_headerMap;
     std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;
     std::unordered_map<std::string, std::shared_ptr<ITexture>> m_loadedTextures;
-    size_t                                                     m_memoryLimit = DEFAULT_MEMORY_LIMIT;
+    std::mutex m_loadedLock;
+    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };
