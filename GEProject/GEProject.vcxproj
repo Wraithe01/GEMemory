@@ -150,6 +150,7 @@
     <ClInclude Include="Libs\rlImGui\include\imgui_raylibcolors.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="rlights.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
