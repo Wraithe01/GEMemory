@@ -39,9 +39,9 @@ void ImguiInit()
     io.GetClipboardTextFn = ImguiGetClipText;
 
     // Font
-    // g_font = io.Fonts->AddFontFromFileTTF("Assets\\Fonts\\Roboto.ttf", 20.0f);
-    // g_fontBold = io.Fonts->AddFontFromFileTTF("Assets\\Fonts\\Roboto.ttf", 20.0f);
-    // io.Fonts->Build();
+    g_font     = io.Fonts->AddFontFromFileTTF("Assets\\Fonts\\ubuntu.ttf", 20.0f);
+    g_fontBold = io.Fonts->AddFontFromFileTTF("Assets\\Fonts\\ubuntu.ttf", 20.0f);
+    io.Fonts->Build();
 
 
     // Style
