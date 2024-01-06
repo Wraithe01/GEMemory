@@ -27,6 +27,8 @@ public:  // Methods
     // Any existing MemRegions will be nulled at this point, UB with continued use.
     void Flush();
 
+    virtual const char* GetAllocName() const override;
+
 private:
 public:  // variables
     uint8_t* m_stackTop;

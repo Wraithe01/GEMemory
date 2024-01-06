@@ -72,3 +72,5 @@ size_t Allocator::CurrentStored()
     std::cerr << "CurrentStored function not implemented for used allocator";
     return size_t();
 }
+
+const char* Allocator::GetAllocName() const { return "Undefined"; }

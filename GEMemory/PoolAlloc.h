@@ -19,27 +19,28 @@ public:  // Methods
     // Returns a memory region for the user to read and write to,
     // this region is always zero-initialized. Only one block is returned
     // regardless of itemSize.
-    [[nodiscard("Dropping MemRegion might result in memory leak.")]]
-    virtual MemRegion Alloc(size_t itemSize) override;
+    [[nodiscard("Dropping MemRegion might result in memory leak.")]] virtual MemRegion Alloc(
+        size_t itemSize) override;
     // Returns a memory region for the user to read and write to,
     // this region is always zero-initialized. Gives 1 block of given size.
-    [[nodiscard("Dropping MemRegion might result in memory leak.")]]
-    MemRegion Alloc();
+    [[nodiscard("Dropping MemRegion might result in memory leak.")]] MemRegion Alloc();
 
     virtual void Free(MemRegion* memory) override;
 
     // Total size of used memory
     virtual size_t CurrentStored();
 
+
+    virtual const char* GetAllocName() const override;
+
 private:
     uint32_t IndexFromAddr(uint8_t* addr) const;
     uint8_t* AddrFromIndex(uint32_t index) const;
 
-public: // variables
+public:  // variables
     static const uint32_t s_headerSize = sizeof(uint32_t);
 
-private: 
-
+private:
     uint16_t m_nodeCount;
     uint32_t m_freeNodes;
     uint32_t m_nodeSize;

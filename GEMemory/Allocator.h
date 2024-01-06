@@ -46,13 +46,16 @@ public:  // Methods
     Allocator(size_t size);
     ~Allocator();
 
-    [[nodiscard("Dropping MemRegion might result in memory leak.")]]
-    virtual MemRegion Alloc(size_t itemSize) = 0;
+    [[nodiscard("Dropping MemRegion might result in memory leak.")]] virtual MemRegion Alloc(
+        size_t itemSize)
+        = 0;
 
     virtual void Free(MemRegion* memory) = 0;
 
     // Returns the total size of stored data
     virtual size_t CurrentStored();
+
+    virtual const char* GetAllocName() const;
 
 private:
 protected:  // variables
