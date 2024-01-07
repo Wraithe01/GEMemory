@@ -22,10 +22,13 @@ public:  // Methods
 
     // Total size of used memory
     virtual size_t CurrentStored();
+    virtual size_t GetCapacity();
 
     // Flush all elements in the stack.
     // Any existing MemRegions will be nulled at this point, UB with continued use.
     void Flush();
+
+    virtual const char* GetAllocName() const override;
 
 private:
 public:  // variables

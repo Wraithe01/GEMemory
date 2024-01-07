@@ -18,15 +18,15 @@ MemRegion StackAlloc::Alloc(size_t itemSize)
     return MemRegion((m_stackTop - itemSize), itemSize);
 }
 
-void StackAlloc::Free(MemRegion* memory) 
-{  
+void StackAlloc::Free(MemRegion* memory)
+{
     uint8_t* ptr = memory->GetAtFree();
     if (ptr < m_stackTop)
         m_stackTop = ptr;
 }
 
-size_t StackAlloc::CurrentStored()
-{
-    return m_stackTop - m_memory->GetStart();
-}
-void StackAlloc::Flush() { m_stackTop = m_memory->GetStart(); }
+size_t StackAlloc::CurrentStored() { return m_stackTop - m_memory->GetStart(); }
+size_t StackAlloc::GetCapacity() { return m_memory->GetSize(); }
+void   StackAlloc::Flush() { m_stackTop = m_memory->GetStart(); }
+
+const char* StackAlloc::GetAllocName() const { return "Stack"; }
