@@ -2,22 +2,22 @@
 
 void RendererInit(uint32_t width, uint32_t height)
 {
-    // state->width = width;
-    // state->height = height;
+    //state->width = width;
+    //state->height = height;
 
-    // SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
+    //SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     InitWindow(width, height, "Project");
-    
+
     BeginBlendMode(BLEND_ALPHA);
 
-    // RendererCalcScale(width, height);
+    //RendererCalcScale(width, height);
 
-    camera.position   = { 5.0f, 5.0f, 5.0f };
-    camera.target     = { 0.0f, 0.0f, 0.0f };
-    camera.up         = { 0.0f, 1.0f, 0.0f };
-    camera.fovy       = 45.0f;
+    camera.position = { 5.0f, 5.0f, 5.0f };
+    camera.target = { 0.0f, 0.0f, 0.0f };
+    camera.up = { 0.0f, 1.0f, 0.0f };
+    camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
-    // SetCameraMode(camera, CAMERA_FREE);
+    //SetCameraMode(camera, CAMERA_FREE);
 
     DisableCursor();
 

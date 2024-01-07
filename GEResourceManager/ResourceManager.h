@@ -62,8 +62,8 @@ private:
     int RequestUnloadScene(const Scene& scene);
 
     StackAlloc stackAlloc;
-    uint8_t*   stackStart;
-    size_t     stackSize = 36;
+    uint8_t* stackStart;
+    size_t stackSize = 36;
 
 protected:
     virtual void HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT) override;
@@ -106,12 +106,10 @@ public:
 
     std::shared_ptr<ITexture> GetTexture(std::string guid);
 
-    Allocator* GetStack();
-
 private:
-    std::unordered_map<std::string, HeaderEntry>               m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<IMesh>>    m_loadedMeshes;
+    std::unordered_map<std::string, HeaderEntry> m_headerMap;
+    std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;
     std::unordered_map<std::string, std::shared_ptr<ITexture>> m_loadedTextures;
-    std::mutex                                                 m_loadedLock;
-    size_t                                                     m_memoryLimit = DEFAULT_MEMORY_LIMIT;
+    std::mutex m_loadedLock;
+    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };
