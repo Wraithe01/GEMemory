@@ -7,34 +7,27 @@
 #include <set>
 #include <format>
 
+
 constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH  = 1080;
 
-std::set<Allocator*> g_imAlloc;
-StackAlloc           g_frameStack;
-PoolAlloc            g_poolAlloc;
+std::set<ImAllocator*> g_imAlloc;
+StackAlloc             g_frameStack;
+PoolAlloc              g_poolAlloc;
 
-void InitAllocators(void)
-{
-    g_imAlloc.insert(&g_frameStack);
-    g_imAlloc.insert(&g_poolAlloc);
-}
-void DeinitAllocators(void)
-{
-    g_imAlloc.erase(&g_frameStack);
-    g_imAlloc.erase(&g_poolAlloc);
-}
-
-static void ImGuiResourceTrace(void);
-static void ImGuiMemoryTrace(void);
+static ImAllocator* ImRegisterAllocator(Allocator* allocator);
+static void         ImUnregisterAllocator(ImAllocator* allocator);
+static void         ImGuiResourceTrace(void);
+static void         ImGuiMemoryTrace(void);
 
 void Run()
 {
     //- Initialization
     RendererInit(HEIGHT, WIDTH);  // This must be working before imgui can work
     ImguiInit();
-    InitAllocators();
 
+    ImAllocator* fs = ImRegisterAllocator(&g_frameStack);
+    ImAllocator* pa = ImRegisterAllocator(&g_poolAlloc);
 
     // Basic scene
     ResourceManager& resourceManager = ResourceManager::GetInstance();
@@ -116,23 +109,48 @@ void Run()
 
     //- De-Initialization
     // RaylibImGui::Deinit();
-    DeinitAllocators();
+    ImUnregisterAllocator(fs);
+    ImUnregisterAllocator(pa);
     ImguiDeInit();
     CloseWindow();  // Close window and OpenGL context
+}
+
+static ImAllocator* ImRegisterAllocator(Allocator* allocator)
+{
+    ImAllocator* imalloc = new ImAllocator;
+    imalloc->allocator   = allocator;
+    g_imAlloc.insert(imalloc);
+    return imalloc;
+}
+static void ImUnregisterAllocator(ImAllocator* allocator)
+{
+    g_imAlloc.erase(allocator);
+    delete allocator;
+    allocator = nullptr;
 }
 
 
 static void ImGuiResourceTrace(void)
 {
-    ResourceManager& rm = ResourceManager::GetInstance();
+    ResourceManager&       rm   = ResourceManager::GetInstance();
+    static float           time = 0;
+    static float           span = 30.0f;
+    static ScrollingBuffer meshBuffer;
+    static ScrollingBuffer texBuffer;
+
+    time += ImGui::GetIO().DeltaTime;
+    meshBuffer.AddPoint(time, rm.GetLoadedMeshes()->size());
+    texBuffer.AddPoint(time, rm.GetLoadedTextures()->size());
+
 
     if (ImGui::Begin(IMGUI_RESOURCE_USAGE))
     {
+        ImGui::SliderFloat("History Span", &span, 1, 30, "%.1f sec");
         const ImVec2 winsize = ImGui::GetWindowSize();
 
         ImGui::Text("Mesh Resource Usages (%d)", rm.GetLoadedMeshes()->size());
         if (ImGui::BeginChild("meshIds",
-                              ImVec2(winsize.x / 2, winsize.y / 3),
+                              ImVec2(winsize.x / 2, winsize.y / 2),
                               true,
                               ImGuiWindowFlags_AlwaysVerticalScrollbar))
         {
@@ -145,8 +163,22 @@ static void ImGuiResourceTrace(void)
             }
         }
         ImGui::EndChild();
-        ImGui::SameLine(0, 6);
-        ImGui::Text("Graph Meshes");
+        ImGui::SameLine(0, 12);
+        if (ImPlot::BeginPlot("Mesh Graphical Usage", ImVec2(0, winsize.y / 2)))
+        {
+            ImPlot::SetupAxes(
+                nullptr, nullptr, ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_NoTickLabels);
+            ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
+
+            ImPlot::PlotLine("Loaded Meshes",
+                             &meshBuffer.Data[0].x,
+                             &meshBuffer.Data[0].y,
+                             meshBuffer.Data.size(),
+                             0,
+                             meshBuffer.Offset,
+                             sizeof(ImVec2));
+            ImPlot::EndPlot();
+        }
 
 
         ImGui::Spacing();
@@ -154,7 +186,7 @@ static void ImGuiResourceTrace(void)
 
         ImGui::Text("Texture Resource Usage (%d)", rm.GetLoadedTextures()->size());
         if (ImGui::BeginChild("textureIds",
-                              ImVec2(winsize.x / 2, winsize.y / 3),
+                              ImVec2(winsize.x / 2, winsize.y / 2),
                               true,
                               ImGuiWindowFlags_AlwaysVerticalScrollbar))
         {
@@ -167,13 +199,31 @@ static void ImGuiResourceTrace(void)
             }
         }
         ImGui::EndChild();
-        ImGui::SameLine(0, 6);
-        ImGui::Text("Graph Textures");
+        ImGui::SameLine(0, 12);
+        if (ImPlot::BeginPlot("Texture Graphical Usage", ImVec2(0, winsize.y / 2)))
+        {
+            ImPlot::SetupAxes(
+                nullptr, nullptr, ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_NoTickLabels);
+            ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
+
+            ImPlot::PlotLine("Loaded Textures",
+                             &texBuffer.Data[0].x,
+                             &texBuffer.Data[0].y,
+                             meshBuffer.Data.size(),
+                             0,
+                             meshBuffer.Offset,
+                             sizeof(ImVec2));
+            ImPlot::EndPlot();
+        }
     }
     ImGui::End();
 }
 static void ImGuiMemoryTrace(void)
 {
+    static float span = 30.0f;
+    static float time = 0;
+    time += ImGui::GetIO().DeltaTime;
+
     if (ImGui::Begin(IMGUI_MEMORY_USAGE, NULL, ImGuiWindowFlags_AlwaysVerticalScrollbar))
     {
         ImVec2 winSize = ImGui::GetWindowSize();
@@ -182,18 +232,18 @@ static void ImGuiMemoryTrace(void)
         ImGui::Spacing();
 
         uint16_t index = 0;
-        for (const auto& allocator : g_imAlloc)
+        for (const auto& ImAlloc : g_imAlloc)
         {
             if (ImGui::BeginChild(std::format("alloc {}", index).c_str(),
-                                  ImVec2(winSize.x / 2, winSize.y / 2)))
+                                  ImVec2(-1, winSize.y / 2)))
             {
-                ImGui::Text("Capacity used %d", allocator->CurrentStored());
+                ImGui::Text("Capacity used %d", (*ImAlloc).allocator->CurrentStored());
 
                 if (ImPlot::BeginPlot(std::format("[{}] {} Allocator's Graph.",
                                                   index++,
-                                                  allocator->GetAllocName())
+                                                  (*ImAlloc).allocator->GetAllocName())
                                           .c_str(),
-                                      ImVec2(winSize.x / 2, winSize.y / 3)))
+                                      ImVec2(-1, 200)))
                 {
                     uint32_t data[] = { 0, 0, 1, 2, 0, 0, 0, 1, 0, 0, 1, 0, 1,
                                         2, 3, 4, 5, 4, 3, 2, 1, 0, 0, 0, 0 };
