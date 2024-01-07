@@ -1,7 +1,8 @@
 #include "Includes.h"
 
+#include <raylib.h>
 #include <rlgl.h>
-#include <imgui_raylib.h>
+#include "rlImGui.h"
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_win32.h>
 
@@ -29,7 +30,7 @@ static void ImguiSetClipText(void*, const char* text) { SetClipboardText(text); 
 void ImguiInit()
 {
     // Context
-
+    // rlImGuiSetup(true);
     ImGui::CreateContext();
 
     ImGuiIO& io = ImGui::GetIO();

@@ -3,13 +3,8 @@
   <ItemGroup>
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
-    <ClInclude Include="imgui_impl_dx11.h" />
-    <ClInclude Include="imgui_impl_dx12.h" />
-    <ClInclude Include="imgui_impl_glfw.h" />
     <ClInclude Include="imgui_impl_opengl3.h" />
     <ClInclude Include="imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="imgui_impl_sdl2.h" />
-    <ClInclude Include="imgui_impl_vulkan.h" />
     <ClInclude Include="imgui_impl_win32.h" />
     <ClInclude Include="imgui_internal.h" />
     <ClInclude Include="imstb_rectpack.h" />
@@ -21,5 +16,11 @@
   <ItemGroup>
     <ClCompile Include="implot.cpp" />
     <ClCompile Include="implot_items.cpp" />
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_tables.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
   </ItemGroup>
 </Project>
