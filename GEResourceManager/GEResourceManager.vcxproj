@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)zlib;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)microtar;$(SolutionDir)tar;$(SolutionDir)nlohmann;$(SolutionDir)GEProject\Libs\raylib\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)zlib;$(SolutionDir)zlib\contrib\minizip;$(SolutionDir)microtar;$(SolutionDir)tar;$(SolutionDir)nlohmann;$(SolutionDir)GEProject\Libs\raylib\include;$(SolutionDir)GEMemory</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -163,6 +163,11 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="ufbx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GEMemory\GEMemory.vcxproj">
+      <Project>{69bcfc68-a546-4f20-8745-aac2f2e28265}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

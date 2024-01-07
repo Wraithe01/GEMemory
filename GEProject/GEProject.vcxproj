@@ -149,6 +149,7 @@
     <ClInclude Include="Libs\raylib\include\rlgl.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="rlights.h" />
     <ClInclude Include="rlImGui.h" />
     <ClInclude Include="rlImGuiColors.h" />
     <ClInclude Include="Settings.h" />

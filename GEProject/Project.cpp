@@ -7,6 +7,8 @@
 #include <set>
 #include <format>
 
+#define RLIGHTS_IMPLEMENTATION
+#include "rlights.h"
 
 constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH  = 1080;
@@ -26,49 +28,96 @@ void Run()
     RendererInit(HEIGHT, WIDTH);  // This must be working before imgui can work
     ImguiInit();
 
-    // ImAllocator* fs = ImRegisterAllocator(&g_frameStack);
-    // ImAllocator* pa = ImRegisterAllocator(&g_poolAlloc);
+    // Load basic lighting shader
+    Shader shader = LoadShader(TextFormat("../shaders/lighting.vs"), TextFormat("../shaders/lighting.fs"));
 
-    // Basic scene
+    // Get some required shader locations
+    shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
+
+    int ambientLoc = GetShaderLocation(shader, "ambient");
+    float ambient[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+    SetShaderValue(shader, ambientLoc, &ambient, SHADER_UNIFORM_VEC4);
+   
+    Light lights[MAX_LIGHTS] = { 0 };
+    Vector3 pos = { 0, 1, 0 };
+    lights[0] = CreateLight(LIGHT_DIRECTIONAL, pos, { 1, 0, 0 }, RED, shader);
+    lights[1] = CreateLight(LIGHT_DIRECTIONAL, pos, { 0, 0, 1 }, GREEN, shader);
+    lights[2] = CreateLight(LIGHT_DIRECTIONAL, pos, { -1, 0, 0 }, BLUE, shader);
+    lights[3] = CreateLight(LIGHT_DIRECTIONAL, pos, { 0, 1, -1 }, YELLOW, shader);
+
+    // Default scenes
     ResourceManager& resourceManager = ResourceManager::GetInstance();
-    Scene            scene;
-    // scene.AppendGUID("7023d2a2-6f6d-49fc-9512-c1a3bc78b278"); // PNG
-    // scene.AppendGUID("798cb1b8-dfb9-4453-b2f7-ae67f75556e"); //JPG
-    // scene.AppendGUID("8baa3bc4-1b74-4015-971c-a91073603842"); //STL
-    // scene.AppendGUID("d68241af-c97f-4be3-948a-9b427413ab5"); // FBX cactus
-    scene.AppendGUID("bf2e0941-ad77-4d57-bd74-b7d43dc828ff");
+    Scene scenes[6] = {};
+    scenes[0].AppendChunk("chunk1");
+    scenes[1].AppendChunk("chunk2");
+    scenes[2].AppendChunk("chunk3");
+    scenes[3].AppendChunk("chunk4");
+    scenes[4].AppendChunk("chunk5");
+    scenes[5].AppendChunk("chunk6");
+    std::string pngTexture = "702e3416-3cc1-4ae5-8f7e-1a439bc2951f";
+    scenes[0].AppendGUID(pngTexture); //PNG for texture in scene1 (fbx scene, DJ board people)
 
-    // Load scene
-    auto asyncRequest = resourceManager.LoadScene(scene);
-    resourceManager.AsynchRequestWait(asyncRequest);
-
-    // Temp default material
-    Material matDefault                         = LoadMaterialDefault();
-    matDefault.maps[MATERIAL_MAP_DIFFUSE].color = GREEN;
-
-    // Temp default position of the objects
-    Matrix transform = MatrixTranslate(0.0f, 0.0f, 0.0f);
-
-    // For some reason it does not work if we upload the mesh in the Resource class after we convert
-    // it to raylib mesh. Not sure why...
-    for (const auto& pair : *resourceManager.GetLoadedMeshes())
-    {
-        const std::string& resourceName = pair.first;
-        IMesh*             resource     = pair.second.get();
-
-        int count = resource->GetMeshCount();
-
-        for (int i = 0; i < count; i++)
-        {
-            UploadMesh(&resource->GetMeshes()[i], false);
-        }
+    // Load scenes
+    for (auto& scene : scenes) {
+        const auto& asyncRequest = resourceManager.LoadScene(scene);
+        resourceManager.AsynchRequestWait(asyncRequest);
     }
+    ITexture* myTexture = resourceManager.GetTexture(pngTexture).get();
+    int size = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
+
+    Image image{ 0 };
+    image.width = myTexture->GetWidth();
+    image.height = myTexture->GetHeight();
+    image.data = (void*)myTexture->GetImage();
+    image.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8;
+    image.mipmaps = 1;
+
+    Texture2D texture = LoadTextureFromImage(image);
+
+    // Default material
+    Material matDefault = LoadMaterialDefault();
+    matDefault.maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+    matDefault.shader = shader;
+
+    // Default transform
+    Matrix rotation = MatrixRotateX(DEG2RAD * 270.0f);
+    Matrix scale = MatrixScale(1.5f, 1.5f, 1.5f);
+    Matrix transform = MatrixMultiply(scale, rotation);
+
+    int demoTimer = 0;
 
     //- Main game loop
     while (!WindowShouldClose())  // Detect window close button or ESC key
     {
+        demoTimer++;
+
+        // JUST DEMO FOR NICOLAS that unloading is working...
+        if (demoTimer == 600)
+        {
+            resourceManager.UnloadScene(scenes[0]);
+            printf("Unload scene 1");
+        }
+        else if (demoTimer == 800)
+        {
+            const auto& asyncRequest = resourceManager.LoadScene(scenes[0]);
+            resourceManager.AsynchRequestWait(asyncRequest);
+            printf("Load scene 1 again!\n");
+        }
+
         // Movement Update
         UpdateCamera(&camera, CAMERA_FIRST_PERSON);
+
+        // Update the shader with the camera view vector (points towards { 0.0f, 0.0f, 0.0f })
+        float cameraPos[3] = { camera.position.x, camera.position.y, camera.position.z };
+        SetShaderValue(shader, shader.locs[SHADER_LOC_VECTOR_VIEW], cameraPos, SHADER_UNIFORM_VEC3);
+
+        // Update light values
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            UpdateLightValues(shader, lights[i]);
+        }
+
+        // Uploaded new meshes to GPU if needed
+        resourceManager.UploadQueuedMeshes();
 
         // Draw
         BeginDrawing();
@@ -78,15 +127,15 @@ void Run()
         for (const auto& pair : *resourceManager.GetLoadedMeshes())
         {
             const std::string& resourceName = pair.first;
-            IMesh*             resource     = pair.second.get();
-            int                count        = resource->GetMeshCount();
+            IMesh* resource = pair.second.get();
+            size_t count = resource->GetMeshCount();
 
-            for (int i = 0; i < count; i++)
+            for (size_t i = 0; i < count; i++)
             {
-                const Mesh& mesh = resource->GetMeshes()[i];
-                DrawMesh(mesh, matDefault, transform);
+                DrawMesh(resource->GetMeshes()[i], matDefault, transform);
             }
         }
+
         // Grid floor
         DrawGrid(100, 1.0);
 
@@ -103,13 +152,11 @@ void Run()
         EndDrawing();
     }
 
-    // TODO
-    // UNLOAD TEXTURES etc
-
     //- De-Initialization
-    // RaylibImGui::Deinit();
-    // ImUnregisterAllocator(fs);
-    // ImUnregisterAllocator(pa);()
+    UnloadShader(shader);   // Unload shader
+    UnloadTexture(texture); // Unload default texture
+
+    //RaylibImGui::Deinit();
     ImguiDeInit();
     CloseWindow();  // Close window and OpenGL context
 }

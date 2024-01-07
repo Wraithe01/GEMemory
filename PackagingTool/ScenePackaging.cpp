@@ -53,7 +53,7 @@ void ScenePackaging::createPackage(std::vector<std::string>& directories, const 
         existingOutputJsonFile.close();
     }
     
-    std::string newScene = "scene" + std::to_string(outputJson.size() + 1);
+    std::string newScene = "chunk" + std::to_string(outputJson.size() + 1);
     outputJson[newScene] = sceneGuids;
 
     std::ofstream outputJsonFile(outputPath, std::ios::trunc);

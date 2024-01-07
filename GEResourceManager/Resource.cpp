@@ -105,11 +105,6 @@ void FBXMesh::ToRayLib()
                 raylibMesh.indices[k++] = fbxMesh->vertex_indices.data[face.index_begin + j];
             }
         }
-
-        // EDIT: Does not work here... :(
-        // UploadMesh(&raylibMesh, false);
-
-        //this->meshes[meshIndex] = raylibMesh;
     }
     meshCount = m_fbxData->meshes.count;
 }
@@ -220,6 +215,25 @@ void ITexture::UnloadResource()
     stbi_image_free(m_img);
     m_img         = nullptr;
     m_memoryUsage = 0;
+}
+
+const uint8_t* ITexture::GetImage() const { 
+    return m_img;
+}
+
+int32_t ITexture::GetWidth() const 
+{
+    return m_dim.width;
+}
+
+int32_t ITexture::GetHeight() const
+{
+    return m_dim.height;
+}
+
+int32_t ITexture::GetChannels() const 
+{
+    return m_dim.channels;
 }
 
 Mesh* IMesh::GetMeshes()

@@ -79,6 +79,9 @@
     <ClInclude Include="rlImGuiColors.h">
       <Filter>Resource Files\libdata</Filter>
     </ClInclude>
+    <ClInclude Include="rlights.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
