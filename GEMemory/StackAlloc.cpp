@@ -26,6 +26,7 @@ void StackAlloc::Free(MemRegion* memory)
 }
 
 size_t StackAlloc::CurrentStored() { return m_stackTop - m_memory->GetStart(); }
+size_t StackAlloc::GetCapacity() { return m_memory->GetSize(); }
 void   StackAlloc::Flush() { m_stackTop = m_memory->GetStart(); }
 
 const char* StackAlloc::GetAllocName() const { return "Stack"; }

@@ -54,6 +54,7 @@ public:  // Methods
 
     // Returns the total size of stored data
     virtual size_t CurrentStored();
+    virtual size_t GetCapacity();
 
     virtual const char* GetAllocName() const;
 

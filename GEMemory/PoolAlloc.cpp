@@ -89,6 +89,8 @@ size_t PoolAlloc::CurrentStored()
            * (m_nodeSize - s_headerSize);
 }
 
+size_t PoolAlloc::GetCapacity() { return m_nodeCount; }
+
 const char* PoolAlloc::GetAllocName() const { return "Pool"; }
 
 size_t PoolAlloc::GetBlockSize() const { return (m_nodeSize); }

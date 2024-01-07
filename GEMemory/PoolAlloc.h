@@ -29,7 +29,7 @@ public:  // Methods
 
     // Total size of used memory
     virtual size_t CurrentStored();
-
+    virtual size_t GetCapacity();
 
     virtual const char* GetAllocName() const override;
 
