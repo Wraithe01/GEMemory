@@ -97,7 +97,8 @@ void Run()
         // JUST DEMO FOR NICOLAS that unloading is working...
         if (demoTimer == 600)
         {
-            resourceManager.UnloadScene(scenes[0]);
+            //resourceManager.UnloadScene(scenes[0]);
+            resourceManager.RequestUnloadScene(scenes[0]);
             printf("Unload scene 1");
         }
         else if (demoTimer == 800)
