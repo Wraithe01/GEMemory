@@ -145,7 +145,7 @@ static void ImGuiResourceTrace(void)
 
     if (ImGui::Begin(IMGUI_RESOURCE_USAGE))
     {
-        ImGui::SliderFloat("History Span", &span, 1, 30, "%.1f sec");
+        ImGui::SliderFloat("Resource Timespan", &span, 1, 30, "%.1f sec");
         const ImVec2 winsize = ImGui::GetWindowSize();
 
         ImGui::Text("Mesh Resource Usages (%d)", rm.GetLoadedMeshes()->size());
@@ -226,18 +226,28 @@ static void ImGuiMemoryTrace(void)
 
     if (ImGui::Begin(IMGUI_MEMORY_USAGE, NULL, ImGuiWindowFlags_AlwaysVerticalScrollbar))
     {
+        ImGui::SliderFloat("Memory Timespan", &span, 1, 30, "%.1f sec");
         ImVec2 winSize = ImGui::GetWindowSize();
-        ImGui::Text("Active Allocators: %d", g_imAlloc.size());
+
+        ImGui::Text("Registered Allocators: %d", g_imAlloc.size());
         ImGui::Separator();
         ImGui::Spacing();
 
         uint16_t index = 0;
         for (const auto& ImAlloc : g_imAlloc)
         {
+            // Add allocator data
+            float usagepercent = (float) (*ImAlloc).allocator->CurrentStored()
+                                 / (*ImAlloc).allocator->GetCapacity();
+            (*ImAlloc).buffer.AddPoint(time, usagepercent);
+
             if (ImGui::BeginChild(std::format("alloc {}", index).c_str(),
                                   ImVec2(-1, winSize.y / 2)))
             {
-                ImGui::Text("Capacity used %d", (*ImAlloc).allocator->CurrentStored());
+                ImGui::Text("Capacity used %d / %d (%0.2f%%)",
+                            (*ImAlloc).allocator->CurrentStored(),
+                            (*ImAlloc).allocator->GetCapacity(),
+                            usagepercent);
 
                 if (ImPlot::BeginPlot(std::format("[{}] {} Allocator's Graph.",
                                                   index++,
@@ -245,9 +255,20 @@ static void ImGuiMemoryTrace(void)
                                           .c_str(),
                                       ImVec2(-1, 200)))
                 {
-                    uint32_t data[] = { 0, 0, 1, 2, 0, 0, 0, 1, 0, 0, 1, 0, 1,
-                                        2, 3, 4, 5, 4, 3, 2, 1, 0, 0, 0, 0 };
-                    ImPlot::PlotLine("line", data, sizeof(data) / sizeof(*data));
+                    ImPlot::SetupAxes(nullptr,
+                                      nullptr,
+                                      ImPlotAxisFlags_NoTickLabels,
+                                      ImPlotAxisFlags_NoTickLabels);
+                    ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
+                    ImPlot::SetupAxisLimits(ImAxis_Y1, -1, 101, ImGuiCond_Always);
+
+                    ImPlot::PlotLine("Usage (%)",
+                                     &(*ImAlloc).buffer.Data[0].x,
+                                     &(*ImAlloc).buffer.Data[0].y,
+                                     (*ImAlloc).buffer.Data.size(),
+                                     0,
+                                     (*ImAlloc).buffer.Offset,
+                                     sizeof(ImVec2));
                     ImPlot::EndPlot();
                 }
             }
