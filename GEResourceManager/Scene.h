@@ -13,7 +13,7 @@ public:  // Methods
     void AppendGUID(std::string guid);
     std::vector<std::string> GetChunk() const;
 
-    void AppendScene(std::string sceneName);
+    void AppendChunk(std::string chunkName);
 
     // Use these to test functionality
     Scene& operator=(const Scene& other);

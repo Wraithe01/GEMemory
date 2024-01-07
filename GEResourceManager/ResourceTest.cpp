@@ -14,7 +14,7 @@ void ResourceTest::Validate() {
 	std::cout << "========================= Start =========================\n";
 	Scene scene;
 
-	scene.AppendScene("scene1");
+	scene.AppendChunk("scene1");
 
 	//// ZIP
 	//scene.AppendGUID("7023d2a2-6f6d-49fc-9512-c1a3bc78b278");

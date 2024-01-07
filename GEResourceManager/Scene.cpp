@@ -3,7 +3,7 @@
 void                     Scene::AppendGUID(std::string guid) { m_chunk.push_back(guid); }
 std::vector<std::string> Scene::GetChunk() const { return m_chunk; }
 
-void Scene::AppendScene(std::string sceneName) 
+void Scene::AppendChunk(std::string chunkName)
 {
     // Read the JSON file
     std::ifstream file("../PackageFolder/scenes.json");
@@ -23,9 +23,8 @@ void Scene::AppendScene(std::string sceneName)
         std::cerr << "Error parsing JSON: " << e.what() << "\n";
         return;
     }
-
     // Get list of guids
-    auto guid_list = jsonData[sceneName];
+    const auto& guid_list = jsonData[chunkName];
 
     // Append the guids
     for (const auto& guid : guid_list) {

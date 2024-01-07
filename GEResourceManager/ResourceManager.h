@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Resource.h"
 #include "AsyncFunctionality.h"
+#include "MemoryAlloc.h"
 
 constexpr size_t DEFAULT_MEMORY_LIMIT = 64000000 * 16;
 
@@ -60,6 +61,10 @@ private:
     int RequestLoadScene(const Scene& scene);
     int RequestUnloadScene(const Scene& scene);
 
+    StackAlloc stackAlloc;
+    uint8_t* stackStart;
+    size_t stackSize = 36;
+
 protected:
     virtual void HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT) override;
 
@@ -86,7 +91,8 @@ public:
     void SetMemoryLimit(size_t limit);
     bool CheckMemoryLimit(size_t fileSize);
     void DumpLoadedResources() const;
-
+    void AddToQueuedStack(const std::string& guid);
+    void UploadQueuedMeshes();
 
     size_t GetTotalMemoryUsage();
 
@@ -95,6 +101,10 @@ public:
     std::unordered_map<std::string, std::shared_ptr<IMesh>>* GetLoadedMeshes();
 
     std::unordered_map<std::string, std::shared_ptr<ITexture>>* GetLoadedTextures();
+
+    std::shared_ptr<IMesh> GetMesh(std::string guid);
+
+    std::shared_ptr<ITexture> GetTexture(std::string guid);
 
 private:
     std::unordered_map<std::string, HeaderEntry> m_headerMap;

@@ -119,6 +119,11 @@ public:  // Methods
     virtual bool LoadResource(const uint8_t* buffer, int32_t buffSize) override;
     virtual void UnloadResource() override;
 
+    const uint8_t* GetImage() const;
+    int32_t GetWidth() const;
+    int32_t GetHeight() const;
+    int32_t GetChannels() const;
+
 private:
 private:  // Variables
     uint8_t* m_img;
