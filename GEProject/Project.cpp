@@ -67,7 +67,7 @@ void Run()
     //- Main game loop
     while (!WindowShouldClose())  // Detect window close button or ESC key
     {
-        g_frameStack.Alloc(1);
+        g_frameStack.Alloc(rand() % 100);
         // Movement Update
         UpdateCamera(&camera, CAMERA_FIRST_PERSON);
 
@@ -96,7 +96,7 @@ void Run()
         ImGuiMemoryTrace();
         ImguiEnd();
 
-        g_frameStack.Flush();
+        // g_frameStack.Flush();
         EndMode3D();
 
         DrawText("Press ESC to exit", 50, 50, 50, BLUE);
@@ -166,9 +166,12 @@ static void ImGuiResourceTrace(void)
         ImGui::SameLine(0, 12);
         if (ImPlot::BeginPlot("Mesh Graphical Usage", ImVec2(0, winsize.y / 2)))
         {
+            static uint32_t maxMeshes = 0;
+            maxMeshes                 = max(maxMeshes, rm.GetLoadedMeshes()->size());
             ImPlot::SetupAxes(
                 nullptr, nullptr, ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_NoTickLabels);
             ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
+            ImPlot::SetupAxisLimits(ImAxis_Y1, -1, maxMeshes + 1, ImGuiCond_::ImGuiCond_Always);
 
             ImPlot::PlotLine("Loaded Meshes",
                              &meshBuffer.Data[0].x,
@@ -202,9 +205,12 @@ static void ImGuiResourceTrace(void)
         ImGui::SameLine(0, 12);
         if (ImPlot::BeginPlot("Texture Graphical Usage", ImVec2(0, winsize.y / 2)))
         {
+            static uint32_t maxTextures = 0;
+            maxTextures                 = max(maxTextures, rm.GetLoadedTextures()->size());
             ImPlot::SetupAxes(
                 nullptr, nullptr, ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_NoTickLabels);
             ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
+            ImPlot::SetupAxisLimits(ImAxis_Y1, -1, maxTextures + 1, ImGuiCond_::ImGuiCond_Always);
 
             ImPlot::PlotLine("Loaded Textures",
                              &texBuffer.Data[0].x,
@@ -238,7 +244,7 @@ static void ImGuiMemoryTrace(void)
         {
             // Add allocator data
             float usagepercent = (float) (*ImAlloc).allocator->CurrentStored()
-                                 / (*ImAlloc).allocator->GetCapacity();
+                                 / (*ImAlloc).allocator->GetCapacity() * 100.0f;
             (*ImAlloc).buffer.AddPoint(time, usagepercent);
 
             if (ImGui::BeginChild(std::format("alloc {}", index).c_str(),
