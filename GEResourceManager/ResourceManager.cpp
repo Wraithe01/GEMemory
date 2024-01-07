@@ -57,12 +57,14 @@ int ResourceManager::RequestLoadScene(const Scene& scene)
         if (it != m_loadedMeshes.end())
         {
             ++(*m_loadedMeshes[guid].get());
+            m_loadedLock.unlock();
             continue;
         }
         const auto& it2 = m_loadedTextures.find(guid);
         if (it2 != m_loadedTextures.end())
         {
             ++(*m_loadedTextures[guid].get());
+            m_loadedLock.unlock();
             continue;
         }
         m_loadedLock.unlock();
@@ -459,6 +461,7 @@ void ResourceManager::UploadQueuedMeshes()
         {
             UploadMesh(&(mesh->GetMeshes()[i]), false);
         }
+        mesh->Uploaded = true;
     }
     stackAlloc.Flush();
     m_stackLock.unlock();

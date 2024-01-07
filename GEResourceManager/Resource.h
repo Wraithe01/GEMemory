@@ -77,6 +77,8 @@ public:
     Mesh* GetMeshes();
     size_t GetMeshCount();
 
+    bool Uploaded = false;
+
 protected:
     Mesh* meshes;
    size_t meshCount;

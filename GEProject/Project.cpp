@@ -10,6 +10,20 @@
 constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH = 1080;
 
+#define ActivateChunk(chunk)                 \
+if (!activeChunk[chunk])                     \
+{                                            \
+    activeChunk[chunk] = true;               \
+    resourceManager.LoadScene(scenes[chunk]);\
+}
+
+#define DeactivateChunk(chunk)                 \
+if (activeChunk[chunk])                        \
+{                                              \
+    activeChunk[chunk] = false;                \
+    resourceManager.UnloadScene(scenes[chunk]);\
+}
+
 void Run()
 {
     //- Initialization
@@ -52,8 +66,6 @@ void Run()
     ITexture* myTexture = resourceManager.GetTexture(pngTexture).get();
     int size = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
 
-    resourceManager.UnloadScene(scenes[0]);
-
     Image image{ 0 };
     image.width = myTexture->GetWidth();
     image.height = myTexture->GetHeight();
@@ -73,54 +85,71 @@ void Run()
     Matrix scale = MatrixScale(1.5f, 1.5f, 1.5f);
     Matrix transform = MatrixMultiply(scale, rotation);
 
-    camera.position = { /*45*/1, 3, 0 };
+    camera.position = { 45, 3, 0 };
 
     // chunk logic
-    bool activeChunk[6] = { false };
+    bool activeChunk[6] = { true, false, false, false, false, false };
     float angle = 0;
-    Vector2 angleOrig = { 0, -1 };
+    Vector2 angleOrig = { 0, 1 };
 
     //- Main game loop
     while (!WindowShouldClose())  // Detect window close button or ESC key
     {
         angle = -Vector2Angle(angleOrig, { camera.position.x, camera.position.z }) + PI;
-        std::cout << angle << std::endl;
 
-        if ((angle >= 0) && (angle < PI / 3))
+        if (((angle >= 0) && (angle < PI / 3 - PI / 6)) || ((angle >= 2*PI - PI / 6) && (angle <= 2*PI)))
         {
-            std::cout << "chunk 1\n";
+            DeactivateChunk(0);
+            DeactivateChunk(1);
+            DeactivateChunk(2);
+            ActivateChunk(3);
+            ActivateChunk(4);
+            ActivateChunk(5);
         }
-        else if ((angle >= PI / 3) && (angle < 2 * PI / 3))
+        else if ((angle >= PI / 3 - PI / 6) && (angle < 2 * PI / 3 - PI / 6))
         {
-            if (!activeChunk[0])
-            {
-                activeChunk[0] = true;
-                resourceManager.LoadScene(scenes[0]);
-            }
+            ActivateChunk(0);
+            DeactivateChunk(1);
+            DeactivateChunk(2);
+            DeactivateChunk(3);
+            ActivateChunk(4);
+            ActivateChunk(5);
         }
-        else if ((angle >= 2 * PI / 3) && (angle < PI))
+        else if ((angle >= 2 * PI / 3 - PI / 6) && (angle < PI - PI/6))
         {
-            if (!activeChunk[1])
-            {
-                activeChunk[1] = true;
-                resourceManager.LoadScene(scenes[1]);
-            }
+            ActivateChunk(0);
+            ActivateChunk(1);
+            DeactivateChunk(2);
+            DeactivateChunk(3);
+            DeactivateChunk(4);
+            ActivateChunk(5);
         }
-        else if ((angle >= PI) && (angle < 4 * PI / 3))
+        else if ((angle >= PI - PI/6) && (angle < 4 * PI / 3))
         {
-            if (!activeChunk[2])
-            {
-                activeChunk[2] = true;
-                resourceManager.LoadScene(scenes[1]);
-            }
+            ActivateChunk(0);
+            ActivateChunk(1);
+            ActivateChunk(2);
+            DeactivateChunk(3);
+            DeactivateChunk(4);
+            DeactivateChunk(5);
         }
-        else if ((angle >= 4 * PI / 3) && (angle < 5 * PI / 3))
+        else if ((angle >= 4 * PI / 3 - PI / 6) && (angle < 5 * PI / 3 - PI / 6))
         {
-            std::cout << "chunk 5\n";
+            DeactivateChunk(0);
+            ActivateChunk(1);
+            ActivateChunk(2);
+            ActivateChunk(3);
+            DeactivateChunk(4);
+            DeactivateChunk(5);
         }
-        else if ((angle >= 5 * PI / 3) && (angle <= 2 * PI))
+        else if ((angle >= 5 * PI / 3 - PI / 6) && (angle <= 2*PI - PI / 6))
         {
-            std::cout << "chunk 6\n";
+            DeactivateChunk(0);
+            DeactivateChunk(1);
+            ActivateChunk(2);
+            ActivateChunk(3);
+            ActivateChunk(4);
+            DeactivateChunk(5);
         }
 
         // Movement Update
@@ -150,9 +179,11 @@ void Run()
             IMesh* resource = pair.second.get();
             size_t count = resource->GetMeshCount();
 
+            if (!resource->Uploaded) continue;
+
             for (size_t i = 0; i < count; i++)
             {
-                //DrawMesh(resource->GetMeshes()[i], matDefault, transform);
+                DrawMesh(resource->GetMeshes()[i], matDefault, transform);
             }
         }
         resourceManager.loadedUnlock();
