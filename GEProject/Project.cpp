@@ -12,8 +12,8 @@ constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH  = 1080;
 
 std::set<ImAllocator*> g_imAlloc;
-StackAlloc             g_frameStack;
-PoolAlloc              g_poolAlloc;
+// StackAlloc             g_frameStack;
+// PoolAlloc              g_poolAlloc;
 
 static ImAllocator* ImRegisterAllocator(Allocator* allocator);
 static void         ImUnregisterAllocator(ImAllocator* allocator);
@@ -26,8 +26,8 @@ void Run()
     RendererInit(HEIGHT, WIDTH);  // This must be working before imgui can work
     ImguiInit();
 
-    ImAllocator* fs = ImRegisterAllocator(&g_frameStack);
-    ImAllocator* pa = ImRegisterAllocator(&g_poolAlloc);
+    // ImAllocator* fs = ImRegisterAllocator(&g_frameStack);
+    // ImAllocator* pa = ImRegisterAllocator(&g_poolAlloc);
 
     // Basic scene
     ResourceManager& resourceManager = ResourceManager::GetInstance();
@@ -67,7 +67,6 @@ void Run()
     //- Main game loop
     while (!WindowShouldClose())  // Detect window close button or ESC key
     {
-        g_frameStack.Alloc(rand() % 100);
         // Movement Update
         UpdateCamera(&camera, CAMERA_FIRST_PERSON);
 
@@ -109,8 +108,8 @@ void Run()
 
     //- De-Initialization
     // RaylibImGui::Deinit();
-    ImUnregisterAllocator(fs);
-    ImUnregisterAllocator(pa);
+    // ImUnregisterAllocator(fs);
+    // ImUnregisterAllocator(pa);()
     ImguiDeInit();
     CloseWindow();  // Close window and OpenGL context
 }
