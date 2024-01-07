@@ -64,6 +64,7 @@ private:
     StackAlloc stackAlloc;
     uint8_t* stackStart;
     size_t stackSize = 36;
+    std::mutex m_stackLock;
 
 protected:
     virtual void HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT) override;
@@ -90,13 +91,17 @@ public:
 
     void SetMemoryLimit(size_t limit);
     bool CheckMemoryLimit(size_t fileSize);
-    void DumpLoadedResources() const;
+    void DumpLoadedResources();
     void AddToQueuedStack(const std::string& guid);
     void UploadQueuedMeshes();
 
     size_t GetTotalMemoryUsage();
 
     size_t GetNumOfLoadedRes();
+
+    void LoadedLock();
+
+    void loadedUnlock();
 
     std::unordered_map<std::string, std::shared_ptr<IMesh>>* GetLoadedMeshes();
 

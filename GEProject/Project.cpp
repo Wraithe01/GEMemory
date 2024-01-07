@@ -23,9 +23,9 @@ void Run()
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 
     int ambientLoc = GetShaderLocation(shader, "ambient");
-    float ambient[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+    float ambient[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
     SetShaderValue(shader, ambientLoc, &ambient, SHADER_UNIFORM_VEC4);
-   
+
     Light lights[MAX_LIGHTS] = { 0 };
     Vector3 pos = { 0, 1, 0 };
     lights[0] = CreateLight(LIGHT_DIRECTIONAL, pos, { 1, 0, 0 }, RED, shader);
@@ -44,14 +44,15 @@ void Run()
     scenes[5].AppendChunk("chunk6");
     std::string pngTexture = "702e3416-3cc1-4ae5-8f7e-1a439bc2951f";
     scenes[0].AppendGUID(pngTexture); //PNG for texture in scene1 (fbx scene, DJ board people)
+    
+    // ugly workaround for making texture work
+    auto asyncRequest = resourceManager.LoadScene(scenes[0]);
+    resourceManager.AsynchRequestWait(asyncRequest);
 
-    // Load scenes
-    for (auto& scene : scenes) {
-        const auto& asyncRequest = resourceManager.LoadScene(scene);
-        resourceManager.AsynchRequestWait(asyncRequest);
-    }
     ITexture* myTexture = resourceManager.GetTexture(pngTexture).get();
     int size = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
+
+    resourceManager.UnloadScene(scenes[0]);
 
     Image image{ 0 };
     image.width = myTexture->GetWidth();
@@ -72,24 +73,54 @@ void Run()
     Matrix scale = MatrixScale(1.5f, 1.5f, 1.5f);
     Matrix transform = MatrixMultiply(scale, rotation);
 
-    int demoTimer = 0;
+    camera.position = { /*45*/1, 3, 0 };
+
+    // chunk logic
+    bool activeChunk[6] = { false };
+    float angle = 0;
+    Vector2 angleOrig = { 0, -1 };
 
     //- Main game loop
     while (!WindowShouldClose())  // Detect window close button or ESC key
     {
-        demoTimer++;
+        angle = -Vector2Angle(angleOrig, { camera.position.x, camera.position.z }) + PI;
+        std::cout << angle << std::endl;
 
-        // JUST DEMO FOR NICOLAS that unloading is working...
-        if (demoTimer == 600)
+        if ((angle >= 0) && (angle < PI / 3))
         {
-            resourceManager.UnloadScene(scenes[0]);
-            printf("Unload scene 1");
+            std::cout << "chunk 1\n";
         }
-        else if (demoTimer == 800)
+        else if ((angle >= PI / 3) && (angle < 2 * PI / 3))
         {
-            const auto& asyncRequest = resourceManager.LoadScene(scenes[0]);
-            resourceManager.AsynchRequestWait(asyncRequest);
-            printf("Load scene 1 again!\n");
+            if (!activeChunk[0])
+            {
+                activeChunk[0] = true;
+                resourceManager.LoadScene(scenes[0]);
+            }
+        }
+        else if ((angle >= 2 * PI / 3) && (angle < PI))
+        {
+            if (!activeChunk[1])
+            {
+                activeChunk[1] = true;
+                resourceManager.LoadScene(scenes[1]);
+            }
+        }
+        else if ((angle >= PI) && (angle < 4 * PI / 3))
+        {
+            if (!activeChunk[2])
+            {
+                activeChunk[2] = true;
+                resourceManager.LoadScene(scenes[1]);
+            }
+        }
+        else if ((angle >= 4 * PI / 3) && (angle < 5 * PI / 3))
+        {
+            std::cout << "chunk 5\n";
+        }
+        else if ((angle >= 5 * PI / 3) && (angle <= 2 * PI))
+        {
+            std::cout << "chunk 6\n";
         }
 
         // Movement Update
@@ -112,6 +143,7 @@ void Run()
         ClearBackground(RAYWHITE);
         BeginMode3D(camera);
 
+        resourceManager.LoadedLock();
         for (const auto& pair : *resourceManager.GetLoadedMeshes())
         {
             const std::string& resourceName = pair.first;
@@ -120,9 +152,10 @@ void Run()
 
             for (size_t i = 0; i < count; i++)
             {
-                DrawMesh(resource->GetMeshes()[i], matDefault, transform);
+                //DrawMesh(resource->GetMeshes()[i], matDefault, transform);
             }
         }
+        resourceManager.loadedUnlock();
 
         // Grid floor
         DrawGrid(100, 1.0);
