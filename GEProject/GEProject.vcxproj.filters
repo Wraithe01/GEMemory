@@ -35,7 +35,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="rlImGui.cpp" />
+    <ClCompile Include="rlImGui.cpp">
+      <Filter>Resource Files\libdata</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImguiConfig.h">
@@ -62,11 +64,21 @@
     <ClInclude Include="Libs\raylib\include\rlgl.h">
       <Filter>Resource Files\Raylib</Filter>
     </ClInclude>
-    <ClInclude Include="rlImGuiColors.h" />
-    <ClInclude Include="rlImGui.h" />
-    <ClInclude Include="imgui_impl_raylib.h" />
-    <ClInclude Include="extras\FA6FreeSolidFontData.h" />
-    <ClInclude Include="extras\IconsFontAwesome6.h" />
+    <ClInclude Include="extras\FA6FreeSolidFontData.h">
+      <Filter>Resource Files\libdata</Filter>
+    </ClInclude>
+    <ClInclude Include="extras\IconsFontAwesome6.h">
+      <Filter>Resource Files\libdata</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_raylib.h">
+      <Filter>Resource Files\libdata</Filter>
+    </ClInclude>
+    <ClInclude Include="rlImGui.h">
+      <Filter>Resource Files\libdata</Filter>
+    </ClInclude>
+    <ClInclude Include="rlImGuiColors.h">
+      <Filter>Resource Files\libdata</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -78,13 +90,15 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\raylib\lib\Debug\raylib.lib">
-      <Filter>Resource Files\libdata</Filter>
+      <Filter>Resource Files\Raylib</Filter>
     </Library>
     <Library Include="Libs\raylib\lib\Release\raylib.lib">
-      <Filter>Resource Files\libdata</Filter>
+      <Filter>Resource Files\Raylib</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="extras\FontAwsome_LICENSE.txt" />
+    <Text Include="extras\FontAwsome_LICENSE.txt">
+      <Filter>Resource Files\libdata</Filter>
+    </Text>
   </ItemGroup>
 </Project>
