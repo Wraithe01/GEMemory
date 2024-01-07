@@ -104,4 +104,9 @@
       <Filter>Resource Files\libdata</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Fonts\ubuntu.ttf">
+      <Filter>Resource Files\libdata</Filter>
+    </Font>
+  </ItemGroup>
 </Project>
