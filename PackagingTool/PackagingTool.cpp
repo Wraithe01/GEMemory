@@ -38,17 +38,17 @@ void PackagingTool::createHeaderFile(std::vector<std::string>& assets, const std
             // Convert guid to a string
             std::stringstream guidStream;
             guidStream << std::hex
-                << guid.Data1 << '-'
-                << guid.Data2 << '-'
-                << guid.Data3 << '-'
-                << static_cast<short>(guid.Data4[0])
-                << static_cast<short>(guid.Data4[1]) << '-'
-                << static_cast<short>(guid.Data4[2])
-                << static_cast<short>(guid.Data4[3])
-                << static_cast<short>(guid.Data4[4])
-                << static_cast<short>(guid.Data4[5])
-                << static_cast<short>(guid.Data4[6])
-                << static_cast<short>(guid.Data4[7]);
+                << std::setfill('0') << std::setw(8) << guid.Data1 << '-'
+                << std::setfill('0') << std::setw(4) << guid.Data2 << '-'
+                << std::setfill('0') << std::setw(4) << guid.Data3 << '-'
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[0])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[1]) << '-'
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[2])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[3])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[4])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[5])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[6])
+                << std::setfill('0') << std::setw(2) << static_cast<short>(guid.Data4[7]);
 
             // Add items to json
             nlohmann::json item;

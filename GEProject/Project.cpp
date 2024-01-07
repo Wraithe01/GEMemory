@@ -36,12 +36,12 @@ void Run()
     // Default scenes
     ResourceManager& resourceManager = ResourceManager::GetInstance();
     Scene scenes[6] = {};
-    scenes[0].AppendChunk("scene1");
-    scenes[1].AppendChunk("scene2");
-    scenes[2].AppendChunk("scene3");
-    scenes[3].AppendChunk("scene4");
-    scenes[4].AppendChunk("scene5");
-    scenes[5].AppendChunk("scene6");
+    scenes[0].AppendChunk("chunk1");
+    scenes[1].AppendChunk("chunk2");
+    scenes[2].AppendChunk("chunk3");
+    scenes[3].AppendChunk("chunk4");
+    scenes[4].AppendChunk("chunk5");
+    scenes[5].AppendChunk("chunk6");
     std::string pngTexture = "702e3416-3cc1-4ae5-8f7e-1a439bc2951f";
     scenes[0].AppendGUID(pngTexture); //PNG for texture in scene1 (fbx scene, DJ board people)
 
