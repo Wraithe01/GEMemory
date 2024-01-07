@@ -51,12 +51,16 @@ void Run()
         resourceManager.AsynchRequestWait(asyncRequest);
     }
     ITexture* myTexture = resourceManager.GetTexture(pngTexture).get();
-    //int size = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
+    int size = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
 
-    //Image image = LoadImageFromMemory(".png", myTexture->GetImage(), 203);
-    Image image = LoadImage("../shaders/texture.png");
+    Image image{ 0 };
+    image.width = myTexture->GetWidth();
+    image.height = myTexture->GetHeight();
+    image.data = (void*)myTexture->GetImage();
+    image.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8;
+    image.mipmaps = 1;
+
     Texture2D texture = LoadTextureFromImage(image);
-    UnloadImage(image); // Image not needed anymore
 
     // Default material
     Material matDefault = LoadMaterialDefault();
@@ -132,6 +136,7 @@ void Run()
 
     //- De-Initialization
     UnloadShader(shader);   // Unload shader
+    UnloadTexture(texture); // Unload default texture
 
     //RaylibImGui::Deinit();
     ImguiDeInit();
