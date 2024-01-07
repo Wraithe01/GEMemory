@@ -178,17 +178,32 @@ static void ImGuiMemoryTrace(void)
     {
         ImVec2 winSize = ImGui::GetWindowSize();
         ImGui::Text("Active Allocators: %d", g_imAlloc.size());
+        ImGui::Separator();
+        ImGui::Spacing();
 
         uint16_t index = 0;
         for (const auto& allocator : g_imAlloc)
         {
             if (ImGui::BeginChild(std::format("alloc {}", index).c_str(),
-                                  ImVec2(winSize.x / 2, winSize.y / 3)))
+                                  ImVec2(winSize.x / 2, winSize.y / 2)))
             {
-                ImGui::Text("%s Allocator %d s Graph.", allocator->GetAllocName(), index++);
                 ImGui::Text("Capacity used %d", allocator->CurrentStored());
+
+                if (ImPlot::BeginPlot(std::format("[{}] {} Allocator's Graph.",
+                                                  index++,
+                                                  allocator->GetAllocName())
+                                          .c_str(),
+                                      ImVec2(winSize.x / 2, winSize.y / 3)))
+                {
+                    uint32_t data[] = { 0, 0, 1, 2, 0, 0, 0, 1, 0, 0, 1, 0, 1,
+                                        2, 3, 4, 5, 4, 3, 2, 1, 0, 0, 0, 0 };
+                    ImPlot::PlotLine("line", data, sizeof(data) / sizeof(*data));
+                    ImPlot::EndPlot();
+                }
             }
             ImGui::EndChild();
+            ImGui::Separator();
+            ImGui::Spacing();
         }
     }
     ImGui::End();

@@ -32,6 +32,7 @@ void ImguiInit()
     // Context
     // rlImGuiSetup(true);
     ImGui::CreateContext();
+    ImPlot::CreateContext();
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable /* | ImGuiConfigFlags_ViewportsEnable*/;
@@ -215,6 +216,7 @@ void ImguiDeInit()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplWin32_Shutdown();
 
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 }
 
