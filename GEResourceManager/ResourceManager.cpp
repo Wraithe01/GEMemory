@@ -215,7 +215,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
                 m_loadedMeshes[guid]->InitRefcount();
                 m_loadedMeshes[guid]->ToRayLib();
                 AddToQueuedStack(guid);
-                // printf("Loaded FBX!\n");
+                //printf("Loaded FBX!\n");
             }
             else
             {
@@ -235,7 +235,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
                 m_loadedMeshes[guid]->InitRefcount();
                 m_loadedMeshes[guid]->ToRayLib();
                 AddToQueuedStack(guid);
-                // printf("Loaded STL!\n");
+                //printf("Loaded STL!\n");
             }
             else
             {
@@ -255,7 +255,7 @@ void ResourceManager::ParseResource(const std::string& guid, uint8_t* buffer, in
             {
                 m_loadedTextures[guid] = res;
                 m_loadedTextures[guid]->InitRefcount();
-                // printf("Loaded PNG/JPG!\n");
+                //printf("Loaded PNG/JPG!\n");
             }
             else
             {
@@ -281,8 +281,7 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
         {
             m_loadedLock.lock();
             int32_t counter = --(*m_loadedMeshes[guid].get());
-            if (counter <= 0)
-            {
+            if (counter <= 0) {
                 IMesh* iMesh = m_loadedMeshes[guid].get();
 
                 for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
@@ -366,8 +365,7 @@ std::string ResourceManager::GetPackage(const std::string& guid)
 
 void ResourceManager::SetMemoryLimit(size_t limit) { m_memoryLimit = limit; }
 
-bool ResourceManager::CheckMemoryLimit(size_t fileSize)
-{
+bool ResourceManager::CheckMemoryLimit(size_t fileSize) {
     size_t totalMemory = GetTotalMemoryUsage();
     if (m_memoryLimit > 0 && totalMemory + fileSize > m_memoryLimit)
     {
@@ -396,19 +394,16 @@ void ResourceManager::DumpLoadedResources() const
     std::cerr << "\n";
 }
 
-size_t ResourceManager::GetTotalMemoryUsage()
-{
+size_t ResourceManager::GetTotalMemoryUsage() {
     size_t totalMemory = 0;
 
     // TODO: ADD LOCK HERE!
-    for (const auto& entry : m_loadedMeshes)
-    {
+    for (const auto& entry : m_loadedMeshes) {
         totalMemory += entry.second->GetMemoryUsage();
     }
 
     m_loadedLock.lock();
-    for (const auto& entry : m_loadedTextures)
-    {
+    for (const auto& entry : m_loadedTextures) {
         totalMemory += entry.second->GetMemoryUsage();
     }
     m_loadedLock.unlock();
@@ -425,15 +420,13 @@ void ResourceManager::AddToQueuedStack(const std::string& guid)
         return;
     }
     const char* guidStr = guid.c_str();
-    size_t      guidLen = guid.size();  // Get the actual length of the string
+    size_t guidLen = guid.size(); // Get the actual length of the string
 
     // Ensure that the GUID fits in the allocated region
-    if (guidLen <= stackSize)
-    {
+    if (guidLen <= stackSize) {
         memRegion.Write(static_cast<void*>(const_cast<char*>(guidStr)), guidLen);
     }
-    else
-    {
+    else {
         printf("GUID is too long for the allocated stack size.\n");
     }
 }
@@ -447,12 +440,10 @@ void ResourceManager::UploadQueuedMeshes()
         std::string guid(charPtr, strnlen(charPtr, stackSize));
 
         std::shared_ptr<IMesh> mesh;
-        try
-        {
+        try {
             mesh = m_loadedMeshes.at(guid);
         }
-        catch (const std::out_of_range& e)
-        {
+        catch (const std::out_of_range& e) {
             printf("Could not find mesh for GUID: %s\n", guid.c_str());
             continue;
         }
@@ -469,6 +460,7 @@ void ResourceManager::UploadQueuedMeshes()
             UploadMesh(&(mesh->GetMeshes()[i]), false);
         }
     }
+    stackAlloc.Flush();
 }
 
 size_t ResourceManager::GetNumOfLoadedRes()
@@ -486,11 +478,10 @@ std::unordered_map<std::string, std::shared_ptr<ITexture>>* ResourceManager::Get
     return &m_loadedTextures;
 }
 
-std::shared_ptr<IMesh> ResourceManager::GetMesh(std::string guid) { return m_loadedMeshes[guid]; }
-
-std::shared_ptr<ITexture> ResourceManager::GetTexture(std::string guid)
-{
-    return m_loadedTextures[guid];
+std::shared_ptr<IMesh> ResourceManager::GetMesh(std::string guid) {
+    return m_loadedMeshes[guid];
 }
 
-Allocator* ResourceManager::GetStack() { return (Allocator*) &stackAlloc; }
+std::shared_ptr<ITexture> ResourceManager::GetTexture(std::string guid) {
+    return m_loadedTextures[guid];
+}
