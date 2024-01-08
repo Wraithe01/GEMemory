@@ -59,7 +59,6 @@ private:
     void ParseResource(const std::string& guid, uint8_t* buffer, int32_t filesize);
 
     int RequestLoadScene(const Scene& scene);
-    int RequestUnloadScene(const Scene& scene);
 
     StackAlloc stackAlloc;
     uint8_t* stackStart;
@@ -85,6 +84,7 @@ public:
     ResourceManagerRequestHandle UnloadScene(Scene&                          scene,
                                              ResourceManagerCallbackFunction callback,
                                              void*                           callbackInput);
+    int RequestUnloadScene(const Scene& scene);
 
     // will return 0 if successful
     int GetRequestError(ResourceManagerRequestHandle request);
@@ -110,6 +110,8 @@ public:
     std::shared_ptr<IMesh> GetMesh(std::string guid);
 
     std::shared_ptr<ITexture> GetTexture(std::string guid);
+
+    Allocator* GetStack();
 
 private:
     std::unordered_map<std::string, HeaderEntry> m_headerMap;

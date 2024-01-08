@@ -25,10 +25,7 @@ uint8_t* MemRegion::GetAtFree()
     return graveptr;
 }
 
-size_t MemRegion::GetSize()
-{
-    return m_dataSize;
-}
+size_t MemRegion::GetSize() { return m_dataSize; }
 
 const uint8_t* MemRegion::Read() const
 {
@@ -49,17 +46,14 @@ const uint8_t* MemRegion::Read(int32_t index) const
 void MemRegion::Write(void* data, size_t dataSize)
 {
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
-    
+
     memcpy_s(m_dataStart, (m_dataEnd - m_dataStart), data, dataSize);
 }
 void MemRegion::Write(uint32_t index, void* data, size_t dataSize)
 {
     assert(!(m_dataStart == nullptr) && "Invalid usage of memory region, region is freed.");
     assert(!(index * m_dataSize >= (m_dataEnd - m_dataStart)) && "Invalid memory acess in Write()");
-    memcpy_s((m_dataStart + (index * m_dataSize)),
-             (m_dataEnd - m_dataStart),
-             data,
-             dataSize);
+    memcpy_s((m_dataStart + (index * m_dataSize)), (m_dataEnd - m_dataStart), data, dataSize);
 }
 
 Allocator::Allocator() { m_memory = new MemBlock(DEFAULT_MEM_SIZE); }
@@ -72,3 +66,7 @@ size_t Allocator::CurrentStored()
     std::cerr << "CurrentStored function not implemented for used allocator";
     return size_t();
 }
+
+size_t Allocator::GetCapacity() { return 1; }
+
+const char* Allocator::GetAllocName() const { return "Undefined"; }

@@ -89,14 +89,18 @@ void FBXMesh::ToRayLib()
         }
 
         // Allocate memory for the triangles
-        raylibMesh.indices = (unsigned short*)malloc(totalTriangles * 3 * sizeof(unsigned short));
+        raylibMesh.indices = (unsigned short*)MemAlloc(totalTriangles * 3 * sizeof(unsigned short));
         raylibMesh.triangleCount = totalTriangles;
 
         // Second pass: triangulate faces
         int k = 0;
         for (int i = 0; i < fbxMesh->faces.count; i++) {
             ufbx_face face = fbxMesh->faces.data[i];
-            if (face.num_indices < 3) continue; // Skip invalid faces
+
+            // Skip invalid faces
+            if (face.num_indices < 3) {
+                continue;
+            }
 
             // Fan triangulation for convex polygons
             for (int j = 2; j < face.num_indices; j++) {
@@ -127,6 +131,8 @@ void FBXMesh::UnloadResource()
     ufbx_free_scene(m_fbxData);
     m_fbxData     = nullptr;
     m_memoryUsage = 0;
+    if (meshes != nullptr)
+        delete meshes;
 }
 
 STLMesh::STLMesh() { handler = new microstl::MeshReaderHandler; }
@@ -150,6 +156,9 @@ void STLMesh::UnloadResource()
     m_memoryUsage = 0;
     if (handler != nullptr)
         delete handler;
+
+    if (meshes != nullptr)
+        delete meshes;
 }
 
 void STLMesh::ToRayLib()
@@ -164,8 +173,8 @@ void STLMesh::ToRayLib()
     raylibMesh.vertexCount = numFacets * 3; // 3 vertices per triangle
     raylibMesh.triangleCount = numFacets;
 
-    raylibMesh.vertices = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per vertex
-    raylibMesh.normals = (float*)malloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per normal
+    raylibMesh.vertices = (float*)MemAlloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per vertex
+    raylibMesh.normals = (float*)MemAlloc(raylibMesh.vertexCount * 3 * sizeof(float)); // 3 floats per normal
 
     for (size_t i = 0; i < numFacets; i++) {
         const auto& facet = handler->mesh.facets[i];

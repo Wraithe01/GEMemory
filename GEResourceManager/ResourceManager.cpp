@@ -286,7 +286,12 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
 
                 for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
                 {
-                    UnloadMesh(iMesh->GetMeshes()[i]);
+                    const Mesh& mesh = iMesh->GetMeshes()[i];
+
+                    if (mesh.vaoId > 0)
+                    {
+                        UnloadMesh(mesh);
+                    }
                 }
                 m_loadedMeshes.erase(guid);
             }
@@ -433,7 +438,6 @@ void ResourceManager::AddToQueuedStack(const std::string& guid)
 
 void ResourceManager::UploadQueuedMeshes()
 {
-    m_loadedLock.lock();
     m_stackLock.lock();
     for (uint8_t* element = stackStart; element < stackAlloc.m_stackTop; element += stackSize)
     {
@@ -455,17 +459,13 @@ void ResourceManager::UploadQueuedMeshes()
             printf("Mesh pointer is null for GUID: %s\n", guid.c_str());
             continue;
         }
-        printf("Uploaded mesh!");
 
         for (size_t i = 0; i < mesh->GetMeshCount(); i++)
         {
             UploadMesh(&(mesh->GetMeshes()[i]), false);
         }
-        mesh->Uploaded = true;
     }
-    stackAlloc.Flush();
     m_stackLock.unlock();
-    m_loadedLock.unlock();
 }
 
 size_t ResourceManager::GetNumOfLoadedRes()
@@ -504,3 +504,4 @@ std::shared_ptr<IMesh> ResourceManager::GetMesh(std::string guid) {
 std::shared_ptr<ITexture> ResourceManager::GetTexture(std::string guid) {
     return m_loadedTextures[guid];
 }
+Allocator* ResourceManager::GetStack() { return (Allocator*) &stackAlloc; }
