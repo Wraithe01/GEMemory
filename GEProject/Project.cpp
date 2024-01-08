@@ -26,11 +26,11 @@ if (!activeChunk[chunk])                     \
     resourceManager.LoadScene(scenes[chunk]);\
 }
 
-#define DeactivateChunk(chunk)                                                                     \
-    if (activeChunk[chunk])                                                                        \
-    {                                                                                              \
-        activeChunk[chunk] = false;                                                                \
-        resourceManager.UnloadScene(scenes[chunk]);                                                \
+#define DeactivateChunk(chunk)                            \
+    if (activeChunk[chunk])                               \
+    {                                                     \
+        activeChunk[chunk] = false;                       \
+        resourceManager.RequestUnloadScene(scenes[chunk]);\
     }
 
 
@@ -78,7 +78,6 @@ void Run()
     resourceManager.AsynchRequestWait(asyncRequest);
 
     ITexture* myTexture = resourceManager.GetTexture(pngTexture).get();
-    int       size      = myTexture->GetWidth() * myTexture->GetHeight() * myTexture->GetChannels();
 
     Image image{ 0 };
     image.width   = myTexture->GetWidth();
@@ -139,7 +138,7 @@ void Run()
             DeactivateChunk(4);
             ActivateChunk(5);
         }
-        else if ((angle >= PI - PI / 6) && (angle < 4 * PI / 3))
+        else if ((angle >= PI - PI / 6) && (angle < 4 * PI / 3 - PI / 6))
         {
             ActivateChunk(0);
             ActivateChunk(1);
@@ -180,9 +179,6 @@ void Run()
             UpdateLightValues(shader, lights[i]);
         }
 
-        // Uploaded new meshes to GPU if needed
-        resourceManager.UploadQueuedMeshes();
-
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -203,10 +199,12 @@ void Run()
                 DrawMesh(resource->GetMeshes()[i], matDefault, transform);
             }
         }
-        resourceManager.loadedUnlock();
 
         // Grid floor
         DrawGrid(100, 1.0);
+
+        // Uploaded new meshes to GPU if needed
+        resourceManager.UploadQueuedMeshes();
 
         ImguiBegin();
         ImGuiResourceTrace();
@@ -214,6 +212,7 @@ void Run()
         ImguiEnd();
 
         ((StackAlloc*) (resourceManager.GetStack()))->Flush();
+        resourceManager.loadedUnlock();
 
         EndMode3D();
 
@@ -256,9 +255,9 @@ static void ImGuiResourceTrace(void)
     static ScrollingBuffer texBuffer;
 
     time += ImGui::GetIO().DeltaTime;
+
     meshBuffer.AddPoint(time, rm.GetLoadedMeshes()->size());
     texBuffer.AddPoint(time, rm.GetLoadedTextures()->size());
-
 
     if (ImGui::Begin(IMGUI_RESOURCE_USAGE))
     {

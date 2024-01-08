@@ -284,9 +284,13 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
             if (counter <= 0) {
                 IMesh* iMesh = m_loadedMeshes[guid].get();
 
-                for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
+                if (iMesh->Uploaded)
                 {
-                    UnloadMesh(iMesh->GetMeshes()[i]);
+                    for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
+                    {
+                        UnloadMesh(iMesh->GetMeshes()[i]);
+                    }
+                    iMesh->Uploaded = false;
                 }
                 m_loadedMeshes.erase(guid);
             }
@@ -433,7 +437,6 @@ void ResourceManager::AddToQueuedStack(const std::string& guid)
 
 void ResourceManager::UploadQueuedMeshes()
 {
-    m_loadedLock.lock();
     m_stackLock.lock();
     for (uint8_t* element = stackStart; element < stackAlloc.m_stackTop; element += stackSize)
     {
@@ -465,7 +468,6 @@ void ResourceManager::UploadQueuedMeshes()
     }
 
     m_stackLock.unlock();
-    m_loadedLock.unlock();
 }
 
 size_t ResourceManager::GetNumOfLoadedRes()
