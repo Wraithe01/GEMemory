@@ -189,6 +189,9 @@
   <ItemGroup>
     <Text Include="extras\FontAwsome_LICENSE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Fonts\ubuntu.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

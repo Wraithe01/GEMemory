@@ -61,8 +61,9 @@ private:
     int RequestLoadScene(const Scene& scene);
 
     StackAlloc stackAlloc;
-    uint8_t*   stackStart;
-    size_t     stackSize = 36;
+    uint8_t* stackStart;
+    size_t stackSize = 36;
+    std::mutex m_stackLock;
 
 protected:
     virtual void HandleRequest(const RMAsyncIn& requestIN, RMAsyncOut* o_requestOUT) override;
@@ -90,13 +91,17 @@ public:
 
     void SetMemoryLimit(size_t limit);
     bool CheckMemoryLimit(size_t fileSize);
-    void DumpLoadedResources() const;
+    void DumpLoadedResources();
     void AddToQueuedStack(const std::string& guid);
     void UploadQueuedMeshes();
 
     size_t GetTotalMemoryUsage();
 
     size_t GetNumOfLoadedRes();
+
+    void LoadedLock();
+
+    void loadedUnlock();
 
     std::unordered_map<std::string, std::shared_ptr<IMesh>>* GetLoadedMeshes();
 
@@ -109,9 +114,9 @@ public:
     Allocator* GetStack();
 
 private:
-    std::unordered_map<std::string, HeaderEntry>               m_headerMap;
-    std::unordered_map<std::string, std::shared_ptr<IMesh>>    m_loadedMeshes;
+    std::unordered_map<std::string, HeaderEntry> m_headerMap;
+    std::unordered_map<std::string, std::shared_ptr<IMesh>> m_loadedMeshes;
     std::unordered_map<std::string, std::shared_ptr<ITexture>> m_loadedTextures;
-    std::mutex                                                 m_loadedLock;
-    size_t                                                     m_memoryLimit = DEFAULT_MEMORY_LIMIT;
+    std::mutex m_loadedLock;
+    size_t m_memoryLimit = DEFAULT_MEMORY_LIMIT;
 };
