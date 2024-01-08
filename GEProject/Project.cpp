@@ -88,17 +88,20 @@ void Run()
 
     Texture2D texture = LoadTextureFromImage(image);
 
-    // Default material
-    Material matDefault                           = LoadMaterialDefault();
-    matDefault.maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-    matDefault.shader                             = shader;
+    // Default fbx material
+    Material fbxDefaultMaterial = LoadMaterialDefault();
+    fbxDefaultMaterial.maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+    fbxDefaultMaterial.shader = shader;
+
+    // Default stl material
+    Material stlDefaultMaterial = LoadMaterialDefault();
+    stlDefaultMaterial.maps[MATERIAL_MAP_DIFFUSE].color = GRAY;
+    stlDefaultMaterial.shader = shader;
 
     // Default transform
     Matrix rotation  = MatrixRotateX(DEG2RAD * 270.0f);
     Matrix scale     = MatrixScale(1.5f, 1.5f, 1.5f);
     Matrix transform = MatrixMultiply(scale, rotation);
-
-    camera.position = { 45, 3, 0 };
 
     // chunk logic
     bool    activeChunk[6] = { true, false, false, false, false, false };
@@ -188,15 +191,16 @@ void Run()
         for (const auto& pair : *resourceManager.GetLoadedMeshes())
         {
             const std::string& resourceName = pair.first;
-            IMesh*             resource     = pair.second.get();
-            size_t             count        = resource->GetMeshCount();
+            IMesh* resource = pair.second.get();
+            bool fbx = dynamic_cast<const FBXMesh*>(resource) != nullptr;
 
-            if (!resource->Uploaded)
-                continue;
-
-            for (size_t i = 0; i < count; i++)
+            for (size_t i = 0; i < resource->GetMeshCount(); i++)
             {
-                DrawMesh(resource->GetMeshes()[i], matDefault, transform);
+                // Only draw mesh if it has been uploaded to the GPU
+                if (resource->GetMeshes()[i].vaoId > 1)
+                {
+                    DrawMesh(resource->GetMeshes()[i], fbx ? fbxDefaultMaterial : stlDefaultMaterial, transform);
+                }
             }
         }
 

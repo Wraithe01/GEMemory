@@ -284,13 +284,14 @@ int ResourceManager::RequestUnloadScene(const Scene& scene)
             if (counter <= 0) {
                 IMesh* iMesh = m_loadedMeshes[guid].get();
 
-                if (iMesh->Uploaded)
+                for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
                 {
-                    for (size_t i = 0; i < iMesh->GetMeshCount(); i++)
+                    const Mesh& mesh = iMesh->GetMeshes()[i];
+
+                    if (mesh.vaoId > 0)
                     {
-                        UnloadMesh(iMesh->GetMeshes()[i]);
+                        UnloadMesh(mesh);
                     }
-                    iMesh->Uploaded = false;
                 }
                 m_loadedMeshes.erase(guid);
             }
@@ -458,15 +459,12 @@ void ResourceManager::UploadQueuedMeshes()
             printf("Mesh pointer is null for GUID: %s\n", guid.c_str());
             continue;
         }
-        printf("Uploaded mesh!");
 
         for (size_t i = 0; i < mesh->GetMeshCount(); i++)
         {
             UploadMesh(&(mesh->GetMeshes()[i]), false);
         }
-        mesh->Uploaded = true;
     }
-
     m_stackLock.unlock();
 }
 
