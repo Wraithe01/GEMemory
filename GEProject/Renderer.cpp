@@ -2,7 +2,7 @@
 
 void RendererInit(uint32_t width, uint32_t height)
 {
-    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
+    //SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     InitWindow(width, height, "Project");
     
     BeginBlendMode(BLEND_ALPHA);
