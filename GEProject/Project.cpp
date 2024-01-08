@@ -14,17 +14,17 @@ constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH  = 1080;
 
 std::set<ImAllocator*> g_imAlloc;
-static ImAllocator*    ImRegisterAllocator(Allocator* allocator);
-static void            ImUnregisterAllocator(ImAllocator* allocator);
-static void            ImGuiResourceTrace(void);
-static void            ImGuiMemoryTrace(void);
+static ImAllocator* ImRegisterAllocator(Allocator* allocator);
+static void         ImUnregisterAllocator(ImAllocator* allocator);
+static void         ImGuiResourceTrace(void);
+static void         ImGuiMemoryTrace(void);
 
-#define ActivateChunk(chunk)                                                                       \
-    if (!activeChunk[chunk])                                                                       \
-    {                                                                                              \
-        activeChunk[chunk] = true;                                                                 \
-        resourceManager.LoadScene(scenes[chunk]);                                                  \
-    }
+#define ActivateChunk(chunk)                 \
+if (!activeChunk[chunk])                     \
+{                                            \
+    activeChunk[chunk] = true;               \
+    resourceManager.LoadScene(scenes[chunk]);\
+}
 
 #define DeactivateChunk(chunk)                                                                     \
     if (activeChunk[chunk])                                                                        \
