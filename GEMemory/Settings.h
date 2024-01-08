@@ -1,7 +1,7 @@
 #pragma once
 
 // In bytes
-constexpr auto DEFAULT_MEM_SIZE = 65536;
+constexpr auto DEFAULT_MEM_SIZE = 4096;
 // Data node in bytes
 constexpr auto DEFAULT_NODE_SIZE = 64;
 

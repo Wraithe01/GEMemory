@@ -14,23 +14,23 @@ constexpr auto HEIGHT = 1920;
 constexpr auto WIDTH  = 1080;
 
 std::set<ImAllocator*> g_imAlloc;
-static ImAllocator* ImRegisterAllocator(Allocator* allocator);
-static void         ImUnregisterAllocator(ImAllocator* allocator);
-static void         ImGuiResourceTrace(void);
-static void         ImGuiMemoryTrace(void);
+static ImAllocator*    ImRegisterAllocator(Allocator* allocator);
+static void            ImUnregisterAllocator(ImAllocator* allocator);
+static void            ImGuiResourceTrace(void);
+static void            ImGuiMemoryTrace(void);
 
-#define ActivateChunk(chunk)                 \
-if (!activeChunk[chunk])                     \
-{                                            \
-    activeChunk[chunk] = true;               \
-    resourceManager.LoadScene(scenes[chunk]);\
-}
+#define ActivateChunk(chunk)                                                                       \
+    if (!activeChunk[chunk])                                                                       \
+    {                                                                                              \
+        activeChunk[chunk] = true;                                                                 \
+        resourceManager.LoadScene(scenes[chunk]);                                                  \
+    }
 
-#define DeactivateChunk(chunk)                            \
-    if (activeChunk[chunk])                               \
-    {                                                     \
-        activeChunk[chunk] = false;                       \
-        resourceManager.RequestUnloadScene(scenes[chunk]);\
+#define DeactivateChunk(chunk)                                                                     \
+    if (activeChunk[chunk])                                                                        \
+    {                                                                                              \
+        activeChunk[chunk] = false;                                                                \
+        resourceManager.RequestUnloadScene(scenes[chunk]);                                         \
     }
 
 
@@ -89,14 +89,14 @@ void Run()
     Texture2D texture = LoadTextureFromImage(image);
 
     // Default fbx material
-    Material fbxDefaultMaterial = LoadMaterialDefault();
+    Material fbxDefaultMaterial                           = LoadMaterialDefault();
     fbxDefaultMaterial.maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-    fbxDefaultMaterial.shader = shader;
+    fbxDefaultMaterial.shader                             = shader;
 
     // Default stl material
-    Material stlDefaultMaterial = LoadMaterialDefault();
+    Material stlDefaultMaterial                         = LoadMaterialDefault();
     stlDefaultMaterial.maps[MATERIAL_MAP_DIFFUSE].color = GRAY;
-    stlDefaultMaterial.shader = shader;
+    stlDefaultMaterial.shader                           = shader;
 
     // Default transform
     Matrix rotation  = MatrixRotateX(DEG2RAD * 270.0f);
@@ -191,15 +191,17 @@ void Run()
         for (const auto& pair : *resourceManager.GetLoadedMeshes())
         {
             const std::string& resourceName = pair.first;
-            IMesh* resource = pair.second.get();
-            bool fbx = dynamic_cast<const FBXMesh*>(resource) != nullptr;
+            IMesh*             resource     = pair.second.get();
+            bool               fbx          = dynamic_cast<const FBXMesh*>(resource) != nullptr;
 
             for (size_t i = 0; i < resource->GetMeshCount(); i++)
             {
                 // Only draw mesh if it has been uploaded to the GPU
                 if (resource->GetMeshes()[i].vaoId > 1)
                 {
-                    DrawMesh(resource->GetMeshes()[i], fbx ? fbxDefaultMaterial : stlDefaultMaterial, transform);
+                    DrawMesh(resource->GetMeshes()[i],
+                             fbx ? fbxDefaultMaterial : stlDefaultMaterial,
+                             transform);
                 }
             }
         }
@@ -293,13 +295,14 @@ static void ImGuiResourceTrace(void)
             ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
             ImPlot::SetupAxisLimits(ImAxis_Y1, -1, maxMeshes * 1.1f, ImGuiCond_::ImGuiCond_Always);
 
-            ImPlot::PlotLine("Loaded Meshes",
-                             &meshBuffer.Data[0].x,
-                             &meshBuffer.Data[0].y,
-                             meshBuffer.Data.size(),
-                             0,
-                             meshBuffer.Offset,
-                             sizeof(ImVec2));
+            ImPlot::PlotShaded("Loaded Meshes",
+                               &meshBuffer.Data[0].x,
+                               &meshBuffer.Data[0].y,
+                               meshBuffer.Data.size(),
+                               0,
+                               0,
+                               meshBuffer.Offset,
+                               sizeof(ImVec2));
             ImPlot::EndPlot();
         }
 
@@ -333,13 +336,14 @@ static void ImGuiResourceTrace(void)
             ImPlot::SetupAxisLimits(
                 ImAxis_Y1, -1, maxTextures * 1.1f, ImGuiCond_::ImGuiCond_Always);
 
-            ImPlot::PlotLine("Loaded Textures",
-                             &texBuffer.Data[0].x,
-                             &texBuffer.Data[0].y,
-                             meshBuffer.Data.size(),
-                             0,
-                             meshBuffer.Offset,
-                             sizeof(ImVec2));
+            ImPlot::PlotShaded("Loaded Textures",
+                               &texBuffer.Data[0].x,
+                               &texBuffer.Data[0].y,
+                               meshBuffer.Data.size(),
+                               0,
+                               0,
+                               meshBuffer.Offset,
+                               sizeof(ImVec2));
             ImPlot::EndPlot();
         }
     }
@@ -389,13 +393,14 @@ static void ImGuiMemoryTrace(void)
                     ImPlot::SetupAxisLimits(ImAxis_X1, time - span, time, ImGuiCond_Always);
                     ImPlot::SetupAxisLimits(ImAxis_Y1, -1, 101, ImGuiCond_Always);
 
-                    ImPlot::PlotLine("Usage (%)",
-                                     &(*ImAlloc).buffer.Data[0].x,
-                                     &(*ImAlloc).buffer.Data[0].y,
-                                     (*ImAlloc).buffer.Data.size(),
-                                     0,
-                                     (*ImAlloc).buffer.Offset,
-                                     sizeof(ImVec2));
+                    ImPlot::PlotShaded("Usage (%)",
+                                       &(*ImAlloc).buffer.Data[0].x,
+                                       &(*ImAlloc).buffer.Data[0].y,
+                                       (*ImAlloc).buffer.Data.size(),
+                                       0,
+                                       0,
+                                       (*ImAlloc).buffer.Offset,
+                                       sizeof(ImVec2));
                     ImPlot::EndPlot();
                 }
             }
